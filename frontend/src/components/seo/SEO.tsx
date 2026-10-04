@@ -3,7 +3,7 @@ import type { SeoProps } from "./types";
 
 const SITE_NAME = "GM Business Solutions";
 const SITE_URL = "https://gmnex.com";
-const DEFAULT_IMAGE = `${SITE_URL}/og-image.png`;
+const DEFAULT_IMAGE = `${SITE_URL}/og-image.svg`;
 
 export default function SEO({
   title,

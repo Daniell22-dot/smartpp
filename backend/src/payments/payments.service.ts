@@ -142,6 +142,11 @@ export const paymentService = {
       console.error(`Payment not found for CheckoutRequestID: ${checkoutRequestId}`);
       return;
     }
+    // Idempotency check: skip if already processed
+    if (payment.paymentStatus !== "pending") {
+      console.log(`Payment ${payment.paymentId} already processed with status: ${payment.paymentStatus}. Skipping duplicate callback.`);
+      return;
+    }
     if (resultCode === 0) {
       const mpesaReceiptNumber = stkCallback.CallbackMetadata?.Item?.find(
         (item: any) => item.Name === "MpesaReceiptNumber"

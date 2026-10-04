@@ -17,6 +17,8 @@ import ForgotPassword from "./pages/auth/ForgetPassword";
 import VerifyCode from "./pages/auth/VerifyCode";
 import ResetPassword from "./pages/auth/ResetPassword";
 import VerifyEmail from "./pages/auth/VerifyEmail";
+import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
+import TermsOfService from "./pages/legal/TermsOfService";
 
 import AdminDashboard from "./pages/dashboard/AdminDashboard/AdminDashboard";
 import AdminDashboardOverview from "./pages/dashboard/AdminDashboard/admindashboard/AdminDashboardOverview";
@@ -51,46 +53,108 @@ import StaffInquiries from "./pages/dashboard/StaffDashboard/inquiries/Inquiries
 import StaffPickupStations from "./pages/dashboard/StaffDashboard/pickup-stations/PickupStations";
 
 import Error from "./components/error/Error";
+import { RequireAuth, RequireRole } from "./components/guards";
+import ErrorBoundary from "./components/error-boundary/ErrorBoundary";
 import "./styles/styles.css";
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <HomePage />,
+      element: (
+        <ErrorBoundary>
+          <HomePage />
+        </ErrorBoundary>
+      ),
       errorElement: <Error />,
     },
     {
       path: "/shop",
-      element: <ShopPage />,
+      element: (
+        <ErrorBoundary>
+          <ShopPage />
+        </ErrorBoundary>
+      ),
     },
     {
       path: "/category/:slug",
-      element: <CategoryPage />,
+      element: (
+        <ErrorBoundary>
+          <CategoryPage />
+        </ErrorBoundary>
+      ),
     },
     {
       path: "/product/:slug",
-      element: <ProductPage />,
+      element: (
+        <ErrorBoundary>
+          <ProductPage />
+        </ErrorBoundary>
+      ),
     },
     {
       path: "/cart",
-      element: <CartPage />,
+      element: (
+        <RequireAuth>
+          <ErrorBoundary>
+            <CartPage />
+          </ErrorBoundary>
+        </RequireAuth>
+      ),
     },
     {
       path: "/checkout",
-      element: <CheckoutPage />,
+      element: (
+        <RequireAuth>
+          <ErrorBoundary>
+            <CheckoutPage />
+          </ErrorBoundary>
+        </RequireAuth>
+      ),
     },
     {
       path: "/account",
-      element: <AccountPage />,
+      element: (
+        <RequireAuth>
+          <ErrorBoundary>
+            <AccountPage />
+          </ErrorBoundary>
+        </RequireAuth>
+      ),
     },
     {
       path: "/wishlist",
-      element: <WishlistPage />,
+      element: (
+        <RequireAuth>
+          <ErrorBoundary>
+            <WishlistPage />
+          </ErrorBoundary>
+        </RequireAuth>
+      ),
     },
     {
       path: "/track-order",
-      element: <OrderTrackingPage />,
+      element: (
+        <ErrorBoundary>
+          <OrderTrackingPage />
+        </ErrorBoundary>
+      ),
+    },
+    {
+      path: "/privacy-policy",
+      element: (
+        <ErrorBoundary>
+          <PrivacyPolicy />
+        </ErrorBoundary>
+      ),
+    },
+    {
+      path: "/terms-of-service",
+      element: (
+        <ErrorBoundary>
+          <TermsOfService />
+        </ErrorBoundary>
+      ),
     },
     {
       path: "/login",
@@ -118,7 +182,11 @@ function App() {
     },
     {
       path: "/admin",
-      element: <AdminDashboard />,
+      element: (
+        <RequireRole allowedRoles={["admin"]}>
+          <AdminDashboard />
+        </RequireRole>
+      ),
       children: [
         { path: "", element: <Navigate to="admindashboard" replace /> },
         { path: "admindashboard", element: <AdminDashboardOverview /> },
@@ -145,7 +213,11 @@ function App() {
     },
     {
       path: "/staff",
-      element: <StaffDashboard />,
+      element: (
+        <RequireRole allowedRoles={["staff", "admin"]}>
+          <StaffDashboard />
+        </RequireRole>
+      ),
       children: [
         { path: "", element: <Navigate to="staffdashboard" replace /> },
         { path: "staffdashboard", element: <StaffDashboardOverview /> },
