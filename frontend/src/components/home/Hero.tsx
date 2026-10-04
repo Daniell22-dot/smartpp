@@ -42,7 +42,7 @@ export default function Hero() {
           <div className="hero-visual">
             <div className="hero-card">
               <div className="hero-logo">
-                <span className="hero-logo-text">SMARTP</span>
+                <img src="/2.png" alt="SMARTP" className="hero-logo-image" />
               </div>
               <h3 className="hero-card-title">SMARTP KENYA</h3>
               <p className="hero-card-sub">Your Trusted Store</p>

@@ -51,9 +51,9 @@
   min-height: 64px;
 }
 .drawer-logo {
-  font-family: var(--font-serif);
-  font-size: 22px;
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   transition: opacity 0.3s ease, width 0.3s ease;
   white-space: nowrap;
 }
@@ -66,8 +66,11 @@
   width: 0;
   overflow: hidden;
 }
-.logo-dot {
-  color: var(--brand-300);
+.drawer-logo-image {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  border-radius: 6px;
 }
 .drawer-toggle {
   background: none;
@@ -202,8 +205,9 @@
     min-height: 56px;
     padding: 12px 16px;
   }
-  .drawer-logo {
-    font-size: 20px;
+  .drawer-logo-image {
+    width: 28px;
+    height: 28px;
   }
   .drawer-item {
     padding: 10px 14px;

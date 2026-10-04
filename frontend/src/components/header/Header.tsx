@@ -114,7 +114,7 @@ export default function Header() {
           <div className="container">
             <div className="header-content">
               <div className="left-section">
-                <Link to="/" className="logo">SMARTP<span className="logo-dot">.</span></Link>
+                <Link to="/" className="logo"><img src="/2.png" alt="SMARTP" className="logo-image" /></Link>
               </div>
               <div className="right-section">
                 <div className="loading-placeholder">Loading...</div>
@@ -140,7 +140,7 @@ export default function Header() {
         <div className="container">
           <div className="header-content">
             <div className="left-section">
-              <Link to="/" className="logo">SMARTP<span className="logo-dot">.</span></Link>
+              <Link to="/" className="logo"><img src="/2.png" alt="SMARTP" className="logo-image" /></Link>
               
               <div className="categories-wrapper" ref={dropdownRef}>
                 <button className="categories-trigger" onClick={() => setCategoriesMenuOpen(!categoriesMenuOpen)}>
@@ -284,7 +284,7 @@ export default function Header() {
       {mobileMenuOpen && (
         <div className="mobile-menu">
           <div className="mobile-menu-header">
-            <Link to="/" className="logo" onClick={() => setMobileMenuOpen(false)}>SMARTP<span className="logo-dot">.</span></Link>
+            <Link to="/" className="logo" onClick={() => setMobileMenuOpen(false)}><img src="/2.png" alt="SMARTP" className="logo-image" /></Link>
             <button onClick={() => setMobileMenuOpen(false)}><X size={24} /></button>
           </div>
           <nav className="mobile-nav">

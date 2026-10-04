@@ -27,7 +27,7 @@ export default function Footer() {
         <div className="footer-grid">
           <div className="footer-brand">
             <Link to="/" className="footer-logo">
-              SMARTP<span className="footer-logo-dot">.</span>
+              <img src="/2.png" alt="SMARTP" className="footer-logo-image" />
             </Link>
             <p className="footer-brand-text">
               Your trusted store for smartphones, accessories, smart devices and reliable services in Kenya.

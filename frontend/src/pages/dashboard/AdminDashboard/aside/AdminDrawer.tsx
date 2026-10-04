@@ -31,7 +31,7 @@ export default function AdminDrawer({ isOpen, onToggle, isMobile = false, onClos
       <aside className={`admin-drawer ${isOpen ? 'open' : 'closed'} ${isMobile ? 'mobile' : ''}`}>
         <div className="drawer-header">
           <span className={`drawer-logo ${isOpen ? 'visible' : 'hidden'}`}>
-            GMNEX<span className="logo-dot">.</span>
+            <img src="/2.png" alt="SMARTP" className="drawer-logo-image" />
           </span>
           {isMobile && (
             <button onClick={onToggle} className="drawer-close">
