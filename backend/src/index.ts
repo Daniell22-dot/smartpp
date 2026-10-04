@@ -3,6 +3,7 @@ import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import dotenv from "dotenv";
+import { logger } from "./utils/logger";
 import authRouter from "./auth/auth.router";
 import categoriesRouter from "./categories/categories.router";
 import productsRouter from "./products/products.router";
@@ -35,7 +36,7 @@ const requiredEnv = [
 const missingEnv = requiredEnv.filter((key) => !process.env[key] || process.env[key].trim() === "");
 
 if (missingEnv.length > 0) {
-  console.error(`Missing required environment variables: ${missingEnv.join(", ")}`);
+  logger.error({ missingEnv }, "Missing required environment variables");
   process.exit(1);
 }
 
@@ -53,7 +54,7 @@ app.use(
 
 app.use(
   helmet({
-    contentSecurityPolicy: false,
+    contentSecurityPolicy: process.env.NODE_ENV === "production" ? undefined : false,
     crossOriginEmbedderPolicy: false,
   })
 );
@@ -77,6 +78,19 @@ const authLimiter = rateLimit({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Request logging middleware
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on("finish", () => {
+    const duration = Date.now() - start;
+    logger.info(
+      { method: req.method, url: req.originalUrl, status: res.statusCode, duration, ip: req.ip },
+      `${req.method} ${req.originalUrl} ${res.statusCode} ${duration}ms`
+    );
+  });
+  next();
+});
+
 app.use("/api/auth", authLimiter, authRouter);
 app.use("/api/categories", categoriesRouter);
 app.use("/api/products", productsRouter);
@@ -95,6 +109,17 @@ app.use("/api/admins", adminsRouter);
 app.use("/api/staff", staffRouter);
 app.use("/api/pickup-stations", pickupStationsRouter);
 
+// Health check endpoint
+app.get("/health", (_req, res) => {
+  res.status(200).json({
+    success: true,
+    status: "healthy",
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV || "development",
+  });
+});
+
 app.get("/", (_req, res) => {
   res.status(200).json({
     success: true,
@@ -103,7 +128,7 @@ app.get("/", (_req, res) => {
 });
 
 app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-  console.error(err);
+  logger.error({ err, stack: err.stack }, "Unhandled error");
   const status = err.statusCode || 500;
   const message = process.env.NODE_ENV === "production"
     ? "An unexpected error occurred"

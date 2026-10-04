@@ -1,15 +1,23 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, Loader2 } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { authAPI } from '../../Features/auth/authAPI';
 import { useAuth } from '../../context/AuthContext';
 import './Login.css';
 
+const loginSchema = z.object({
+  email: z.string().email('Please enter a valid email address'),
+  password: z.string().min(1, 'Password is required'),
+});
+
+type LoginFormData = z.infer<typeof loginSchema>;
+
 export default function Login() {
   const location = useLocation();
   const { login } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -17,13 +25,21 @@ export default function Login() {
   const redirectPath = new URLSearchParams(location.search).get('redirect') ||
                        (location.state as any)?.from?.pathname || '/';
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    mode: 'onBlur',
+  });
+
+  const onSubmit = async (data: LoginFormData) => {
     setError('');
     setLoading(true);
 
     try {
-      const res = await authAPI.login({ email, password });
+      const res = await authAPI.login({ email: data.email, password: data.password });
 
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('refreshToken', res.data.refreshToken);
@@ -56,6 +72,9 @@ export default function Login() {
     }
   };
 
+  const redirectPath = new URLSearchParams(location.search).get('redirect') ||
+                       (location.state as any)?.from?.pathname || '/';
+
   return (
     <div className="auth-page">
       <div className="container">
@@ -66,17 +85,16 @@ export default function Login() {
 
           {error && <div className="auth-error">{error}</div>}
 
-          <form onSubmit={handleSubmit} className="auth-form">
+          <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
             <div className="auth-field">
               <label className="auth-label">Email Address</label>
               <input
                 type="email"
-                className="auth-input"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                className={`auth-input ${errors.email ? 'auth-input--error' : ''}`}
                 placeholder="you@example.com"
-                required
+                {...register('email')}
               />
+              {errors.email && <span className="auth-error-message">{errors.email.message}</span>}
             </div>
 
             <div className="auth-field">
@@ -84,11 +102,9 @@ export default function Login() {
               <div className="auth-password-wrapper">
                 <input
                   type={showPassword ? 'text' : 'password'}
-                  className="auth-input"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  className={`auth-input ${errors.password ? 'auth-input--error' : ''}`}
                   placeholder="Enter your password"
-                  required
+                  {...register('password')}
                 />
                 <button
                   type="button"
@@ -98,6 +114,7 @@ export default function Login() {
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
+              {errors.password && <span className="auth-error-message">{errors.password.message}</span>}
             </div>
 
             <div className="auth-links">
@@ -105,7 +122,7 @@ export default function Login() {
             </div>
 
             <button type="submit" className="btn-primary btn-full" disabled={loading}>
-              {loading ? 'Signing in...' : 'Sign In'}
+              {loading ? <Loader2 size={18} className="btn-spinner" /> : 'Sign In'}
             </button>
 
             <p className="auth-footer">

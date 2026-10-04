@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import ProductCard from '../productcard/ProductCard';
-import Loader from '../loader/Loader';
+import { ProductGridSkeleton, CategoryGridSkeleton } from '../skeletons';
 import { categoriesAPI, type Category } from '../../Features/categories/categoriesAPI';
 import { productsAPI, type Product } from '../../Features/products/productsAPI';
 import './CategoryContent.css';
@@ -46,10 +46,7 @@ export default function CategoryContent() {
           </div>
           <h1 className="category-title">{category?.name || 'Category'}</h1>
           <p className="category-count">{products.length} Results - Free delivery ≥ KSh 600 - Pickup ready in 1-2 hours</p>
-          {loading ? <Loader />
-            : products.length === 0 ? <div className="category-empty">No products in this category.</div>
-            : <div className="category-grid">{products.map(p => <ProductCard key={p.productId} product={p} />)}</div>
-          }
+          {loading ? <ProductGridSkeleton count={6} /> : products.length === 0 ? <div className="category-empty">No products in this category.</div> : <div className="category-grid">{products.map(p => <ProductCard key={p.productId} product={p} />)}</div>}
         </div>
       </div>
     </>

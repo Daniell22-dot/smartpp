@@ -4,7 +4,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { Heart, Check } from "lucide-react";
 import QuantityControl from "../quantitycontrol/QuantityControl";
 import ProductCard from "../productcard/ProductCard";
-import Loader from "../loader/Loader";
+import { ProductGridSkeleton } from "../skeletons";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
 import { useWishlist } from "../../context/WishlistContext";
@@ -95,7 +95,8 @@ export default function ProductContent() {
     }
   };
 
-  if (loading) return <Loader />;
+  if (loading) return <ProductGridSkeleton count={1} />;
+
   if (!product) return <div className="product-notfound">Product not found</div>;
 
   const price = parseFloat(product.price);

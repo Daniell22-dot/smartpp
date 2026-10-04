@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../productcard/ProductCard';
-import Loader from '../loader/Loader';
+import { ProductGridSkeleton } from '../skeletons';
 import { productsAPI, type Product } from '../../Features/products/productsAPI';
 import { wishlistAPI } from '../../Features/wishlist/wishlistAPI';
 import './ShopContent.css';
@@ -57,7 +57,7 @@ export default function ShopContent() {
     }
   };
 
-  if (loading) return <Loader />;
+  if (loading) return <ProductGridSkeleton count={8} />;
 
   return (
     <>
