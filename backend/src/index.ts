@@ -21,6 +21,7 @@ import usersRouter from "./users/users.router";
 import adminsRouter from "./admins/admins.router";
 import staffRouter from "./staff/staff.router";
 import pickupStationsRouter from "./pickup-stations/pickup-stations.router";
+import sitemapRouter from "./sitemap/sitemap.router";
 
 dotenv.config();
 
@@ -119,6 +120,9 @@ app.get("/health", (_req, res) => {
     environment: process.env.NODE_ENV || "development",
   });
 });
+
+// Dynamic sitemap
+app.use(sitemapRouter);
 
 app.get("/", (_req, res) => {
   res.status(200).json({
