@@ -4,6 +4,7 @@ import { ordersAPI } from '../Features/orders/ordersAPI';
 import { pickupStationsAPI } from '../Features/pickupStations/pickupStationsAPI';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { Check, AlertTriangle, CheckCircle, MapPin, Phone } from 'lucide-react';
 import './OrderTrackingPage.css';
 
 export default function OrderTrackingPage() {
@@ -187,7 +188,7 @@ export default function OrderTrackingPage() {
                       <div 
                         className={`tracking-progress-dot ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''} ${isCurrent ? 'current' : ''}`}
                       >
-                        {isCompleted ? '✓' : idx + 1}
+                        {isCompleted ? <Check size={16} /> : idx + 1}
                       </div>
                       <div className="tracking-progress-content">
                         <span className="tracking-progress-label">{getStatusLabel(step)}</span>
@@ -207,17 +208,17 @@ export default function OrderTrackingPage() {
               </div>
 
               {order.status === 'cancelled' && (
-                <div className="tracking-cancelled-message">
-                  <span>⚠️</span>
-                  <p>This order has been cancelled.</p>
-                </div>
+              <div className="tracking-cancelled-message">
+                <span><AlertTriangle size={18} /></span>
+                <p>This order has been cancelled.</p>
+              </div>
               )}
 
               {order.status === 'delivered' && (
-                <div className="tracking-delivered-message">
-                  <span>✅</span>
-                  <p>Your order has been delivered successfully!</p>
-                </div>
+              <div className="tracking-delivered-message">
+                <span><CheckCircle size={18} /></span>
+                <p>Your order has been delivered successfully!</p>
+              </div>
               )}
 
               <div className="tracking-order-details">
@@ -241,14 +242,14 @@ export default function OrderTrackingPage() {
 
               {(pickupStation || pickupLocation) && (
                 <div className="tracking-pickup-info">
-                  <h3 className="tracking-pickup-title">📍 Pickup Information</h3>
+                   <h3 className="tracking-pickup-title"><MapPin size={14} /> Pickup Information</h3>
                   <div className="tracking-pickup-details">
                     {pickupStation && (
                       <div className="tracking-pickup-item">
                         <strong>Station:</strong> {pickupStation.name}
                         <p>{pickupStation.address}</p>
                         <p>{pickupStation.town}, {pickupStation.county}</p>
-                        {pickupStation.phone && <p>📞 {pickupStation.phone}</p>}
+                        {pickupStation.phone && <p><Phone size={14} /> {pickupStation.phone}</p>}
                       </div>
                     )}
                     {pickupLocation && (
@@ -256,7 +257,7 @@ export default function OrderTrackingPage() {
                         <strong>Location:</strong> {pickupLocation.name}
                         <p>{pickupLocation.address}</p>
                         {pickupLocation.landmark && <p>Landmark: {pickupLocation.landmark}</p>}
-                        {pickupLocation.phone && <p>📞 {pickupLocation.phone}</p>}
+                        {pickupLocation.phone && <p><Phone size={14} /> {pickupLocation.phone}</p>}
                       </div>
                     )}
                   </div>

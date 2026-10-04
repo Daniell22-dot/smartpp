@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
-import { Menu, X, MapPin, Phone, Mail, Clock } from 'lucide-react';
+import { Menu, X, MapPin, Phone, Mail, Clock, User, Package, ClipboardList, MessageCircle, Truck, RefreshCw, Zap, CreditCard, HelpCircle } from 'lucide-react';
 import { inquiriesAPI } from '../../Features/inquiries/inquiriesAPI';
 import { ordersAPI } from '../../Features/orders/ordersAPI';
 import { pickupStationsAPI, type PickupStation, type PickupLocation } from '../../Features/pickupStations/pickupStationsAPI';
@@ -9,11 +9,11 @@ import ProfileForm from './ProfileForm';
 import './AccountContent.css';
 
 const TABS = [
-  { id: 'profile', label: 'Profile', icon: '👤' },
-  { id: 'orders', label: 'My Orders', icon: '📦' },
-  { id: 'pickup', label: 'Pickup Stations', icon: '📍' },
-  { id: 'policy', label: 'Fulfillment Policy', icon: '📋' },
-  { id: 'support', label: 'Support', icon: '💬' },
+  { id: 'profile', label: 'Profile', icon: <User size={18} /> },
+  { id: 'orders', label: 'My Orders', icon: <Package size={18} /> },
+  { id: 'pickup', label: 'Pickup Stations', icon: <MapPin size={18} /> },
+  { id: 'policy', label: 'Fulfillment Policy', icon: <ClipboardList size={18} /> },
+  { id: 'support', label: 'Support', icon: <MessageCircle size={18} /> },
 ];
 
 export default function AccountContent() {
@@ -211,7 +211,7 @@ export default function AccountContent() {
                   <div className="account-loading">Loading orders...</div>
                 ) : orders.length === 0 ? (
                   <div className="account-empty">
-                    <div className="account-empty-icon">📦</div>
+                    <div className="account-empty-icon"><Package size={18} /></div>
                     <p className="account-empty-text">You have no orders yet.</p>
                     <p className="account-empty-sub">Start shopping to see your orders here.</p>
                     <Link to="/" className="btn-primary account-empty-btn">
@@ -284,7 +284,7 @@ export default function AccountContent() {
                   <div className="account-loading">Loading pickup stations...</div>
                 ) : pickupStations.length === 0 ? (
                   <div className="account-empty">
-                    <div className="account-empty-icon">📍</div>
+                    <div className="account-empty-icon"><MapPin size={18} /></div>
                     <p className="account-empty-text">No pickup stations available</p>
                     <p className="account-empty-sub">Check back later for stations near you.</p>
                   </div>
@@ -320,14 +320,14 @@ export default function AccountContent() {
                           </div>
                           {pickupLocations[station.stationId]?.length > 0 && (
                             <div className={`pickup-station-locations ${selectedStationId === station.stationId ? 'expanded' : ''}`}>
-                              <p className="pickup-locations-title">📍 Pickup Locations:</p>
+                               <p className="pickup-locations-title"><MapPin size={14} /> Pickup Locations:</p>
                               {pickupLocations[station.stationId].map((location) => (
                                 <div key={location.locationId} className="pickup-location-item">
                                   <div className="pickup-location-info">
                                     <strong>{location.name}</strong>
                                     <p>{location.address}</p>
                                     {location.landmark && <p className="pickup-location-landmark">Landmark: {location.landmark}</p>}
-                                    {location.phone && <p>📞 {location.phone}</p>}
+                                    {location.phone && <p><Phone size={14} /> {location.phone}</p>}
                                   </div>
                                   <span className="pickup-location-status active">✓ Available</span>
                                 </div>
@@ -350,10 +350,10 @@ export default function AccountContent() {
                 </div>
                 <div className="policy-grid">
                   <div className="policy-card slide-up">
-                    <div className="policy-card-header">
-                      <span className="policy-icon">📍</span>
-                      <h3 className="policy-card-title">Pickup Information</h3>
-                    </div>
+                  <div className="policy-card-header">
+                    <span className="policy-icon"><MapPin size={18} /></span>
+                    <h3 className="policy-card-title">Pickup Information</h3>
+                  </div>
                     <div className="policy-card-body">
                       <ul className="policy-list">
                         <li><strong>Ready Time:</strong> Orders are ready for pickup within <span className="highlight">1-2 hours</span> during business hours.</li>
@@ -368,10 +368,10 @@ export default function AccountContent() {
                   </div>
 
                   <div className="policy-card slide-up">
-                    <div className="policy-card-header">
-                      <span className="policy-icon">🚚</span>
-                      <h3 className="policy-card-title">Delivery Information</h3>
-                    </div>
+                  <div className="policy-card-header">
+                    <span className="policy-icon"><Truck size={18} /></span>
+                    <h3 className="policy-card-title">Delivery Information</h3>
+                  </div>
                     <div className="policy-card-body">
                       <ul className="policy-list">
                         <li><strong>Coverage:</strong> Nationwide delivery via our trusted courier partners.</li>
@@ -386,10 +386,10 @@ export default function AccountContent() {
                   </div>
 
                   <div className="policy-card slide-up">
-                    <div className="policy-card-header">
-                      <span className="policy-icon">🔄</span>
-                      <h3 className="policy-card-title">Returns & Refunds</h3>
-                    </div>
+                  <div className="policy-card-header">
+                    <span className="policy-icon"><RefreshCw size={18} /></span>
+                    <h3 className="policy-card-title">Returns & Refunds</h3>
+                  </div>
                     <div className="policy-card-body">
                       <ul className="policy-list">
                         <li><strong>Return Window:</strong> Returns accepted within <span className="highlight">14 days</span> of purchase.</li>
@@ -403,10 +403,10 @@ export default function AccountContent() {
                   </div>
 
                   <div className="policy-card slide-up">
-                    <div className="policy-card-header">
-                      <span className="policy-icon">⚡</span>
-                      <h3 className="policy-card-title">Warranty & Support</h3>
-                    </div>
+                  <div className="policy-card-header">
+                    <span className="policy-icon"><Zap size={18} /></span>
+                    <h3 className="policy-card-title">Warranty & Support</h3>
+                  </div>
                     <div className="policy-card-body">
                       <ul className="policy-list">
                         <li><strong>Warranty Period:</strong> All products come with a <span className="highlight">1-year official manufacturer warranty</span>.</li>
@@ -420,10 +420,10 @@ export default function AccountContent() {
                   </div>
 
                   <div className="policy-card slide-up">
-                    <div className="policy-card-header">
-                      <span className="policy-icon">💳</span>
-                      <h3 className="policy-card-title">Payment Methods</h3>
-                    </div>
+                  <div className="policy-card-header">
+                    <span className="policy-icon"><CreditCard size={18} /></span>
+                    <h3 className="policy-card-title">Payment Methods</h3>
+                  </div>
                     <div className="policy-card-body">
                       <ul className="policy-list">
                         <li><span className="highlight">M-Pesa</span> – Till Number: <strong>4149288</strong></li>
@@ -436,10 +436,10 @@ export default function AccountContent() {
                   </div>
 
                   <div className="policy-card slide-up">
-                    <div className="policy-card-header">
-                      <span className="policy-icon">❓</span>
-                      <h3 className="policy-card-title">Frequently Asked Questions</h3>
-                    </div>
+                  <div className="policy-card-header">
+                    <span className="policy-icon"><HelpCircle size={18} /></span>
+                    <h3 className="policy-card-title">Frequently Asked Questions</h3>
+                  </div>
                     <div className="policy-card-body">
                       <ul className="policy-list">
                         <li><strong>Can I change my pickup station after ordering?</strong> Yes, contact support within 2 hours of placing your order.</li>
@@ -466,11 +466,11 @@ export default function AccountContent() {
                     <div className="account-support-box slide-up">
                       <h4 className="account-support-box-title">Direct Support</h4>
                       <p className="account-support-box-sub">Available 8:30am–8:00pm (Sun–Thu).</p>
-                      <div className="account-support-links">
-                        <p>📞 <a href="tel:0704812343" className="account-support-link">0704 812 343</a></p>
-                        <p>💬 <a href="https://wa.me/254704812343" target="_blank" rel="noopener noreferrer" className="account-support-link">0704 812 343</a></p>
-                        <p>✉️ <a href="mailto:support@gmnex.com" className="account-support-link">support@gmnex.com</a></p>
-                      </div>
+                       <div className="account-support-links">
+                         <p><Phone size={14} /> <a href="tel:0704812343" className="account-support-link">0704 812 343</a></p>
+                         <p><MessageCircle size={14} /> <a href="https://wa.me/254704812343" target="_blank" rel="noopener noreferrer" className="account-support-link">0704 812 343</a></p>
+                         <p><Mail size={14} /> <a href="mailto:support@gmnex.com" className="account-support-link">support@gmnex.com</a></p>
+                       </div>
                     </div>
                     <div className="account-support-box slide-up">
                       <h4 className="account-support-box-title">Warranty</h4>

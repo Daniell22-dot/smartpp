@@ -1,7 +1,7 @@
 // src/components/wishlist/WishlistContent.tsx
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Trash2, ShoppingCart, AlertCircle, CheckCircle } from 'lucide-react';
+import { Trash2, ShoppingCart, AlertCircle, CheckCircle, Heart, Package } from 'lucide-react';
 import { wishlistAPI, type WishlistItem } from '../../Features/wishlist/wishlistAPI';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
@@ -105,7 +105,7 @@ export default function WishlistContent() {
 
         {items.length === 0 ? (
           <div className="wishlist-empty">
-            <div className="wishlist-empty-icon">❤️</div>
+            <div className="wishlist-empty-icon"><Heart size={48} /></div>
             <h2>Your wishlist is empty</h2>
             <p>Start adding your favorite products to your wishlist</p>
             <Link to="/" className="btn-primary">Start Shopping</Link>
@@ -118,7 +118,7 @@ export default function WishlistContent() {
                   {item.product?.featuredPhoto ? (
                     <img src={item.product.featuredPhoto} alt={item.product.name} />
                   ) : (
-                    <div className="wishlist-item-placeholder">📦</div>
+                    <div className="wishlist-item-placeholder"><Package size={48} /></div>
                   )}
                   <button
                     className="wishlist-item-remove"

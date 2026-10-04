@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Search, Edit, Trash2, Power,  Calendar, X } from 'lucide-react';
+import { Search, Edit, Trash2, Power,  Calendar, X, User as UserIcon } from 'lucide-react';
 import { usersAPI, type User } from '../../../../Features/users/usersAPI';
 import './ManageUsers.css';
 
@@ -219,7 +219,7 @@ export default function ManageUsers() {
             {filteredUsers.length === 0 ? (
               <tr>
                 <td colSpan={7} className="manage-empty">
-                  <span>👤</span>
+                  <span><UserIcon size={18} /></span>
                   <p>No users found</p>
                 </td>
               </tr>

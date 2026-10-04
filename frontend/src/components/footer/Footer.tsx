@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
 import './Footer.css';
 
 export default function Footer() {
@@ -74,19 +74,19 @@ export default function Footer() {
             <h4 className="footer-heading">Contact Us</h4>
             <ul className="footer-contact">
               <li>
-                <span>📞</span>
+                <span><Phone size={16} /></span>
                 <a href="tel:0712345678" className="footer-link">0712 345 678</a>
               </li>
               <li>
-                <span>✉️</span>
+                <span><Mail size={16} /></span>
                 <a href="mailto:info@smartp.co.ke" className="footer-link">info@smartp.co.ke</a>
               </li>
               <li>
-                <span>📍</span>
+                <span><MapPin size={16} /></span>
                 <span>Nairobi, Kenya</span>
               </li>
               <li>
-                <span>💬</span>
+                <span><MessageCircle size={16} /></span>
                 <a href="https://wa.me/254712345678" target="_blank" rel="noopener noreferrer" className="footer-link">WhatsApp Us</a>
               </li>
             </ul>

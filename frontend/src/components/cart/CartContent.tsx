@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { Trash2, Plus, Minus, ShoppingBag } from "lucide-react";
+import { Trash2, Plus, Minus, ShoppingBag, ShoppingCart } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import "./CartContent.css";
 
@@ -11,7 +11,7 @@ export default function CartContent() {
     return (
       <div className="cart-empty">
         <div className="container">
-          <div className="cart-empty-icon">🛒</div>
+          <div className="cart-empty-icon"><ShoppingCart size={48} /></div>
           <h1 className="cart-empty-title">Your Cart is Empty</h1>
           <p className="cart-empty-text">Browse our products and add items you love.</p>
           <Link to="/" className="btn-primary">Continue Shopping</Link>

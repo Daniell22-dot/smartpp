@@ -1,6 +1,6 @@
 
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, FolderOpen } from 'lucide-react';
 import type { Category } from '../../Features/categories/categoriesAPI';
 import './CategoryCard.css';
 
@@ -8,7 +8,7 @@ export default function CategoryCard({ category }: { category: Category }) {
   return (
     <Link to={`/category/${category.slug}`} className="category-card">
       <div className="category-card-image-wrap">
-        {category.photo ? <img src={category.photo} alt={category.name} className="category-card-image" /> : <div className="category-card-placeholder"><span className="category-card-placeholder-text">{category.icon || '📁'}</span></div>}
+         {category.photo ? <img src={category.photo} alt={category.name} className="category-card-image" /> : <div className="category-card-placeholder"><span className="category-card-placeholder-text"><FolderOpen size={32} /></span></div>}
       </div>
       <div className="category-card-content">
         <p className="category-card-name">{category.name}</p>

@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Plus, Edit, Trash2, Power, Search, Filter, Phone, Mail } from 'lucide-react';
+import { Plus, Edit, Trash2, Power, Search, Filter, Phone, Mail, MapPin } from 'lucide-react';
 import { pickupStationsAPI, type PickupStation } from '../../../../Features/pickupStations/pickupStationsAPI';
 import './PickupStations.css';
 
@@ -153,7 +153,7 @@ export default function PickupStations() {
             {filteredStations.length === 0 ? (
               <tr>
                 <td colSpan={7} className="pickup-empty">
-                  <span>📍</span>
+                  <span><MapPin size={16} /></span>
                   <p>No pickup stations found</p>
                   <Link to="/admin/pickup-stations/create" className="btn-primary btn-sm">Add your first station</Link>
                 </td>

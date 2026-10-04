@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ChevronLeft, ChevronRight, MapPin, Phone, Mail, CheckCircle, User, Store, ChevronDown } from "lucide-react";
+import { ChevronLeft, ChevronRight, MapPin, Phone, Mail, CheckCircle, User, Store, ChevronDown, ClipboardList, CreditCard, Check } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
 import { ordersAPI } from "../../Features/orders/ordersAPI";
@@ -9,9 +9,9 @@ import { pickupStationsAPI, type PickupStation, type PickupLocation } from "../.
 import "./CheckoutContent.css";
 
 const STEPS = [
-  { id: 1, label: "Details", icon: "📋" },
-  { id: 2, label: "Pickup", icon: "📍" },
-  { id: 3, label: "Payment", icon: "💳" },
+  { id: 1, label: "Details", icon: <ClipboardList size={18} /> },
+  { id: 2, label: "Pickup", icon: <MapPin size={18} /> },
+  { id: 3, label: "Payment", icon: <CreditCard size={18} /> },
 ];
 
 export default function CheckoutContent() {
@@ -252,7 +252,7 @@ export default function CheckoutContent() {
               {STEPS.map((step, idx) => (
                 <div key={step.id} className="checkout-step">
                   <div className={`checkout-step-dot ${currentStep === step.id ? "active" : ""} ${currentStep > step.id ? "done" : ""}`}>
-                    {currentStep > step.id ? "✓" : step.id}
+                    {currentStep > step.id ? <Check size={16} /> : step.id}
                   </div>
                   <span className={`checkout-step-label ${currentStep === step.id ? "active" : ""}`}>
                     {step.icon} {step.label}
@@ -357,11 +357,11 @@ export default function CheckoutContent() {
                         )}
                         {stationId && selectedStation && (
                           <div className="checkout-station-info">
-                            <div className="checkout-station-info-icon">📍</div>
+                            <div className="checkout-station-info-icon"><MapPin size={18} /></div>
                             <div>
                               <p className="checkout-station-info-name">{selectedStation.name}</p>
                               <p className="checkout-station-info-address">{selectedStation.address}</p>
-                              <p className="checkout-station-info-phone">📞 {selectedStation.phone || "N/A"}</p>
+                              <p className="checkout-station-info-phone"><Phone size={14} /> {selectedStation.phone || "N/A"}</p>
                             </div>
                           </div>
                         )}

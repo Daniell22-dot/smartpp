@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Plus, Edit, Trash2, Power, Search, Filter, X } from 'lucide-react';
+import { Plus, Edit, Trash2, Power, Search, Filter, X, Tag } from 'lucide-react';
 import { couponsAPI, type Coupon } from '../../../../Features/coupons/couponsAPI';
 import './Coupons.css';
 
@@ -284,7 +284,7 @@ export default function StaffCoupons() {
             {filteredCoupons.length === 0 ? (
               <tr>
                 <td colSpan={7} className="coupons-empty">
-                  <span>🏷️</span>
+                  <span><Tag size={16} /></span>
                   <p>No coupons found</p>
                   <button className="btn-primary btn-sm" onClick={() => openModal()}>Create your first coupon</button>
                 </td>

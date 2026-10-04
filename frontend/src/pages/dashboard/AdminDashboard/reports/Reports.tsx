@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Download, Printer, Calendar, RefreshCw, FileText, Package, Users, ShoppingBag, CreditCard } from 'lucide-react';
+import { Download, Printer, Calendar, RefreshCw, FileText, Package, Users, ShoppingBag, CreditCard, DollarSign, BarChart3, ClipboardList } from 'lucide-react';
 import { ordersAPI } from '../../../../Features/orders/ordersAPI';
 import { productsAPI } from '../../../../Features/products/productsAPI';
 import { usersAPI } from '../../../../Features/users/usersAPI';
@@ -368,28 +368,28 @@ export default function Reports() {
       {/* Summary Cards */}
       <div className="reports-summary-grid">
         <div className="summary-card summary-card-primary">
-          <div className="summary-card-icon">💰</div>
+          <div className="summary-card-icon"><DollarSign size={20} /></div>
           <div className="summary-card-content">
             <span className="summary-card-value">KSh {summary.totalRevenue.toLocaleString()}</span>
             <span className="summary-card-label">Total Revenue</span>
           </div>
         </div>
         <div className="summary-card summary-card-success">
-          <div className="summary-card-icon">📋</div>
+          <div className="summary-card-icon"><ClipboardList size={20} /></div>
           <div className="summary-card-content">
             <span className="summary-card-value">{summary.totalOrders}</span>
             <span className="summary-card-label">Total Orders</span>
           </div>
         </div>
         <div className="summary-card summary-card-info">
-          <div className="summary-card-icon">📦</div>
+          <div className="summary-card-icon"><Package size={20} /></div>
           <div className="summary-card-content">
             <span className="summary-card-value">{summary.totalProducts}</span>
             <span className="summary-card-label">Products</span>
           </div>
         </div>
         <div className="summary-card summary-card-warning">
-          <div className="summary-card-icon">👥</div>
+          <div className="summary-card-icon"><Users size={20} /></div>
           <div className="summary-card-content">
             <span className="summary-card-value">{summary.totalUsers}</span>
             <span className="summary-card-label">Users</span>
@@ -483,7 +483,7 @@ export default function Reports() {
       <div className="reports-table-container">
         {currentReport.data.length === 0 ? (
           <div className="reports-empty">
-            <span>📊</span>
+            <span><BarChart3 size={20} /></span>
             <p>No data available for the selected report and date range</p>
             <button className="btn-primary btn-sm" onClick={handleGenerate}>Generate Report</button>
           </div>

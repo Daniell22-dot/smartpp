@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Check, X, Search, Filter, AlertCircle, CheckCircle } from 'lucide-react';
+import { Check, X, Search, Filter, AlertCircle, CheckCircle, Inbox, Star } from 'lucide-react';
 import { reviewsAPI, type Review } from '../../../../Features/reviews/reviewsAPI';
 import './Reviews.css';
 
@@ -144,7 +144,7 @@ export default function Reviews() {
       <div className="reviews-grid">
         {filteredReviews.length === 0 ? (
           <div className="reviews-empty">
-            <span>📭</span>
+            <span><Inbox size={18} /></span>
             <p>No reviews match your criteria</p>
           </div>
         ) : (
@@ -156,7 +156,8 @@ export default function Reviews() {
                   <span className="review-date">{new Date(review.createdAt).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                 </div>
                 <div className="review-rating">
-                  {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
+                  {[...Array(review.rating)].map((_, i) => <Star key={`f${i}`} size={14} fill="currentColor" />)}
+                  {[...Array(5 - review.rating)].map((_, i) => <Star key={`e${i}`} size={14} />)}
                 </div>
               </div>
               {review.title && <h4 className="review-title">{review.title}</h4>}

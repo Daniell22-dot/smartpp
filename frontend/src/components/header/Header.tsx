@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ShoppingCart, User, Heart, Menu, X, LogOut, ChevronDown, Search } from "lucide-react";
+import { ShoppingCart, User, Heart, Menu, X, LogOut, ChevronDown, Search, Phone, MapPin } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
 import { useWishlist } from "../../context/WishlistContext";
@@ -106,8 +106,8 @@ export default function Header() {
       <div className="announcement-bar">
         <div className="container">
           <div className="announcement-content">
-            <span>📞 Need Help? Call / WhatsApp: <strong>0712 345 678</strong></span>
-            <span className="announcement-end">📍 Pickup from 50+ stations</span>
+            <span><Phone size={14} /> Need Help? Call / WhatsApp: <strong>0712 345 678</strong></span>
+            <span className="announcement-end"><MapPin size={14} /> Pickup from 50+ stations</span>
           </div>
         </div>
         <header className="header">
@@ -131,8 +131,8 @@ export default function Header() {
       <div className="announcement-bar">
         <div className="container">
           <div className="announcement-content">
-            <span>📞 Need Help? Call / WhatsApp: <strong>0712 345 678</strong></span>
-            <span className="announcement-end">📍 Pickup from 50+ stations</span>
+            <span><Phone size={14} /> Need Help? Call / WhatsApp: <strong>0712 345 678</strong></span>
+            <span className="announcement-end"><MapPin size={14} /> Pickup from 50+ stations</span>
           </div>
         </div>
       </div>

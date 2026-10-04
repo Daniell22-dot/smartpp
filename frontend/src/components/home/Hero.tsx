@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, Sparkles, CheckCircle, Star, ArrowRight, Home } from 'lucide-react';
 import './Hero.css';
 
 export default function Hero() {
@@ -7,7 +7,7 @@ export default function Hero() {
       <div className="container">
         <div className="hero-grid">
           <div className="hero-content">
-            <span className="hero-badge">✦ 100% Genuine Products</span>
+            <span className="hero-badge"><Sparkles size={16} /> 100% Genuine Products</span>
             <h1 className="hero-title">
               Your Trusted <span className="highlight">Smart</span> Device Partner
             </h1>
@@ -22,19 +22,19 @@ export default function Hero() {
             </div>
             <div className="hero-features">
               <div className="hero-feature">
-                <span className="hero-feature-icon">✔</span>
+                <span className="hero-feature-icon"><CheckCircle size={16} /></span>
                 <span>100% Genuine Products</span>
               </div>
               <div className="hero-feature">
-                <span className="hero-feature-icon">★</span>
+                <span className="hero-feature-icon"><Star size={16} /></span>
                 <span>Best Prices in Kenya</span>
               </div>
               <div className="hero-feature">
-                <span className="hero-feature-icon">➜</span>
+                <span className="hero-feature-icon"><ArrowRight size={16} /></span>
                 <span>Fast & Reliable Delivery</span>
               </div>
               <div className="hero-feature">
-                <span className="hero-feature-icon">⌂</span>
+                <span className="hero-feature-icon"><Home size={16} /></span>
                 <span>50+ Pickup Stations</span>
               </div>
             </div>

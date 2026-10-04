@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Star } from 'lucide-react';
 import { reviewsAPI, type Review } from '../../../../Features/reviews/reviewsAPI';
 import './Reviews.css';
 
@@ -64,7 +65,8 @@ export default function StaffReviews() {
                   <span className="review-date">{new Date(review.createdAt).toLocaleDateString()}</span>
                 </div>
                 <div className="review-rating">
-                  {'⭐'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
+                  {[...Array(review.rating)].map((_, i) => <Star key={`f${i}`} size={14} fill="currentColor" />)}
+                  {[...Array(5 - review.rating)].map((_, i) => <Star key={`e${i}`} size={14} />)}
                 </div>
               </div>
               {review.title && <h4 className="review-title">{review.title}</h4>}

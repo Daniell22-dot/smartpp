@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Eye, Trash2, Search, Filter, Download } from 'lucide-react';
+import { Eye, Trash2, Search, Filter, Download, CheckCircle, XCircle, DollarSign, BarChart3 } from 'lucide-react';
 import { paymentsAPI, type Payment } from '../../../../Features/payments/paymentsAPI';
 import './Payments.css';
 
@@ -109,13 +109,13 @@ export default function Payments() {
   };
 
   const getStatusIcon = (status: string) => {
-    const icons: Record<string, string> = {
-      pending: '⏳',
-      paid: '✅',
-      failed: '❌',
-      refunded: '↩️',
+    const icons: Record<string, React.ReactNode> = {
+      pending: <span>⏳</span>,
+      paid: <CheckCircle size={16} />,
+      failed: <XCircle size={16} />,
+      refunded: <span>↩️</span>,
     };
-    return icons[status] || '📊';
+    return icons[status] || <span>📊</span>;
   };
 
   const formatDate = (dateString: string) => {
@@ -169,14 +169,14 @@ export default function Payments() {
 
       <div className="payments-stats-grid">
         <div className="stat-card total">
-          <span className="stat-icon">💰</span>
+          <span className="stat-icon"><DollarSign size={20} /></span>
           <div className="stat-info">
             <span className="stat-value">KSh {stats.totalAmount.toLocaleString()}</span>
             <span className="stat-label">Total Revenue</span>
           </div>
         </div>
         <div className="stat-card paid">
-          <span className="stat-icon">✅</span>
+          <span className="stat-icon"><CheckCircle size={16} /></span>
           <div className="stat-info">
             <span className="stat-value">{stats.paid}</span>
             <span className="stat-label">Paid</span>
@@ -190,7 +190,7 @@ export default function Payments() {
           </div>
         </div>
         <div className="stat-card failed">
-          <span className="stat-icon">❌</span>
+          <span className="stat-icon"><XCircle size={16} /></span>
           <div className="stat-info">
             <span className="stat-value">{stats.failed}</span>
             <span className="stat-label">Failed</span>
@@ -204,7 +204,7 @@ export default function Payments() {
           </div>
         </div>
         <div className="stat-card total">
-          <span className="stat-icon">📊</span>
+          <span className="stat-icon"><BarChart3 size={20} /></span>
           <div className="stat-info">
             <span className="stat-value">{stats.total}</span>
             <span className="stat-label">Total Payments</span>

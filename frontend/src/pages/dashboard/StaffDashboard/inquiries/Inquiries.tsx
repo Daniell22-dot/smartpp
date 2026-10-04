@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Search, Filter, Reply, CheckCircle, Mail, Phone, User, Calendar, X } from 'lucide-react';
+import { Search, Filter, Reply, CheckCircle, Mail, Phone, User, Calendar, X, BookOpen, Inbox } from 'lucide-react';
 import { inquiriesAPI, type Inquiry } from '../../../../Features/inquiries/inquiriesAPI';
 import { useAuth } from '../../../../context/AuthContext';
 import './Inquiries.css';
@@ -115,13 +115,13 @@ export default function StaffInquiries() {
   };
 
   const getStatusIcon = (status: string) => {
-    const icons: Record<string, string> = {
-      unread: '📩',
-      read: '📖',
-      replied: '✉️',
-      resolved: '✅',
+    const icons: Record<string, React.ReactNode> = {
+      unread: <Mail size={16} />,
+      read: <BookOpen size={16} />,
+      replied: <Mail size={16} />,
+      resolved: <CheckCircle size={16} />,
     };
-    return icons[status] || '📩';
+    return icons[status] || <Mail size={16} />;
   };
 
   const getUnreadCount = () => {
@@ -184,7 +184,7 @@ export default function StaffInquiries() {
       <div className="inquiries-list">
         {filteredInquiries.length === 0 ? (
           <div className="inquiries-empty">
-            <span>📭</span>
+            <span><Inbox size={18} /></span>
             <p>No inquiries match your criteria</p>
           </div>
         ) : (

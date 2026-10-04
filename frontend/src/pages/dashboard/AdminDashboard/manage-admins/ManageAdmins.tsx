@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Plus, Trash2, Search, X, Calendar } from 'lucide-react';
+import { Plus, Trash2, Search, X, Calendar, User } from 'lucide-react';
 import { adminsAPI } from '../../../../Features/admins/adminsAPI';
 import { usersAPI } from '../../../../Features/users/usersAPI';
 import './ManageAdmins.css';
@@ -161,7 +161,7 @@ export default function ManageAdmins() {
             {filteredAdmins.length === 0 ? (
               <tr>
                 <td colSpan={4} className="manage-empty">
-                  <span>👤</span>
+                  <span><User size={18} /></span>
                   <p>No admins found</p>
                 </td>
               </tr>

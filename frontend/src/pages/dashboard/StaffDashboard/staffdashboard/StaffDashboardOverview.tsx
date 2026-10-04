@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { DollarSign, Package, ClipboardList, MessageCircle } from 'lucide-react';
 import { ordersAPI } from '../../../../Features/orders/ordersAPI';
 import { productsAPI } from '../../../../Features/products/productsAPI';
 import { inquiriesAPI } from '../../../../Features/inquiries/inquiriesAPI';
@@ -68,28 +69,28 @@ export default function StaffDashboardOverview() {
 
       <div className="dashboard-stats-grid">
         <div className="stat-card primary">
-          <div className="stat-icon">📦</div>
+          <div className="stat-icon"><Package size={20} /></div>
           <div className="stat-info">
             <span className="stat-value">{stats.totalProducts}</span>
             <span className="stat-label">Total Products</span>
           </div>
         </div>
         <div className="stat-card success">
-          <div className="stat-icon">📋</div>
+          <div className="stat-icon"><ClipboardList size={20} /></div>
           <div className="stat-info">
             <span className="stat-value">{stats.totalOrders}</span>
             <span className="stat-label">Total Orders</span>
           </div>
         </div>
         <div className="stat-card warning">
-          <div className="stat-icon">💬</div>
+          <div className="stat-icon"><MessageCircle size={20} /></div>
           <div className="stat-info">
             <span className="stat-value">{stats.pendingInquiries}</span>
             <span className="stat-label">Pending Inquiries</span>
           </div>
         </div>
         <div className="stat-card info">
-          <div className="stat-icon">💰</div>
+          <div className="stat-icon"><DollarSign size={20} /></div>
           <div className="stat-info">
             <span className="stat-value">KSh {stats.totalRevenue.toLocaleString()}</span>
             <span className="stat-label">Total Revenue</span>

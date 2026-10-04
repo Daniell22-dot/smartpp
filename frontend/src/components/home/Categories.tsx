@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { categoriesAPI, type Category } from '../../Features/categories/categoriesAPI';
+import { FolderOpen } from 'lucide-react';
 import './Categories.css';
 
 export default function Categories() {
@@ -73,7 +74,7 @@ export default function Categories() {
                 {cat.photo ? (
                   <img src={cat.photo} alt={cat.name} className="category-card-image" />
                 ) : (
-                  <div className="category-card-icon">{cat.icon || '📁'}</div>
+                   <div className="category-card-icon"><FolderOpen size={32} /></div>
                 )}
               </div>
               <h3 className="category-card-name">{cat.name}</h3>
