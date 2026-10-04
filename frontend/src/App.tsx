@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom"
 import { CartProvider } from "./components/context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
 import { WishlistProvider } from "./context/WishlistContext";
+import { lazy, Suspense } from "react";
 import HomePage from "./pages/HomePage";
 import ShopPage from "./pages/ShopPage";
 import CategoryPage from "./pages/CategoryPage";
@@ -20,42 +21,49 @@ import VerifyEmail from "./pages/auth/VerifyEmail";
 import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
 import TermsOfService from "./pages/legal/TermsOfService";
 
-import AdminDashboard from "./pages/dashboard/AdminDashboard/AdminDashboard";
-import AdminDashboardOverview from "./pages/dashboard/AdminDashboard/admindashboard/AdminDashboardOverview";
-import Products from "./pages/dashboard/AdminDashboard/products/Products";
-import CreateProduct from "./pages/dashboard/AdminDashboard/products/CreateProduct";
-import EditProduct from "./pages/dashboard/AdminDashboard/products/EditProduct";
-import Categories from "./pages/dashboard/AdminDashboard/categories/Categories";
-import CreateCategory from "./pages/dashboard/AdminDashboard/categories/CreateCategory";
-import EditCategory from "./pages/dashboard/AdminDashboard/categories/EditCategory";
-import Orders from "./pages/dashboard/AdminDashboard/orders/Orders";
-import Reviews from "./pages/dashboard/AdminDashboard/reviews/Reviews";
-import Coupons from "./pages/dashboard/AdminDashboard/coupons/Coupons";
-import Inquiries from "./pages/dashboard/AdminDashboard/inquiries/Inquiries";
-import Analytics from "./pages/dashboard/AdminDashboard/analytics/Analytics";
-import Reports from "./pages/dashboard/AdminDashboard/reports/Reports";
-import ManageUsers from "./pages/dashboard/AdminDashboard/manage-users/ManageUsers";
-import ManageStaff from "./pages/dashboard/AdminDashboard/manage-staff/ManageStaff";
-import ManageAdmins from "./pages/dashboard/AdminDashboard/manage-admins/ManageAdmins";
-import PickupStations from "./pages/dashboard/AdminDashboard/pickup-stations/PickupStations";
-import CreatePickupStation from "./pages/dashboard/AdminDashboard/pickup-stations/CreatePickupStation";
-import EditPickupStation from "./pages/dashboard/AdminDashboard/pickup-stations/EditPickupStation";
-import Payments from "./pages/dashboard/AdminDashboard/payments/Payments";
-
-import StaffDashboard from "./pages/dashboard/StaffDashboard/StaffDashboard";
-import StaffDashboardOverview from "./pages/dashboard/StaffDashboard/staffdashboard/StaffDashboardOverview";
-import StaffProducts from "./pages/dashboard/StaffDashboard/products/Products";
-import StaffCategories from "./pages/dashboard/StaffDashboard/categories/Categories";
-import StaffOrders from "./pages/dashboard/StaffDashboard/orders/Orders";
-import StaffReviews from "./pages/dashboard/StaffDashboard/reviews/Reviews";
-import StaffCoupons from "./pages/dashboard/StaffDashboard/coupons/Coupons";
-import StaffInquiries from "./pages/dashboard/StaffDashboard/inquiries/Inquiries";
-import StaffPickupStations from "./pages/dashboard/StaffDashboard/pickup-stations/PickupStations";
-
 import Error from "./components/error/Error";
 import { RequireAuth, RequireRole } from "./components/guards";
 import ErrorBoundary from "./components/error-boundary/ErrorBoundary";
+import { DashboardStatSkeleton } from "./components/skeletons";
 import "./styles/styles.css";
+
+const AdminDashboard = lazy(() => import("./pages/dashboard/AdminDashboard/AdminDashboard"));
+const AdminDashboardOverview = lazy(() => import("./pages/dashboard/AdminDashboard/admindashboard/AdminDashboardOverview"));
+const Products = lazy(() => import("./pages/dashboard/AdminDashboard/products/Products"));
+const CreateProduct = lazy(() => import("./pages/dashboard/AdminDashboard/products/CreateProduct"));
+const EditProduct = lazy(() => import("./pages/dashboard/AdminDashboard/products/EditProduct"));
+const Categories = lazy(() => import("./pages/dashboard/AdminDashboard/categories/Categories"));
+const CreateCategory = lazy(() => import("./pages/dashboard/AdminDashboard/categories/CreateCategory"));
+const EditCategory = lazy(() => import("./pages/dashboard/AdminDashboard/categories/EditCategory"));
+const Orders = lazy(() => import("./pages/dashboard/AdminDashboard/orders/Orders"));
+const Reviews = lazy(() => import("./pages/dashboard/AdminDashboard/reviews/Reviews"));
+const Coupons = lazy(() => import("./pages/dashboard/AdminDashboard/coupons/Coupons"));
+const Inquiries = lazy(() => import("./pages/dashboard/AdminDashboard/inquiries/Inquiries"));
+const Analytics = lazy(() => import("./pages/dashboard/AdminDashboard/analytics/Analytics"));
+const Reports = lazy(() => import("./pages/dashboard/AdminDashboard/reports/Reports"));
+const ManageUsers = lazy(() => import("./pages/dashboard/AdminDashboard/manage-users/ManageUsers"));
+const ManageStaff = lazy(() => import("./pages/dashboard/AdminDashboard/manage-staff/ManageStaff"));
+const ManageAdmins = lazy(() => import("./pages/dashboard/AdminDashboard/manage-admins/ManageAdmins"));
+const PickupStations = lazy(() => import("./pages/dashboard/AdminDashboard/pickup-stations/PickupStations"));
+const CreatePickupStation = lazy(() => import("./pages/dashboard/AdminDashboard/pickup-stations/CreatePickupStation"));
+const EditPickupStation = lazy(() => import("./pages/dashboard/AdminDashboard/pickup-stations/EditPickupStation"));
+const Payments = lazy(() => import("./pages/dashboard/AdminDashboard/payments/Payments"));
+
+const StaffDashboard = lazy(() => import("./pages/dashboard/StaffDashboard/StaffDashboard"));
+const StaffDashboardOverview = lazy(() => import("./pages/dashboard/StaffDashboard/staffdashboard/StaffDashboardOverview"));
+const StaffProducts = lazy(() => import("./pages/dashboard/StaffDashboard/products/Products"));
+const StaffCategories = lazy(() => import("./pages/dashboard/StaffDashboard/categories/Categories"));
+const StaffOrders = lazy(() => import("./pages/dashboard/StaffDashboard/orders/Orders"));
+const StaffReviews = lazy(() => import("./pages/dashboard/StaffDashboard/reviews/Reviews"));
+const StaffCoupons = lazy(() => import("./pages/dashboard/StaffDashboard/coupons/Coupons"));
+const StaffInquiries = lazy(() => import("./pages/dashboard/StaffDashboard/inquiries/Inquiries"));
+const StaffPickupStations = lazy(() => import("./pages/dashboard/StaffDashboard/pickup-stations/PickupStations"));
+
+const DashboardLoading = () => (
+  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1.5rem", padding: "1.5rem" }}>
+    {[1,2,3,4].map(i => <div key={i}><div style={{ height: "1.5rem", width: "80px", background: "linear-gradient(90deg, var(--gray-200) 25%, var(--gray-100) 50%, var(--gray-200) 75%); background-size: 200% 100%; border-radius: 4px; animation: skeleton-pulse 1.5s ease-in-out infinite" }} /><div style={{ height: "2rem", width: "100px", background: "linear-gradient(90deg, var(--gray-200) 25%, var(--gray-100) 50%, var(--gray-200) 75%); background-size: 200% 100%; border-radius: 4px; animation: skeleton-pulse 1.5s ease-in-out infinite; margin-top: 0.5rem" }} /></div>)
+  </div>
+);
 
 function App() {
   const router = createBrowserRouter([
@@ -184,50 +192,54 @@ function App() {
       path: "/admin",
       element: (
         <RequireRole allowedRoles={["admin"]}>
-          <AdminDashboard />
+          <Suspense fallback={<DashboardLoading />}>
+            <AdminDashboard />
+          </Suspense>
         </RequireRole>
       ),
       children: [
         { path: "", element: <Navigate to="admindashboard" replace /> },
-        { path: "admindashboard", element: <AdminDashboardOverview /> },
-        { path: "products", element: <Products /> },
-        { path: "products/create", element: <CreateProduct /> },
-        { path: "products/edit/:id", element: <EditProduct /> },
-        { path: "categories", element: <Categories /> },
-        { path: "categories/create", element: <CreateCategory /> },
-        { path: "categories/edit/:id", element: <EditCategory /> },
-        { path: "orders", element: <Orders /> },
-        { path: "payments", element: <Payments /> },
-        { path: "reviews", element: <Reviews /> },
-        { path: "coupons", element: <Coupons /> },
-        { path: "pickup-stations", element: <PickupStations /> },
-        { path: "pickup-stations/create", element: <CreatePickupStation /> },
-        { path: "pickup-stations/edit/:id", element: <EditPickupStation /> },
-        { path: "manage-users", element: <ManageUsers /> },
-        { path: "manage-staff", element: <ManageStaff /> },
-        { path: "manage-admins", element: <ManageAdmins /> },
-        { path: "inquiries", element: <Inquiries /> },
-        { path: "analytics", element: <Analytics /> },
-        { path: "reports", element: <Reports /> },
+        { path: "admindashboard", element: <Suspense fallback={<DashboardLoading />}><AdminDashboardOverview /></Suspense> },
+        { path: "products", element: <Suspense fallback={<DashboardLoading />}><Products /></Suspense> },
+        { path: "products/create", element: <Suspense fallback={<DashboardLoading />}><CreateProduct /></Suspense> },
+        { path: "products/edit/:id", element: <Suspense fallback={<DashboardLoading />}><EditProduct /></Suspense> },
+        { path: "categories", element: <Suspense fallback={<DashboardLoading />}><Categories /></Suspense> },
+        { path: "categories/create", element: <Suspense fallback={<DashboardLoading />}><CreateCategory /></Suspense> },
+        { path: "categories/edit/:id", element: <Suspense fallback={<DashboardLoading />}><EditCategory /></Suspense> },
+        { path: "orders", element: <Suspense fallback={<DashboardLoading />}><Orders /></Suspense> },
+        { path: "payments", element: <Suspense fallback={<DashboardLoading />}><Payments /></Suspense> },
+        { path: "reviews", element: <Suspense fallback={<DashboardLoading />}><Reviews /></Suspense> },
+        { path: "coupons", element: <Suspense fallback={<DashboardLoading />}><Coupons /></Suspense> },
+        { path: "pickup-stations", element: <Suspense fallback={<DashboardLoading />}><PickupStations /></Suspense> },
+        { path: "pickup-stations/create", element: <Suspense fallback={<DashboardLoading />}><CreatePickupStation /></Suspense> },
+        { path: "pickup-stations/edit/:id", element: <Suspense fallback={<DashboardLoading />}><EditPickupStation /></Suspense> },
+        { path: "manage-users", element: <Suspense fallback={<DashboardLoading />}><ManageUsers /></Suspense> },
+        { path: "manage-staff", element: <Suspense fallback={<DashboardLoading />}><ManageStaff /></Suspense> },
+        { path: "manage-admins", element: <Suspense fallback={<DashboardLoading />}><ManageAdmins /></Suspense> },
+        { path: "inquiries", element: <Suspense fallback={<DashboardLoading />}><Inquiries /></Suspense> },
+        { path: "analytics", element: <Suspense fallback={<DashboardLoading />}><Analytics /></Suspense> },
+        { path: "reports", element: <Suspense fallback={<DashboardLoading />}><Reports /></Suspense> },
       ]
     },
     {
       path: "/staff",
       element: (
         <RequireRole allowedRoles={["staff", "admin"]}>
-          <StaffDashboard />
+          <Suspense fallback={<DashboardLoading />}>
+            <StaffDashboard />
+          </Suspense>
         </RequireRole>
       ),
       children: [
         { path: "", element: <Navigate to="staffdashboard" replace /> },
-        { path: "staffdashboard", element: <StaffDashboardOverview /> },
-        { path: "products", element: <StaffProducts /> },
-        { path: "categories", element: <StaffCategories /> },
-        { path: "orders", element: <StaffOrders /> },
-        { path: "reviews", element: <StaffReviews /> },
-        { path: "coupons", element: <StaffCoupons /> },
-        { path: "inquiries", element: <StaffInquiries /> },
-        { path: "pickup-stations", element: <StaffPickupStations /> },
+        { path: "staffdashboard", element: <Suspense fallback={<DashboardLoading />}><StaffDashboardOverview /></Suspense> },
+        { path: "products", element: <Suspense fallback={<DashboardLoading />}><StaffProducts /></Suspense> },
+        { path: "categories", element: <Suspense fallback={<DashboardLoading />}><StaffCategories /></Suspense> },
+        { path: "orders", element: <Suspense fallback={<DashboardLoading />}><StaffOrders /></Suspense> },
+        { path: "reviews", element: <Suspense fallback={<DashboardLoading />}><StaffReviews /></Suspense> },
+        { path: "coupons", element: <Suspense fallback={<DashboardLoading />}><StaffCoupons /></Suspense> },
+        { path: "inquiries", element: <Suspense fallback={<DashboardLoading />}><StaffInquiries /></Suspense> },
+        { path: "pickup-stations", element: <Suspense fallback={<DashboardLoading />}><StaffPickupStations /></Suspense> },
       ]
     },
     {
