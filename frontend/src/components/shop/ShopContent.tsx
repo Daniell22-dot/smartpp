@@ -5,6 +5,7 @@ import Loader from '../loader/Loader';
 import { productsAPI, type Product } from '../../Features/products/productsAPI';
 import { wishlistAPI } from '../../Features/wishlist/wishlistAPI';
 import './ShopContent.css';
+import SEO from '../seo/SEO';
 
 export default function ShopContent() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -59,30 +60,38 @@ export default function ShopContent() {
   if (loading) return <Loader />;
 
   return (
-    <div className="shop-page">
-      <div className="container">
-        <div className="shop-breadcrumb">
-          <Link to="/">Home</Link> <span>/</span> <span className="current">Shop</span>
-        </div>
-        <h1 className="shop-title">Shop All Products</h1>
-        <p className="shop-count">{products.length} products available</p>
-        
-        {products.length === 0 ? (
-          <div className="shop-empty">No products available</div>
-        ) : (
-          <div className="shop-grid">
-            {products.map(p => (
-              <ProductCard
-                key={p.productId}
-                product={p}
-                showWishlist={true}
-                isWishlisted={wishlistStatus[p.productId] || false}
-                onWishlistToggle={handleWishlistToggle}
-              />
-            ))}
+    <>
+      <SEO
+        title="Shop All Products"
+        description="Browse our full catalog of electronics, smartphones, laptops, audio devices, and more. Free delivery on orders over KSh 600."
+        path="/shop"
+        type="website"
+      />
+      <div className="shop-page">
+        <div className="container">
+          <div className="shop-breadcrumb">
+            <Link to="/">Home</Link> <span>/</span> <span className="current">Shop</span>
           </div>
-        )}
+          <h1 className="shop-title">Shop All Products</h1>
+          <p className="shop-count">{products.length} products available</p>
+          
+          {products.length === 0 ? (
+            <div className="shop-empty">No products available</div>
+          ) : (
+            <div className="shop-grid">
+              {products.map(p => (
+                <ProductCard
+                  key={p.productId}
+                  product={p}
+                  showWishlist={true}
+                  isWishlisted={wishlistStatus[p.productId] || false}
+                  onWishlistToggle={handleWishlistToggle}
+                />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

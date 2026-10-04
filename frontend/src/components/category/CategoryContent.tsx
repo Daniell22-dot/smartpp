@@ -5,6 +5,7 @@ import Loader from '../loader/Loader';
 import { categoriesAPI, type Category } from '../../Features/categories/categoriesAPI';
 import { productsAPI, type Product } from '../../Features/products/productsAPI';
 import './CategoryContent.css';
+import SEO from '../seo/SEO';
 
 export default function CategoryContent() {
   const { slug } = useParams<{ slug: string }>();
@@ -31,18 +32,26 @@ export default function CategoryContent() {
   }, [slug]);
 
   return (
-    <div className="category-content">
-      <div className="container">
-        <div className="category-breadcrumb">
-          <Link to="/">Home</Link> <span>/</span> <span className="current">{category?.name || 'Category'}</span>
+    <>
+      <SEO
+        title={category ? `${category.name} - Shop` : 'Shop by Category'}
+        description={category ? `Browse ${category.name} at GM Business Solutions. ${category.description || 'Find the best products with fast delivery across Kenya.'}` : 'Browse products by category at GM Business Solutions.'}
+        path={`/category/${slug}`}
+        type="website"
+      />
+      <div className="category-content">
+        <div className="container">
+          <div className="category-breadcrumb">
+            <Link to="/">Home</Link> <span>/</span> <span className="current">{category?.name || 'Category'}</span>
+          </div>
+          <h1 className="category-title">{category?.name || 'Category'}</h1>
+          <p className="category-count">{products.length} Results - Free delivery ≥ KSh 600 - Pickup ready in 1-2 hours</p>
+          {loading ? <Loader />
+            : products.length === 0 ? <div className="category-empty">No products in this category.</div>
+            : <div className="category-grid">{products.map(p => <ProductCard key={p.productId} product={p} />)}</div>
+          }
         </div>
-        <h1 className="category-title">{category?.name || 'Category'}</h1>
-        <p className="category-count">{products.length} Results - Free delivery ≥ KSh 600 - Pickup ready in 1-2 hours</p>
-        {loading ? <Loader />
-          : products.length === 0 ? <div className="category-empty">No products in this category.</div>
-          : <div className="category-grid">{products.map(p => <ProductCard key={p.productId} product={p} />)}</div>
-        }
       </div>
-    </div>
+    </>
   );
 }

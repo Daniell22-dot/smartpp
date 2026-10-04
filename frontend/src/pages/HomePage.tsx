@@ -4,15 +4,24 @@ import Highlights from '../components/home/Highlights';
 import Categories from '../components/home/Categories';
 import Products from '../components/home/Products';
 import BestSellers from '../components/home/BestSellers';
+import SEO from '../components/seo/SEO';
 
 export default function HomePage() {
   return (
-    <Layout>
-      <Hero />
-      <Categories />
-      <Products />
-      <Highlights />
-      <BestSellers />
-    </Layout>
+    <>
+      <SEO
+        title="GM Business Solutions"
+        description="Shop smartphones, laptops, audio devices, solar products, and more at GM Business Solutions. Fast delivery across Kenya, M-Pesa payments, and excellent customer service."
+        path="/"
+        type="website"
+      />
+      <Layout>
+        <Hero />
+        <Categories />
+        <Products />
+        <Highlights />
+        <BestSellers />
+      </Layout>
+    </>
   );
 }

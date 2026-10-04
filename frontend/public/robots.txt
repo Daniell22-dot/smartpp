@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin/
+Disallow: /staff/
+Disallow: /checkout
+Disallow: /account
+Disallow: /wishlist
+Disallow: /cart
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /verify-code
+Disallow: /reset-password
+Disallow: /verify-email
+Disallow: /track-order
+
+Sitemap: https://gmnex.com/sitemap.xml
