@@ -6,7 +6,7 @@ import './AdminDashboard.css';
 
 export default function AdminDashboard() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -20,6 +20,7 @@ export default function AdminDashboard() {
         setIsDrawerOpen(true);
       }
     };
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);

@@ -6,7 +6,7 @@ import './StaffDashboard.css';
 
 export default function StaffDashboard() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -20,6 +20,7 @@ export default function StaffDashboard() {
         setIsDrawerOpen(true);
       }
     };
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
