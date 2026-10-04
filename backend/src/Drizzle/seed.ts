@@ -46,14 +46,16 @@ async function seed() {
   console.log('Existing data cleared');
   console.log('Seeding database...');
 
-  const hashedPassword = await hash('password123', 10);
+  const adminPassword = await hash(process.env.SEED_ADMIN_PASSWORD || generateRandomPassword(), 10);
+  const customerPassword = await hash(process.env.SEED_CUSTOMER_PASSWORD || generateRandomPassword(), 10);
+  const staffPassword = await hash(process.env.SEED_STAFF_PASSWORD || generateRandomPassword(), 10);
 
   const insertedUsers = await db.insert(users).values([
     {
       fullName: 'Admin User',
-      email: 'moseemmanuel64@yahoo.com',
+      email: 'admin@gmnex.com',
       phone: '0712345678',
-      passwordHash: hashedPassword,
+      passwordHash: adminPassword,
       role: 'admin',
       isActive: true,
       isVerified: true,
@@ -65,7 +67,7 @@ async function seed() {
       fullName: 'Jane Smith',
       email: 'jane@example.com',
       phone: '0723456789',
-      passwordHash: hashedPassword,
+      passwordHash: customerPassword,
       role: 'customer',
       isActive: true,
       isVerified: true,
@@ -77,7 +79,7 @@ async function seed() {
       fullName: 'Peter Otieno',
       email: 'peter@example.com',
       phone: '0734567890',
-      passwordHash: hashedPassword,
+      passwordHash: customerPassword,
       role: 'customer',
       isActive: true,
       isVerified: true,
@@ -89,7 +91,7 @@ async function seed() {
       fullName: 'Mary Wambui',
       email: 'mary@example.com',
       phone: '0745678901',
-      passwordHash: hashedPassword,
+      passwordHash: customerPassword,
       role: 'admin',
       isActive: true,
       isVerified: true,
@@ -101,7 +103,7 @@ async function seed() {
       fullName: 'David Mwangi',
       email: 'david@example.com',
       phone: '0756789012',
-      passwordHash: hashedPassword,
+      passwordHash: customerPassword,
       role: 'customer',
       isActive: true,
       isVerified: true,
@@ -111,9 +113,9 @@ async function seed() {
     },
     {
       fullName: 'Staff User',
-      email: 'emmanuelmose10204@gmail.com',
+      email: 'staff@gmnex.com',
       phone: '0767890123',
-      passwordHash: hashedPassword,
+      passwordHash: staffPassword,
       role: 'staff',
       isActive: true,
       isVerified: true,
@@ -125,8 +127,8 @@ async function seed() {
 
   console.log(`Inserted ${insertedUsers.length} users`);
 
-  const adminUser = insertedUsers.find(u => u.email === 'moseemmanuel64@yahoo.com');
-  const staffUser = insertedUsers.find(u => u.email === 'emmanuelmose10204@gmail.com');
+  const adminUser = insertedUsers.find(u => u.role === 'admin');
+  const staffUser = insertedUsers.find(u => u.role === 'staff');
 
   await db.insert(admins).values([
     { userId: adminUser!.userId, email: adminUser!.email }
@@ -137,6 +139,7 @@ async function seed() {
   ]);
 
   console.log('Inserted admins and staff records');
+  console.log(`Seed passwords: admin=${process.env.SEED_ADMIN_PASSWORD || generateRandomPassword()}, customer=${process.env.SEED_CUSTOMER_PASSWORD || generateRandomPassword()}, staff=${process.env.SEED_STAFF_PASSWORD || generateRandomPassword()}`);
 
   await db.insert(adminActivityLogs).values([
     { userId: insertedUsers[0].userId, action: 'USER_LOGIN', details: { ip: '192.168.1.1', userAgent: 'Chrome' }, ipAddress: '192.168.1.1' },
@@ -368,7 +371,7 @@ async function seed() {
       phonePrefix: '+254',
       phoneNumber: '0712345678',
       additionalPhone: '0712345679',
-      email: 'moseemmanuel64@yahoo.com',
+      email: 'admin@gmnex.com',
       county: 'Kakamega',
       town: 'Kakamega Town',
       area: 'Kakamega Central',
@@ -694,7 +697,7 @@ async function seed() {
   await db.insert(inquiries).values([
     { name: 'Francis Mwangi', email: 'francis@example.com', phone: '0711223344', subject: 'Bulk Order Inquiry', message: 'Hi, do you have stock of MK double sockets in bulk? Need about 50 pieces for a site in Lurambi.', status: 'read', userId: null, productId: null },
     { name: 'Grace Chebet', email: 'grace@example.com', phone: '0722998877', subject: 'Warranty Question', message: 'Hello, what is the warranty period for your Solar King panels? Can I get delivery to Shikoti?', status: 'unread', userId: null, productId: null },
-    { name: 'Admin User', email: 'moseemmanuel64@yahoo.com', phone: '0712345678', subject: 'Product Availability', message: 'Is the iPhone 15 Pro Max available in store? I want to pick it up today.', status: 'replied', userId: insertedUsers[0].userId, productId: insertedProducts[0].productId, adminResponse: 'Yes, we have stock available. You can pick up from our Kakamega store.', respondedAt: new Date(Date.now() - 3600000) },
+    { name: 'Admin User', email: 'admin@gmnex.com', phone: '0712345678', subject: 'Product Availability', message: 'Is the iPhone 15 Pro Max available in store? I want to pick it up today.', status: 'replied', userId: insertedUsers[0].userId, productId: insertedProducts[0].productId, adminResponse: 'Yes, we have stock available. You can pick up from our Kakamega store.', respondedAt: new Date(Date.now() - 3600000) },
     { name: 'Mary Wambui', email: 'mary@example.com', phone: '0745678901', subject: 'Delivery Timeline', message: 'How long does delivery take to Kisumu?', status: 'resolved', userId: insertedUsers[3].userId, productId: null, adminResponse: 'Delivery to Kisumu takes 1-2 business days.', respondedAt: new Date(Date.now() - 7200000) },
     { name: 'Peter Otieno', email: 'peter@example.com', phone: '0734567890', subject: 'Technical Support', message: 'I need help setting up my new laptop. Can I get a call?', status: 'unread', userId: insertedUsers[2].userId, productId: insertedProducts[4].productId }
   ]);
@@ -719,11 +722,15 @@ async function seed() {
     { sessionToken: 'sess_1234567890abcdef', userId: insertedUsers[0].userId, ipAddress: '192.168.1.1', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', expiresAt: new Date(Date.now() + 604800000) },
     { sessionToken: 'sess_abcdef1234567890', userId: insertedUsers[1].userId, ipAddress: '192.168.1.2', userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15', expiresAt: new Date(Date.now() + 604800000) },
     { sessionToken: 'sess_0987654321fedcba', userId: insertedUsers[2].userId, ipAddress: '192.168.1.3', userAgent: 'Mozilla/5.0 (Linux; Android 12; SM-G998B) AppleWebKit/537.36', expiresAt: new Date(Date.now() + 604800000) },
-    { sessionToken: 'sess_fedcba0987654321', userId: insertedUsers[3].userId, ipAddress: '192.168.1.4', userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36', expiresAt: new Date(Date.now() + 604800000) },
+    { sessionToken: 'sess_fedcba0987654321', userId: insertedUsers[3].userId, ipAddress: '192.168.1.4', userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS 10_15_7) AppleWebKit/537.36', expiresAt: new Date(Date.now() + 604800000) },
     { sessionToken: 'sess_12345abcde67890', userId: insertedUsers[4].userId, ipAddress: '192.168.1.5', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', expiresAt: new Date(Date.now() + 604800000) }
   ]);
 
   console.log('Database seeding completed successfully!');
+}
+
+function generateRandomPassword(): string {
+  return Math.random().toString(36).slice(-10) + Math.random().toString(36).slice(-10);
 }
 
 seed()

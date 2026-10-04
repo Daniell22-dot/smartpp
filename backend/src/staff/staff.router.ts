@@ -6,8 +6,11 @@ import {
   deleteStaffController,
   bulkDeleteStaffController
 } from "./staff.controller";
+import { authenticate, adminRoleAuth } from "../middleware/auth.middleware";
 
 const staffRouter = Router();
+
+staffRouter.use(authenticate, adminRoleAuth);
 
 staffRouter.get("/", getAllStaffController);
 staffRouter.get("/:id", getStaffByIdController);

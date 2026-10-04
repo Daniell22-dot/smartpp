@@ -1,17 +1,17 @@
 // src/admins/admins.controller.ts 
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { adminsService } from "./admins.service";
 
-export const getAllAdminsController = async (_req: Request, res: Response) => {
+export const getAllAdminsController = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const data = await adminsService.getAll();
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const getAdminByIdController = async (req: Request, res: Response) => {
+export const getAdminByIdController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const idParam = req.params.id;
     if (!idParam || typeof idParam !== 'string') {
@@ -21,11 +21,11 @@ export const getAdminByIdController = async (req: Request, res: Response) => {
     if (!data) return res.status(404).json({ success: false, message: "Admin not found" });
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const createAdminController = async (req: Request, res: Response) => {
+export const createAdminController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { userId, email } = req.body;
     if (!userId || !email) {
@@ -34,12 +34,11 @@ export const createAdminController = async (req: Request, res: Response) => {
     const data = await adminsService.create({ userId, email });
     res.status(201).json({ success: true, data });
   } catch (e: any) {
-    const status = e.message.includes("already") ? 409 : 400;
-    res.status(status).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const deleteAdminController = async (req: Request, res: Response) => {
+export const deleteAdminController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const idParam = req.params.id;
     if (!idParam || typeof idParam !== 'string') {
@@ -49,11 +48,11 @@ export const deleteAdminController = async (req: Request, res: Response) => {
     if (!data) return res.status(404).json({ success: false, message: "Admin not found" });
     res.json({ success: true, message: "Admin removed successfully (record kept)", data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const bulkDeleteAdminsController = async (req: Request, res: Response) => {
+export const bulkDeleteAdminsController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { ids } = req.body;
     if (!ids || !Array.isArray(ids) || ids.length === 0) {
@@ -62,6 +61,6 @@ export const bulkDeleteAdminsController = async (req: Request, res: Response) =>
     const data = await adminsService.bulkDelete(ids);
     res.json({ success: true, message: `Processed ${data.success.length} admins, ${data.failed.length} failed`, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };

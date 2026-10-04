@@ -1,16 +1,16 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { usersService } from "./users.service";
 
-export const getAllUsersController = async (_req: Request, res: Response) => {
+export const getAllUsersController = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const data = await usersService.getAll();
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const getUserByIdController = async (req: Request, res: Response) => {
+export const getUserByIdController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const idParam = req.params.id;
     if (!idParam || typeof idParam !== 'string') {
@@ -22,11 +22,11 @@ export const getUserByIdController = async (req: Request, res: Response) => {
     }
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const searchUsersController = async (req: Request, res: Response) => {
+export const searchUsersController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { q } = req.query;
     if (!q) {
@@ -36,21 +36,20 @@ export const searchUsersController = async (req: Request, res: Response) => {
     const data = await usersService.search(searchTerm as string);
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const createUserController = async (req: Request, res: Response) => {
+export const createUserController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const data = await usersService.create(req.body);
     res.status(201).json({ success: true, data });
   } catch (e: any) {
-    const status = e.message.includes("already exists") ? 409 : 400;
-    res.status(status).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const updateUserController = async (req: Request, res: Response) => {
+export const updateUserController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const idParam = req.params.id;
     if (!idParam || typeof idParam !== 'string') {
@@ -62,12 +61,11 @@ export const updateUserController = async (req: Request, res: Response) => {
     }
     res.json({ success: true, data });
   } catch (e: any) {
-    const status = e.message.includes("already in use") ? 409 : 400;
-    res.status(status).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const deleteUserController = async (req: Request, res: Response) => {
+export const deleteUserController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const idParam = req.params.id;
     if (!idParam || typeof idParam !== 'string') {
@@ -79,11 +77,11 @@ export const deleteUserController = async (req: Request, res: Response) => {
     }
     res.json({ success: true, message: "User deleted successfully", data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const toggleUserStatusController = async (req: Request, res: Response) => {
+export const toggleUserStatusController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const idParam = req.params.id;
     if (!idParam || typeof idParam !== 'string') {
@@ -99,11 +97,11 @@ export const toggleUserStatusController = async (req: Request, res: Response) =>
       data
     });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const bulkDeleteUsersController = async (req: Request, res: Response) => {
+export const bulkDeleteUsersController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { ids } = req.body;
     if (!ids || !Array.isArray(ids) || ids.length === 0) {
@@ -119,6 +117,6 @@ export const bulkDeleteUsersController = async (req: Request, res: Response) => 
       data
     });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };

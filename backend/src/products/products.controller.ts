@@ -1,26 +1,26 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { productsService } from "./products.service";
 import { uploadToCloudinary } from "../utils/cloudinaryUpload";
 
-export const getAllProductsController = async (_req: Request, res: Response) => {
+export const getAllProductsController = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const data = await productsService.getAll();
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const getActiveProductsController = async (_req: Request, res: Response) => {
+export const getActiveProductsController = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const data = await productsService.getActive();
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const getProductsByCategoryController = async (req: Request, res: Response) => {
+export const getProductsByCategoryController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const categoryId = req.params.categoryId;
     if (!categoryId || typeof categoryId !== 'string') {
@@ -29,29 +29,29 @@ export const getProductsByCategoryController = async (req: Request, res: Respons
     const data = await productsService.getByCategory(parseInt(categoryId, 10));
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const getFeaturedProductsController = async (_req: Request, res: Response) => {
+export const getFeaturedProductsController = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const data = await productsService.getFeatured();
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const getBestSellersController = async (_req: Request, res: Response) => {
+export const getBestSellersController = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const data = await productsService.getBestSellers();
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const getProductByIdController = async (req: Request, res: Response) => {
+export const getProductByIdController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
     if (!id || typeof id !== 'string') {
@@ -63,11 +63,11 @@ export const getProductByIdController = async (req: Request, res: Response) => {
     }
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const getProductBySlugController = async (req: Request, res: Response) => {
+export const getProductBySlugController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const slug = req.params.slug;
     if (!slug || typeof slug !== 'string') {
@@ -79,11 +79,11 @@ export const getProductBySlugController = async (req: Request, res: Response) =>
     }
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const searchProductsController = async (req: Request, res: Response) => {
+export const searchProductsController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { q } = req.query;
     if (!q) {
@@ -96,20 +96,20 @@ export const searchProductsController = async (req: Request, res: Response) => {
     const data = await productsService.search(searchTerm as string);
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const filterProductsController = async (req: Request, res: Response) => {
+export const filterProductsController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const data = await productsService.filter(req.query);
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const createProductController = async (req: Request, res: Response) => {
+export const createProductController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const body = { ...req.body };
     if (req.file) {
@@ -118,12 +118,11 @@ export const createProductController = async (req: Request, res: Response) => {
     const data = await productsService.create(body);
     res.status(201).json({ success: true, data });
   } catch (e: any) {
-    const status = e.message.includes("already exists") ? 409 : 400;
-    res.status(status).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const updateProductController = async (req: Request, res: Response) => {
+export const updateProductController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
     if (!id || typeof id !== 'string') {
@@ -139,12 +138,11 @@ export const updateProductController = async (req: Request, res: Response) => {
     }
     res.json({ success: true, data });
   } catch (e: any) {
-    const status = e.message.includes("already exists") ? 409 : 400;
-    res.status(status).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const deleteProductController = async (req: Request, res: Response) => {
+export const deleteProductController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
     if (!id || typeof id !== 'string') {
@@ -157,11 +155,11 @@ export const deleteProductController = async (req: Request, res: Response) => {
     res.json({ success: true, data });
   } catch (e: any) {
     console.error("Delete product error:", e);
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const toggleFeaturedController = async (req: Request, res: Response) => {
+export const toggleFeaturedController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
     if (!id || typeof id !== 'string') {
@@ -177,11 +175,11 @@ export const toggleFeaturedController = async (req: Request, res: Response) => {
       data
     });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const toggleBestSellerController = async (req: Request, res: Response) => {
+export const toggleBestSellerController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
     if (!id || typeof id !== 'string') {
@@ -197,11 +195,11 @@ export const toggleBestSellerController = async (req: Request, res: Response) =>
       data
     });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const updateStockController = async (req: Request, res: Response) => {
+export const updateStockController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
     if (!id || typeof id !== 'string') {
@@ -221,20 +219,20 @@ export const updateStockController = async (req: Request, res: Response) => {
       data
     });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const getLowStockProductsController = async (_req: Request, res: Response) => {
+export const getLowStockProductsController = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const data = await productsService.getLowStock();
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const bulkDeleteProductsController = async (req: Request, res: Response) => {
+export const bulkDeleteProductsController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { ids } = req.body;
     if (!ids || !Array.isArray(ids) || ids.length === 0) {
@@ -250,6 +248,6 @@ export const bulkDeleteProductsController = async (req: Request, res: Response) 
       data
     });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };

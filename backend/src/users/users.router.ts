@@ -9,8 +9,11 @@ import {
   toggleUserStatusController,
   bulkDeleteUsersController
 } from "./users.controller";
+import { authenticate, adminRoleAuth } from "../middleware/auth.middleware";
 
 const usersRouter = Router();
+
+usersRouter.use(authenticate, adminRoleAuth);
 
 usersRouter.get("/", getAllUsersController);
 usersRouter.get("/search", searchUsersController);

@@ -6,8 +6,11 @@ import {
   deleteAdminController,
   bulkDeleteAdminsController
 } from "./admins.controller";
+import { authenticate, adminRoleAuth } from "../middleware/auth.middleware";
 
 const adminsRouter = Router();
+
+adminsRouter.use(authenticate, adminRoleAuth);
 
 adminsRouter.get("/", getAllAdminsController);
 adminsRouter.get("/:id", getAdminByIdController);

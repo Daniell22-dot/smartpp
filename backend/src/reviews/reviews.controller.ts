@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { reviewsService } from "./reviews.service";
 
 const getParam = (param: string | string[] | undefined): string | null => {
@@ -7,25 +7,25 @@ const getParam = (param: string | string[] | undefined): string | null => {
   return param;
 };
 
-export const getAllReviewsController = async (_req: Request, res: Response) => {
+export const getAllReviewsController = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const data = await reviewsService.getAll();
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const getPendingReviewsController = async (_req: Request, res: Response) => {
+export const getPendingReviewsController = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const data = await reviewsService.getPending();
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const getReviewByIdController = async (req: Request, res: Response) => {
+export const getReviewByIdController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const idParam = getParam(req.params.id);
     if (!idParam) {
@@ -37,11 +37,11 @@ export const getReviewByIdController = async (req: Request, res: Response) => {
     }
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const getProductReviewsController = async (req: Request, res: Response) => {
+export const getProductReviewsController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const productIdParam = getParam(req.params.productId);
     if (!productIdParam) {
@@ -54,11 +54,11 @@ export const getProductReviewsController = async (req: Request, res: Response) =
     const data = await reviewsService.getByProduct(productId);
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const getUserReviewsController = async (req: Request, res: Response) => {
+export const getUserReviewsController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userId = (req as any).user?.userId;
     if (!userId) {
@@ -67,11 +67,11 @@ export const getUserReviewsController = async (req: Request, res: Response) => {
     const data = await reviewsService.getByUser(userId);
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const createReviewController = async (req: Request, res: Response) => {
+export const createReviewController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userId = (req as any).user?.userId;
     if (!userId) {
@@ -101,11 +101,11 @@ export const createReviewController = async (req: Request, res: Response) => {
     });
     res.status(201).json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const approveReviewController = async (req: Request, res: Response) => {
+export const approveReviewController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const idParam = getParam(req.params.id);
     if (!idParam) {
@@ -117,11 +117,11 @@ export const approveReviewController = async (req: Request, res: Response) => {
     }
     res.json({ success: true, message: "Review approved successfully", data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const rejectReviewController = async (req: Request, res: Response) => {
+export const rejectReviewController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const idParam = getParam(req.params.id);
     if (!idParam) {
@@ -133,11 +133,11 @@ export const rejectReviewController = async (req: Request, res: Response) => {
     }
     res.json({ success: true, message: "Review rejected successfully", data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const markReviewHelpfulController = async (req: Request, res: Response) => {
+export const markReviewHelpfulController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const idParam = getParam(req.params.id);
     if (!idParam) {
@@ -149,11 +149,11 @@ export const markReviewHelpfulController = async (req: Request, res: Response) =
     }
     res.json({ success: true, message: "Marked as helpful", data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const deleteReviewController = async (req: Request, res: Response) => {
+export const deleteReviewController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const idParam = getParam(req.params.id);
     if (!idParam) {
@@ -165,11 +165,11 @@ export const deleteReviewController = async (req: Request, res: Response) => {
     }
     res.json({ success: true, message: "Review deleted successfully", data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const bulkDeleteReviewsController = async (req: Request, res: Response) => {
+export const bulkDeleteReviewsController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { ids } = req.body;
     if (!ids || !Array.isArray(ids) || ids.length === 0) {
@@ -185,6 +185,6 @@ export const bulkDeleteReviewsController = async (req: Request, res: Response) =
       data
     });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };

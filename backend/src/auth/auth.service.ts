@@ -119,18 +119,19 @@ export const loginService = async (email: string, password: string) => {
   const token = jwt.sign(
     { userId: user.userId, role, email: user.email },
     JWT_SECRET,
-    { expiresIn: "7d" }
+    { expiresIn: "15m" }
   );
+
   const refreshToken = jwt.sign(
     { userId: user.userId },
     JWT_REFRESH_SECRET,
-    { expiresIn: "30d" }
+    { expiresIn: "7d" }
   );
 
   await db.insert(sessions).values({
     userId: user.userId,
     sessionToken: refreshToken,
-    expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+    expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
   });
 
   return {
@@ -138,6 +139,49 @@ export const loginService = async (email: string, password: string) => {
     refreshToken,
     role: role,
     dashboard: dashboard,
+    userId: user.userId,
+    email: user.email,
+    fullName: user.fullName,
+  };
+};
+
+export const refreshService = async (refreshToken: string) => {
+  const session = await db.query.sessions.findFirst({
+    where: eq(sessions.sessionToken, refreshToken),
+  });
+  if (!session || new Date() > session.expiresAt) {
+    await db.delete(sessions).where(eq(sessions.sessionToken, refreshToken));
+    throw new Error("Invalid or expired refresh token");
+  }
+
+  const user = await db.query.users.findFirst({
+    where: eq(users.userId, session.userId),
+  });
+  if (!user || !user.isVerified) {
+    throw new Error("User not found or not verified");
+  }
+
+  const token = jwt.sign(
+    { userId: user.userId, role: user.role, email: user.email },
+    JWT_SECRET,
+    { expiresIn: "15m" }
+  );
+
+  const newRefreshToken = jwt.sign(
+    { userId: user.userId },
+    JWT_REFRESH_SECRET,
+    { expiresIn: "7d" }
+  );
+
+  await db.update(sessions)
+    .set({ sessionToken: newRefreshToken, expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) })
+    .where(eq(sessions.sessionId, session.sessionId));
+
+  return {
+    token,
+    refreshToken: newRefreshToken,
+    role: user.role,
+    dashboard: user.role === "admin" ? "admin" : user.role === "staff" ? "staff" : "customer",
     userId: user.userId,
     email: user.email,
     fullName: user.fullName,

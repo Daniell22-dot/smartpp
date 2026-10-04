@@ -1,36 +1,36 @@
 // src/categories/categories.controller.ts
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { categoriesService } from "./categories.service";
 import { uploadToCloudinary } from "../utils/cloudinaryUpload";
 
-export const getAllCategoriesController = async (_req: Request, res: Response) => {
+export const getAllCategoriesController = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const data = await categoriesService.getAll();
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const getActiveCategoriesController = async (_req: Request, res: Response) => {
+export const getActiveCategoriesController = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const data = await categoriesService.getActive();
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const getRootCategoriesController = async (_req: Request, res: Response) => {
+export const getRootCategoriesController = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const data = await categoriesService.getRootCategories();
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const getSubcategoriesController = async (req: Request, res: Response) => {
+export const getSubcategoriesController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const parentId = req.params.parentId;
     if (!parentId || typeof parentId !== 'string') {
@@ -39,11 +39,11 @@ export const getSubcategoriesController = async (req: Request, res: Response) =>
     const data = await categoriesService.getSubcategories(parseInt(parentId, 10));
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const getCategoryByIdController = async (req: Request, res: Response) => {
+export const getCategoryByIdController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
     if (!id || typeof id !== 'string') {
@@ -55,11 +55,11 @@ export const getCategoryByIdController = async (req: Request, res: Response) => 
     }
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const getCategoryBySlugController = async (req: Request, res: Response) => {
+export const getCategoryBySlugController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const slug = req.params.slug;
     if (!slug || typeof slug !== 'string') {
@@ -71,11 +71,11 @@ export const getCategoryBySlugController = async (req: Request, res: Response) =
     }
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const searchCategoriesController = async (req: Request, res: Response) => {
+export const searchCategoriesController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { q } = req.query;
     if (!q) {
@@ -88,11 +88,11 @@ export const searchCategoriesController = async (req: Request, res: Response) =>
     const data = await categoriesService.search(searchTerm as string);
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const createCategoryController = async (req: Request, res: Response) => {
+export const createCategoryController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const body = { ...req.body };
     if (req.file) {
@@ -101,12 +101,11 @@ export const createCategoryController = async (req: Request, res: Response) => {
     const data = await categoriesService.create(body);
     res.status(201).json({ success: true, data });
   } catch (e: any) {
-    const status = e.message.includes("already exists") ? 409 : 400;
-    res.status(status).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const updateCategoryController = async (req: Request, res: Response) => {
+export const updateCategoryController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
     if (!id || typeof id !== 'string') {
@@ -144,12 +143,11 @@ export const updateCategoryController = async (req: Request, res: Response) => {
     }
     res.json({ success: true, data });
   } catch (e: any) {
-    const status = e.message.includes("already exists") ? 409 : 400;
-    res.status(status).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const deleteCategoryController = async (req: Request, res: Response) => {
+export const deleteCategoryController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
     if (!id || typeof id !== 'string') {
@@ -162,11 +160,11 @@ export const deleteCategoryController = async (req: Request, res: Response) => {
     res.json({ success: true, data });
   } catch (e: any) {
     console.error("Delete category error:", e);
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const toggleCategoryStatusController = async (req: Request, res: Response) => {
+export const toggleCategoryStatusController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
     if (!id || typeof id !== 'string') {
@@ -182,11 +180,11 @@ export const toggleCategoryStatusController = async (req: Request, res: Response
       data
     });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const bulkDeleteCategoriesController = async (req: Request, res: Response) => {
+export const bulkDeleteCategoriesController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { ids } = req.body;
     if (!ids || !Array.isArray(ids) || ids.length === 0) {
@@ -202,6 +200,6 @@ export const bulkDeleteCategoriesController = async (req: Request, res: Response
       data
     });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };

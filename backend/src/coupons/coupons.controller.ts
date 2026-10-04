@@ -1,25 +1,25 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { couponsService } from "./coupons.service";
 
-export const getAllCouponsController = async (_req: Request, res: Response) => {
+export const getAllCouponsController = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const data = await couponsService.getAll();
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const getActiveCouponsController = async (_req: Request, res: Response) => {
+export const getActiveCouponsController = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const data = await couponsService.getActive();
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const getCouponByIdController = async (req: Request, res: Response) => {
+export const getCouponByIdController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
     if (!id || typeof id !== 'string') {
@@ -31,11 +31,11 @@ export const getCouponByIdController = async (req: Request, res: Response) => {
     }
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const validateCouponController = async (req: Request, res: Response) => {
+export const validateCouponController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { code, orderTotal } = req.body;
     if (!code) {
@@ -58,21 +58,20 @@ export const validateCouponController = async (req: Request, res: Response) => {
       } 
     });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const createCouponController = async (req: Request, res: Response) => {
+export const createCouponController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const data = await couponsService.create(req.body);
     res.status(201).json({ success: true, data });
   } catch (e: any) {
-    const status = e.message.includes("already exists") ? 409 : 400;
-    res.status(status).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const updateCouponController = async (req: Request, res: Response) => {
+export const updateCouponController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
     if (!id || typeof id !== 'string') {
@@ -84,12 +83,11 @@ export const updateCouponController = async (req: Request, res: Response) => {
     }
     res.json({ success: true, data });
   } catch (e: any) {
-    const status = e.message.includes("already exists") ? 409 : 400;
-    res.status(status).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const deleteCouponController = async (req: Request, res: Response) => {
+export const deleteCouponController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
     if (!id || typeof id !== 'string') {
@@ -101,11 +99,11 @@ export const deleteCouponController = async (req: Request, res: Response) => {
     }
     res.json({ success: true, message: "Coupon deleted successfully", data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const toggleCouponStatusController = async (req: Request, res: Response) => {
+export const toggleCouponStatusController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
     if (!id || typeof id !== 'string') {
@@ -121,11 +119,11 @@ export const toggleCouponStatusController = async (req: Request, res: Response) 
       data 
     });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const bulkDeleteCouponsController = async (req: Request, res: Response) => {
+export const bulkDeleteCouponsController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { ids } = req.body;
     if (!ids || !Array.isArray(ids) || ids.length === 0) {
@@ -141,6 +139,6 @@ export const bulkDeleteCouponsController = async (req: Request, res: Response) =
       data 
     });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };

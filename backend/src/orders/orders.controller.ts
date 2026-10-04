@@ -1,16 +1,16 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { ordersService } from "./orders.service";
 
-export const getAllOrdersController = async (_req: Request, res: Response) => {
+export const getAllOrdersController = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const data = await ordersService.getAll();
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const getOrderByIdController = async (req: Request, res: Response) => {
+export const getOrderByIdController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const idParam = req.params.id;
     if (!idParam || typeof idParam !== 'string') {
@@ -22,11 +22,11 @@ export const getOrderByIdController = async (req: Request, res: Response) => {
     }
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const getUserOrdersController = async (req: Request, res: Response) => {
+export const getUserOrdersController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userId = (req as any).user?.userId;
     if (!userId) {
@@ -35,11 +35,11 @@ export const getUserOrdersController = async (req: Request, res: Response) => {
     const data = await ordersService.getByUser(userId);
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const getOrderByRefController = async (req: Request, res: Response) => {
+export const getOrderByRefController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const refParam = req.params.ref;
     if (!refParam || typeof refParam !== 'string') {
@@ -51,11 +51,11 @@ export const getOrderByRefController = async (req: Request, res: Response) => {
     }
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const getOrderByUserAndRefController = async (req: Request, res: Response) => {
+export const getOrderByUserAndRefController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userId = (req as any).user?.userId;
     if (!userId) {
@@ -71,11 +71,11 @@ export const getOrderByUserAndRefController = async (req: Request, res: Response
     }
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const createOrderController = async (req: Request, res: Response) => {
+export const createOrderController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userId = (req as any).user?.userId;
     const { body } = req;
@@ -96,11 +96,11 @@ export const createOrderController = async (req: Request, res: Response) => {
     res.status(201).json({ success: true, data });
   } catch (e: any) {
     console.error("Order creation error:", e);
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const updateOrderStatusController = async (req: Request, res: Response) => {
+export const updateOrderStatusController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const idParam = req.params.id;
     if (!idParam || typeof idParam !== 'string') {
@@ -116,11 +116,11 @@ export const updateOrderStatusController = async (req: Request, res: Response) =
     }
     res.json({ success: true, message: `Order status updated to ${status}`, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const updatePaymentStatusController = async (req: Request, res: Response) => {
+export const updatePaymentStatusController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const idParam = req.params.id;
     if (!idParam || typeof idParam !== 'string') {
@@ -136,11 +136,11 @@ export const updatePaymentStatusController = async (req: Request, res: Response)
     }
     res.json({ success: true, message: `Payment status updated to ${paymentStatus}`, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const cancelOrderController = async (req: Request, res: Response) => {
+export const cancelOrderController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const idParam = req.params.id;
     if (!idParam || typeof idParam !== 'string') {
@@ -152,11 +152,11 @@ export const cancelOrderController = async (req: Request, res: Response) => {
     }
     res.json({ success: true, message: "Order cancelled successfully", data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const deleteOrderController = async (req: Request, res: Response) => {
+export const deleteOrderController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const idParam = req.params.id;
     if (!idParam || typeof idParam !== 'string') {
@@ -168,15 +168,15 @@ export const deleteOrderController = async (req: Request, res: Response) => {
     }
     res.json({ success: true, message: "Order deleted successfully", data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
 
-export const getOrderStatsController = async (_req: Request, res: Response) => {
+export const getOrderStatsController = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const data = await ordersService.getStats();
     res.json({ success: true, data });
   } catch (e: any) {
-    res.status(400).json({ success: false, message: e.message });
+    next(e);
   }
 };
