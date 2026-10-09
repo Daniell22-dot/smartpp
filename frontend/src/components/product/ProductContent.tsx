@@ -12,6 +12,7 @@ import { productsAPI, type Product } from "../../Features/products/productsAPI";
 import "./ProductContent.css";
 import { wishlistAPI } from "../../Features/wishlist/wishlistAPI";
 import SEO from "../seo/SEO";
+import { transformProductImage } from "../utils/imageTransform";
 
 export default function ProductContent() {
   const { slug } = useParams<{ slug: string }>();
@@ -128,7 +129,12 @@ export default function ProductContent() {
 
           <div className="product-grid">
             <div className="product-image">
-              {product.featuredPhoto ? <img src={product.featuredPhoto} alt={product.name} /> : <span>No image</span>}
+              {product.featuredPhoto
+                ? <img
+                    src={transformProductImage(product.featuredPhoto, import.meta.env.VITE_CLOUDINARY_NAME ?? undefined)}
+                    alt={product.name}
+                  />
+                : <span>No image</span>}
             </div>
 
             <div className="product-info">

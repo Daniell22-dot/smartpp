@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 import type { Product } from '../../Features/products/productsAPI';
 import './ProductCard.css';
+import { transformProductImage } from '../utils/imageTransform';
 
 interface ProductCardProps {
   product: Product;
@@ -31,7 +32,11 @@ export default function ProductCard({
     <Link to={`/product/${product.slug}`} className="product-card">
       <div className="product-card-image-wrap">
         {product.featuredPhoto ? (
-          <img src={product.featuredPhoto} alt={product.name} className="product-card-image" />
+          <img
+            src={transformProductImage(product.featuredPhoto, import.meta.env.VITE_CLOUDINARY_NAME ?? undefined)}
+            alt={product.name}
+            className="product-card-image"
+          />
         ) : (
           <div className="product-card-placeholder"><span className="product-card-placeholder-text">No image</span></div>
         )}
