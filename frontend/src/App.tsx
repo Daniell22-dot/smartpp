@@ -59,11 +59,7 @@ const StaffCoupons = lazy(() => import("./pages/dashboard/StaffDashboard/coupons
 const StaffInquiries = lazy(() => import("./pages/dashboard/StaffDashboard/inquiries/Inquiries"));
 const StaffPickupStations = lazy(() => import("./pages/dashboard/StaffDashboard/pickup-stations/PickupStations"));
 
-const DashboardLoading = () => (
-  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1.5rem", padding: "1.5rem" }}>
-    {[1,2,3,4].map(i => <div key={i}><div style={{ height: "1.5rem", width: "80px", background: "linear-gradient(90deg, var(--gray-200) 25%, var(--gray-100) 50%, var(--gray-200) 75%); background-size: 200% 100%; border-radius: 4px; animation: skeleton-pulse 1.5s ease-in-out infinite" }} /><div style={{ height: "2rem", width: "100px", background: "linear-gradient(90deg, var(--gray-200) 25%, var(--gray-100) 50%, var(--gray-200) 75%); background-size: 200% 100%; border-radius: 4px; animation: skeleton-pulse 1.5s ease-in-out infinite; margin-top: 0.5rem" }} /></div>)
-  </div>
-);
+const DashboardLoading = () => <div>Loading...</div>;
 
 function App() {
   const router = createBrowserRouter([
@@ -192,54 +188,54 @@ function App() {
       path: "/admin",
       element: (
         <RequireRole allowedRoles={["admin"]}>
-          <Suspense fallback={<DashboardLoading />}>
+          <Suspense fallback={<div>Loading...</div>}>
             <AdminDashboard />
           </Suspense>
         </RequireRole>
       ),
       children: [
         { path: "", element: <Navigate to="admindashboard" replace /> },
-        { path: "admindashboard", element: <Suspense fallback={<DashboardLoading />}><AdminDashboardOverview /></Suspense> },
-        { path: "products", element: <Suspense fallback={<DashboardLoading />}><Products /></Suspense> },
-        { path: "products/create", element: <Suspense fallback={<DashboardLoading />}><CreateProduct /></Suspense> },
-        { path: "products/edit/:id", element: <Suspense fallback={<DashboardLoading />}><EditProduct /></Suspense> },
-        { path: "categories", element: <Suspense fallback={<DashboardLoading />}><Categories /></Suspense> },
-        { path: "categories/create", element: <Suspense fallback={<DashboardLoading />}><CreateCategory /></Suspense> },
-        { path: "categories/edit/:id", element: <Suspense fallback={<DashboardLoading />}><EditCategory /></Suspense> },
-        { path: "orders", element: <Suspense fallback={<DashboardLoading />}><Orders /></Suspense> },
-        { path: "payments", element: <Suspense fallback={<DashboardLoading />}><Payments /></Suspense> },
-        { path: "reviews", element: <Suspense fallback={<DashboardLoading />}><Reviews /></Suspense> },
-        { path: "coupons", element: <Suspense fallback={<DashboardLoading />}><Coupons /></Suspense> },
-        { path: "pickup-stations", element: <Suspense fallback={<DashboardLoading />}><PickupStations /></Suspense> },
-        { path: "pickup-stations/create", element: <Suspense fallback={<DashboardLoading />}><CreatePickupStation /></Suspense> },
-        { path: "pickup-stations/edit/:id", element: <Suspense fallback={<DashboardLoading />}><EditPickupStation /></Suspense> },
-        { path: "manage-users", element: <Suspense fallback={<DashboardLoading />}><ManageUsers /></Suspense> },
-        { path: "manage-staff", element: <Suspense fallback={<DashboardLoading />}><ManageStaff /></Suspense> },
-        { path: "manage-admins", element: <Suspense fallback={<DashboardLoading />}><ManageAdmins /></Suspense> },
-        { path: "inquiries", element: <Suspense fallback={<DashboardLoading />}><Inquiries /></Suspense> },
-        { path: "analytics", element: <Suspense fallback={<DashboardLoading />}><Analytics /></Suspense> },
-        { path: "reports", element: <Suspense fallback={<DashboardLoading />}><Reports /></Suspense> },
+        { path: "admindashboard", element: <Suspense fallback={<div>Loading...</div>}><AdminDashboardOverview /></Suspense> },
+        { path: "products", element: <Suspense fallback={<div>Loading...</div>}><Products /></Suspense> },
+        { path: "products/create", element: <Suspense fallback={<div>Loading...</div>}><CreateProduct /></Suspense> },
+        { path: "products/edit/:id", element: <Suspense fallback={<div>Loading...</div>}><EditProduct /></Suspense> },
+        { path: "categories", element: <Suspense fallback={<div>Loading...</div>}><Categories /></Suspense> },
+        { path: "categories/create", element: <Suspense fallback={<div>Loading...</div>}><CreateCategory /></Suspense> },
+        { path: "categories/edit/:id", element: <Suspense fallback={<div>Loading...</div>}><EditCategory /></Suspense> },
+        { path: "orders", element: <Suspense fallback={<div>Loading...</div>}><Orders /></Suspense> },
+        { path: "payments", element: <Suspense fallback={<div>Loading...</div>}><Payments /></Suspense> },
+        { path: "reviews", element: <Suspense fallback={<div>Loading...</div>}><Reviews /></Suspense> },
+        { path: "coupons", element: <Suspense fallback={<div>Loading...</div>}><Coupons /></Suspense> },
+        { path: "pickup-stations", element: <Suspense fallback={<div>Loading...</div>}><PickupStations /></Suspense> },
+        { path: "pickup-stations/create", element: <Suspense fallback={<div>Loading...</div>}><CreatePickupStation /></Suspense> },
+        { path: "pickup-stations/edit/:id", element: <Suspense fallback={<div>Loading...</div>}><EditPickupStation /></Suspense> },
+        { path: "manage-users", element: <Suspense fallback={<div>Loading...</div>}><ManageUsers /></Suspense> },
+        { path: "manage-staff", element: <Suspense fallback={<div>Loading...</div>}><ManageStaff /></Suspense> },
+        { path: "manage-admins", element: <Suspense fallback={<div>Loading...</div>}><ManageAdmins /></Suspense> },
+        { path: "inquiries", element: <Suspense fallback={<div>Loading...</div>}><Inquiries /></Suspense> },
+        { path: "analytics", element: <Suspense fallback={<div>Loading...</div>}><Analytics /></Suspense> },
+        { path: "reports", element: <Suspense fallback={<div>Loading...</div>}><Reports /></Suspense> },
       ]
     },
     {
       path: "/staff",
       element: (
         <RequireRole allowedRoles={["staff", "admin"]}>
-          <Suspense fallback={<DashboardLoading />}>
+          <Suspense fallback={<div>Loading...</div>}>
             <StaffDashboard />
           </Suspense>
         </RequireRole>
       ),
       children: [
         { path: "", element: <Navigate to="staffdashboard" replace /> },
-        { path: "staffdashboard", element: <Suspense fallback={<DashboardLoading />}><StaffDashboardOverview /></Suspense> },
-        { path: "products", element: <Suspense fallback={<DashboardLoading />}><StaffProducts /></Suspense> },
-        { path: "categories", element: <Suspense fallback={<DashboardLoading />}><StaffCategories /></Suspense> },
-        { path: "orders", element: <Suspense fallback={<DashboardLoading />}><StaffOrders /></Suspense> },
-        { path: "reviews", element: <Suspense fallback={<DashboardLoading />}><StaffReviews /></Suspense> },
-        { path: "coupons", element: <Suspense fallback={<DashboardLoading />}><StaffCoupons /></Suspense> },
-        { path: "inquiries", element: <Suspense fallback={<DashboardLoading />}><StaffInquiries /></Suspense> },
-        { path: "pickup-stations", element: <Suspense fallback={<DashboardLoading />}><StaffPickupStations /></Suspense> },
+        { path: "staffdashboard", element: <Suspense fallback={<div>Loading...</div>}><StaffDashboardOverview /></Suspense> },
+        { path: "products", element: <Suspense fallback={<div>Loading...</div>}><StaffProducts /></Suspense> },
+        { path: "categories", element: <Suspense fallback={<div>Loading...</div>}><StaffCategories /></Suspense> },
+        { path: "orders", element: <Suspense fallback={<div>Loading...</div>}><StaffOrders /></Suspense> },
+        { path: "reviews", element: <Suspense fallback={<div>Loading...</div>}><StaffReviews /></Suspense> },
+        { path: "coupons", element: <Suspense fallback={<div>Loading...</div>}><StaffCoupons /></Suspense> },
+        { path: "inquiries", element: <Suspense fallback={<div>Loading...</div>}><StaffInquiries /></Suspense> },
+        { path: "pickup-stations", element: <Suspense fallback={<div>Loading...</div>}><StaffPickupStations /></Suspense> },
       ]
     },
     {
