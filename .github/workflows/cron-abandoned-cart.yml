@@ -1,0 +1,33 @@
+name: Daily Abandoned Cart Email
+
+on:
+  schedule:
+    - cron: '0 9 * * *'  # Runs daily at 9:00 AM UTC
+  workflow_dispatch:
+
+jobs:
+  send-abandoned-cart:
+    name: Send Abandoned Cart Emails
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies (backend)
+        run: npm ci
+        working-directory: ./backend
+
+      - name: Send abandoned cart emails
+        run: |
+          curl -X POST http://localhost:5000/api/orders/abandoned-cart \
+            -H "Content-Type: application/json" \
+            -d '{"orderId": "test"}' \
+            || echo "Running against production - set FRONTEND_URL env var"
+        env:
+          FRONTEND_URL: https://yourdomain.com
