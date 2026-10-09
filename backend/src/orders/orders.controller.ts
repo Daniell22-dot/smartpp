@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { ordersService } from "./orders.service";
+import { sendEmail, sendAbandonedCartEmail } from "../mailer/mailer";
 
 export const getAllOrdersController = async (_req: Request, res: Response, next: NextFunction) => {
   try {
@@ -176,6 +177,49 @@ export const getOrderStatsController = async (_req: Request, res: Response, next
   try {
     const data = await ordersService.getStats();
     res.json({ success: true, data });
+  } catch (e: any) {
+    next(e);
+  }
+};
+
+export const sendAbandonedCartEmailController = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { orderId } = req.body;
+    if (!orderId) {
+      return res.status(400).json({ success: false, message: "Order ID is required" });
+    }
+    const order = await ordersService.getById(String(orderId));
+    if (!order) {
+      return res.status(404).json({ success: false, message: "Order not found" });
+    }
+    // Use guest email if available, otherwise fallback to a notification email
+    const recipient = order.guestEmail || (order.userId ? null : "admin@gmbusinesssolutions.com");
+    if (!recipient || recipient === "admin@gmbusinesssolutions.com") {
+      // In production, replace with a proper user lookup or admin notification
+      return res.status(200).json({
+        success: true,
+        message: "Order found but no customer email configured for abandoned cart",
+      });
+    }
+    const cartItems = order.items?.map((item: any) => ({
+      name: item.productName || "Product",
+      price: item.price || "0",
+      quantity: item.quantity || 1,
+    })) || [];
+    const total = parseFloat(order.total) || 0;
+    const recoverLink = `${process.env.FRONTEND_URL}/cart?recoverOrderId=${order.orderId}`;
+    const sent = await sendAbandonedCartEmail(
+      recipient,
+      order.user?.fullName || order.name || "Customer",
+      cartItems,
+      total,
+      recoverLink
+    );
+    if (sent) {
+      return res.json({ success: true, message: "Abandoned cart email sent" });
+    } else {
+      return res.status(500).json({ success: false, message: "Failed to send email" });
+    }
   } catch (e: any) {
     next(e);
   }

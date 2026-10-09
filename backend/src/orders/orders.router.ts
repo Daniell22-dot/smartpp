@@ -10,7 +10,8 @@ import {
   updatePaymentStatusController,
   cancelOrderController,
   deleteOrderController,
-  getOrderStatsController
+  getOrderStatsController,
+  sendAbandonedCartEmailController
 } from "./orders.controller";
 import { authenticate } from "../middleware/auth.middleware";
 
@@ -27,5 +28,6 @@ ordersRouter.patch("/:id/status", authenticate, updateOrderStatusController);
 ordersRouter.patch("/:id/payment", authenticate, updatePaymentStatusController);
 ordersRouter.patch("/:id/cancel", authenticate, cancelOrderController);
 ordersRouter.delete("/:id", authenticate, deleteOrderController);
+ordersRouter.post("/abandoned-cart", authenticate, sendAbandonedCartEmailController);
 
 export default ordersRouter;
