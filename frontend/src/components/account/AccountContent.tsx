@@ -361,7 +361,7 @@ export default function AccountContent() {
                         <li><strong>What to Bring:</strong> Your order reference number and valid ID.</li>
                         <li><strong>Operating Hours:</strong> Sunday – Thursday 8:30 AM – 8:00 PM, Friday 8:30 AM – 3:00 PM.</li>
                         <li><strong>Closed:</strong> Saturdays and public holidays.</li>
-                        <li><strong>Locations:</strong> Over 50 pickup stations across Kenya.</li>
+                        <li><strong>Location:</strong> Pickup is available at our pickup station in Nairobi.</li>
                         <li><strong>Holding Period:</strong> Orders are held for <span className="highlight">7 days</span> from the date of arrival.</li>
                       </ul>
                     </div>

@@ -59,6 +59,7 @@
 .categories-wrapper {
   position: relative;
   flex-shrink: 0;
+  z-index: 60;
 }
 .categories-trigger {
   display: flex;

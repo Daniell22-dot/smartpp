@@ -18,10 +18,10 @@ export default function HomePage() {
       />
       <Layout>
         <Hero />
+        <Highlights />
+        <Deals />
         <Categories />
         <Products />
-        <Deals />
-        <Highlights />
         <BestSellers />
       </Layout>
     </>
