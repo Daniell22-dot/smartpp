@@ -208,6 +208,10 @@ export default function Catalog({ mode, slug, searchTerm }: CatalogProps) {
     setFilters((prev) => ({ ...prev, ...patch, page: 1 }));
   };
 
+  const setPage = (page: number) => {
+    setFilters((prev) => ({ ...prev, page }));
+  };
+
   const clearAll = () => {
     setFilters(seedFilters(mode, slug, searchTerm));
     setPriceInputs({ min: '', max: '' });
@@ -441,20 +445,20 @@ export default function Catalog({ mode, slug, searchTerm }: CatalogProps) {
 
                   {result.totalPages > 1 && (
                     <div className="catalog-pagination">
-                      <button type="button" disabled={result.page <= 1} onClick={() => setScalar({ page: result.page - 1 })}>Prev</button>
+                      <button type="button" disabled={result.page <= 1} onClick={() => setPage(result.page - 1)}>Prev</button>
                       {pagination[0] > 1 && <span className="page-ellipsis">...</span>}
                       {pagination.map((pageNum) => (
                         <button
                           type="button"
                           key={pageNum}
                           className={pageNum === result.page ? 'active' : ''}
-                          onClick={() => setScalar({ page: pageNum })}
+                          onClick={() => setPage(pageNum)}
                         >
                           {pageNum}
                         </button>
                       ))}
                       {pagination[pagination.length - 1] < result.totalPages && <span className="page-ellipsis">...</span>}
-                      <button type="button" disabled={result.page >= result.totalPages} onClick={() => setScalar({ page: result.page + 1 })}>Next</button>
+                      <button type="button" disabled={result.page >= result.totalPages} onClick={() => setPage(result.page + 1)}>Next</button>
                     </div>
                   )}
                 </>

@@ -457,14 +457,20 @@ export const productsService = {
     const q = (filters.q || filters.search || '').toString().trim();
 
     if (q) {
-      conditions.push(
-        or(
-          ilike(products.name, `%${q}%`),
-          ilike(products.description, `%${q}%`),
-          ilike(products.shortDescription, `%${q}%`),
-          ilike(products.brand, `%${q}%`)
-        )
-      );
+      const searchConditions: any[] = [
+        ilike(products.name, `%${q}%`),
+        ilike(products.description, `%${q}%`),
+        ilike(products.shortDescription, `%${q}%`),
+        ilike(products.brand, `%${q}%`)
+      ];
+      const matchedCategories = await db.query.categories.findMany({
+        where: ilike(categories.name, `%${q}%`)
+      });
+      const matchedCategoryIds = matchedCategories.map((c) => c.categoryId);
+      if (matchedCategoryIds.length) {
+        searchConditions.push(inArray(products.categoryId, matchedCategoryIds));
+      }
+      conditions.push(or(...searchConditions));
     }
 
     const categorySlugs = toArray(filters.category);
