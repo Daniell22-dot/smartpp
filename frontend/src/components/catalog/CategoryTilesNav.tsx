@@ -15,7 +15,9 @@ export default function CategoryTilesNav({ title = 'Shop by Category' }: Categor
       <div className="cat-tiles-grid">
         {CATEGORY_TILES.map((tile) => (
           <Link key={tile.name} to={tile.to} className="cat-tile">
-            <span className="cat-tile-image" style={{ background: tile.bg }}>{tile.emoji}</span>
+            <span className="cat-tile-image" style={{ background: tile.bg }}>
+              <img src={tile.image} alt={tile.name} className="cat-tile-img" loading="lazy" />
+            </span>
             <span className="cat-tile-name">{tile.name}</span>
           </Link>
         ))}
