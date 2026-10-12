@@ -174,7 +174,6 @@
 }
 .review-card:hover {
   box-shadow: var(--shadow-hover);
-  transform: translateY(-4px);
   border-color: var(--gray-300);
 }
 .review-card.status-pending {
@@ -286,7 +285,6 @@
 }
 .btn-approve:hover:not(:disabled) {
   background: var(--brand-600);
-  transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(21, 128, 61, 0.3);
 }
 .btn-reject {
@@ -296,7 +294,6 @@
 }
 .btn-reject:hover:not(:disabled) {
   background: #b91c1c;
-  transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(220, 38, 38, 0.3);
 }
 .btn-approve:disabled,

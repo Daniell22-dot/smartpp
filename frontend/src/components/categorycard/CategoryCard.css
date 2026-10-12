@@ -23,9 +23,6 @@
   object-fit: cover;
   transition: transform 0.3s;
 }
-.category-card:hover .category-card-image {
-  transform: scale(1.05);
-}
 .category-card-placeholder {
   width: 48px;
   height: 48px;
@@ -69,7 +66,4 @@
 }
 .category-card-arrow {
   transition: transform 0.2s;
-}
-.category-card:hover .category-card-arrow {
-  transform: translateX(4px);
 }

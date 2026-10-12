@@ -95,9 +95,6 @@
   cursor: pointer;
   transition: transform 0.2s ease;
 }
-.form-checkbox input[type="checkbox"]:hover {
-  transform: scale(1.1);
-}
 
 .form-actions {
   display: flex;
@@ -125,7 +122,6 @@
   cursor: pointer;
 }
 .form-actions .btn-primary:hover {
-  transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(21, 128, 61, 0.35);
 }
 .form-actions .btn-primary:disabled {
@@ -148,7 +144,6 @@
 .form-actions .btn-secondary:hover {
   border-color: var(--brand-500);
   color: var(--brand-500);
-  transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.06);
 }
 
@@ -175,7 +170,6 @@
   background: var(--brand-50);
   border-color: var(--brand-500);
   color: var(--brand-600);
-  transform: translateX(-3px);
 }
 
 .form-error {

@@ -31,12 +31,6 @@ button {
   background: none;
   transition: all 0.3s ease;
 }
-button:hover {
-  transform: translateY(-1px);
-}
-button:active {
-  transform: translateY(0);
-}
 input,
 textarea,
 select {
@@ -126,7 +120,6 @@ h1, h2, h3, h4, h5, h6 {
 .btn-primary:hover {
   background: var(--brand-500);
   box-shadow: 0 4px 16px rgba(21, 128, 61, 0.35);
-  transform: translateY(-2px);
 }
 .btn-primary:disabled {
   background: var(--gray-200);
@@ -153,7 +146,6 @@ h1, h2, h3, h4, h5, h6 {
 .btn-secondary:hover {
   background: var(--brand-orange-hover);
   border-color: var(--brand-orange-hover);
-  transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(249, 115, 22, 0.35);
 }
 .btn-whatsapp {
@@ -172,7 +164,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 .btn-whatsapp:hover {
   background: #20ba56;
-  transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35);
 }
 .btn-full {

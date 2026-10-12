@@ -91,7 +91,6 @@
 .account-nav-item:not(.active):hover {
   background: var(--surface);
   color: var(--brand-500);
-  transform: translateX(4px);
 }
 .account-nav-icon {
   flex-shrink: 0;
@@ -163,7 +162,6 @@
 }
 .account-order-card:hover {
   box-shadow: var(--shadow-hover);
-  transform: translateY(-2px);
 }
 .account-order-header {
   display: flex;
@@ -337,7 +335,6 @@
 }
 .pickup-station-card:hover {
   box-shadow: var(--shadow-hover);
-  transform: translateY(-3px);
 }
 .pickup-station-header {
   display: flex;
@@ -480,7 +477,6 @@
 }
 .policy-card:hover {
   box-shadow: var(--shadow-hover);
-  transform: translateY(-3px);
 }
 .policy-card-header {
   display: flex;

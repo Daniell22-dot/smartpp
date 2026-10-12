@@ -96,7 +96,6 @@
 }
 .drawer-close:hover {
   opacity: 0.7;
-  transform: rotate(90deg);
 }
 .drawer-nav {
   flex: 1;
@@ -137,7 +136,6 @@
 .drawer-item:hover {
   background: rgba(255,255,255,0.15);
   color: white;
-  transform: translateX(4px);
 }
 .drawer-item.active {
   background: rgba(255,255,255,0.2);
@@ -153,7 +151,6 @@
 .drawer-item.logout:hover {
   background: rgba(255,50,50,0.15);
   color: #ff6b6b;
-  transform: translateX(4px);
 }
 .drawer-icon {
   font-size: 20px;

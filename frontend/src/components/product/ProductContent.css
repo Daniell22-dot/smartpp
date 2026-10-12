@@ -154,7 +154,6 @@
 }
 .product-add:hover:not(:disabled) {
   background: var(--brand-600);
-  transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(21, 128, 61, 0.3);
 }
 .product-add:disabled {
@@ -180,7 +179,6 @@
 }
 .product-buy:hover:not(:disabled) {
   background: var(--brand-50);
-  transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(21, 128, 61, 0.15);
 }
 .product-buy:disabled {

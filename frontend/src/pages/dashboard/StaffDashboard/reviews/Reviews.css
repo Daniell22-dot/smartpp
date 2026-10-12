@@ -48,7 +48,6 @@
 }
 .review-card:hover {
   box-shadow: var(--shadow-hover);
-  transform: translateY(-4px);
 }
 .review-card.status-pending {
   border-left: 4px solid #f59e0b;
@@ -119,7 +118,6 @@
 }
 .approve-btn:hover {
   background: var(--brand-600);
-  transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(21, 128, 61, 0.3);
 }
 .reject-btn {
@@ -134,7 +132,6 @@
 }
 .reject-btn:hover {
   background: #b91c1c;
-  transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
 }
 .status-badge {

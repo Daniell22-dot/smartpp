@@ -127,7 +127,6 @@
   cursor: pointer;
 }
 .btn-export:hover {
-  transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(21, 128, 61, 0.35);
 }
 
@@ -149,7 +148,6 @@
   transition: all 0.3s ease;
 }
 .stat-card:hover {
-  transform: translateY(-3px);
   box-shadow: var(--shadow-md);
 }
 .stat-card.total { border-left: 4px solid var(--brand-500); }
@@ -218,7 +216,6 @@
 }
 .admin-table tbody tr:hover {
   background: linear-gradient(90deg, var(--brand-50), white);
-  transform: scale(1.001);
 }
 .admin-table tbody tr:last-child td {
   border-bottom: none;
@@ -276,9 +273,6 @@
   letter-spacing: 0.03em;
   transition: all 0.3s ease;
 }
-.status-badge:hover {
-  transform: scale(1.05);
-}
 .status-pending {
   background: #fef3c7;
   color: #92400e;
@@ -326,7 +320,6 @@
 .action-btn.view:hover {
   background: #dbeafe;
   border-color: #3b82f6;
-  transform: translateY(-2px) scale(1.05);
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
 }
 .action-btn.delete {
@@ -336,7 +329,6 @@
 .action-btn.delete:hover {
   background: #fef2f2;
   border-color: #dc2626;
-  transform: translateY(-2px) scale(1.05);
   box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
   color: #b91c1c;
 }
@@ -506,7 +498,6 @@
 .btn-secondary:hover {
   border-color: var(--brand-500);
   color: var(--brand-500);
-  transform: translateY(-2px);
 }
 
 @media (max-width: 768px) {

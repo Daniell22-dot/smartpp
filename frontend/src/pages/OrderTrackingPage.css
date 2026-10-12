@@ -63,7 +63,6 @@
 }
 .tracking-btn:hover {
   background: var(--brand-600);
-  transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(21, 128, 61, 0.3);
 }
 .tracking-btn:disabled {

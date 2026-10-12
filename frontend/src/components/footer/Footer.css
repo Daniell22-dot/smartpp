@@ -70,7 +70,6 @@
 .footer-social-link:hover {
   background: var(--brand-50);
   color: var(--brand-500);
-  transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(21, 128, 61, 0.15);
 }
 .footer-heading {
@@ -106,7 +105,6 @@
 }
 .footer-links li a:hover {
   color: var(--brand-500);
-  transform: translateX(4px);
   display: inline-block;
 }
 .footer-contact {

@@ -268,7 +268,6 @@
   color: var(--gray-600);
 }
 .action-btn:hover {
-  transform: translateY(-2px);
   box-shadow: var(--shadow-sm);
 }
 .action-btn.edit {
@@ -338,7 +337,6 @@
   text-decoration: none;
 }
 .btn-primary:hover:not(:disabled) {
-  transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(21, 128, 61, 0.35);
 }
 .btn-primary:disabled {

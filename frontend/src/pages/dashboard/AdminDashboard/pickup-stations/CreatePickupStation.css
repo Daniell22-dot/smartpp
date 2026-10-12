@@ -44,7 +44,6 @@
   background: var(--brand-50);
   border-color: var(--brand-500);
   color: var(--brand-600);
-  transform: translateX(-3px);
 }
 .form-error {
   padding: 14px 18px;
@@ -215,7 +214,6 @@
   box-shadow: 0 2px 8px rgba(21, 128, 61, 0.25);
 }
 .form-actions .btn-primary:hover:not(:disabled) {
-  transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(21, 128, 61, 0.35);
 }
 .form-actions .btn-primary:disabled {

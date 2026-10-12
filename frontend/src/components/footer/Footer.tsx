@@ -1,4 +1,5 @@
-import { Link, Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
 import './Footer.css';
 
 export default function Footer() {

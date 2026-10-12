@@ -54,7 +54,6 @@
   text-decoration: none;
 }
 .btn-primary:hover {
-  transform: translateY(-2px) scale(1.02);
   box-shadow: 0 4px 16px rgba(21, 128, 61, 0.35);
   color: white;
 }
@@ -101,7 +100,6 @@
 }
 .admin-table tbody tr:hover {
   background: linear-gradient(90deg, var(--brand-50), white);
-  transform: scale(1.001);
 }
 .admin-table tbody tr:last-child td {
   border-bottom: none;
@@ -128,9 +126,6 @@ tr:hover .category-name {
 .category-icon {
   font-size: 20px;
   transition: transform 0.3s ease;
-}
-tr:hover .category-icon {
-  transform: scale(1.2) rotate(5deg);
 }
 
 .category-slug {
@@ -179,7 +174,6 @@ tr:hover .category-products {
 .action-btn.edit:hover {
   background: var(--brand-50);
   border-color: var(--brand-500);
-  transform: translateY(-2px) scale(1.05);
   box-shadow: 0 4px 12px rgba(21, 128, 61, 0.2);
   color: var(--brand-600);
 }
@@ -190,7 +184,6 @@ tr:hover .category-products {
 .action-btn.delete:hover {
   background: #fef2f2;
   border-color: #dc2626;
-  transform: translateY(-2px) scale(1.05);
   box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
   color: #b91c1c;
 }
@@ -223,9 +216,6 @@ tr:hover .category-products {
   text-transform: capitalize;
   letter-spacing: 0.03em;
   transition: all 0.3s ease;
-}
-.status-badge:hover {
-  transform: scale(1.05);
 }
 .status-active {
   background: #dcfce7;

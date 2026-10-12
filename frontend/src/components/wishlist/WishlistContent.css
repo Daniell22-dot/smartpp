@@ -85,7 +85,6 @@
 }
 .wishlist-item:hover {
   box-shadow: var(--shadow-hover);
-  transform: translateY(-4px);
 }
 .wishlist-item-image {
   height: 200px;
@@ -121,7 +120,6 @@
   background: #fef2f2;
   color: #dc2626;
   border-color: #dc2626;
-  transform: scale(1.05);
 }
 .wishlist-item-info {
   padding: 16px;

@@ -178,7 +178,6 @@
 }
 .inquiry-card:hover {
   box-shadow: var(--shadow-hover);
-  transform: translateY(-2px);
 }
 .inquiry-card.status-unread {
   border-left: 5px solid #f59e0b;
@@ -375,7 +374,6 @@
 }
 .btn-read:hover {
   background: #bfdbfe;
-  transform: translateY(-2px);
 }
 .btn-reply {
   background: var(--brand-500);
@@ -383,7 +381,6 @@
 }
 .btn-reply:hover {
   background: var(--brand-600);
-  transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(21, 128, 61, 0.3);
 }
 .btn-resolve {
@@ -392,7 +389,6 @@
 }
 .btn-resolve:hover {
   background: #bbf7d0;
-  transform: translateY(-2px);
 }
 .resolved-badge {
   display: inline-flex;

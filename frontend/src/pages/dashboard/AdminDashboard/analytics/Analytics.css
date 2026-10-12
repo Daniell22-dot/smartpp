@@ -68,7 +68,6 @@
   transition: all 0.3s ease;
 }
 .stat-card:hover {
-  transform: translateY(-4px);
   box-shadow: var(--shadow-hover);
 }
 .stat-card-icon {

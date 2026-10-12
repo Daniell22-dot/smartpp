@@ -35,7 +35,6 @@
   cursor: pointer;
 }
 .category-card:hover {
-  transform: translateY(-6px);
   box-shadow: 0 12px 40px rgba(21, 128, 61, 0.12);
   border-color: var(--brand-500);
 }

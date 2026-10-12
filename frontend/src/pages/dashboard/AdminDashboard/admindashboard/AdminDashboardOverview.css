@@ -66,7 +66,6 @@
 }
 .stat-card:hover {
   box-shadow: var(--shadow-md);
-  transform: translateY(-3px);
 }
 .stat-card.primary .stat-icon {
   background: var(--brand-50);
@@ -164,7 +163,6 @@
 }
 .view-all:hover {
   color: var(--brand-600);
-  transform: translateX(3px);
 }
 
 .recent-orders-table {
@@ -318,7 +316,6 @@
 .quick-action-card:hover {
   background: var(--brand-50);
   border-color: var(--brand-500);
-  transform: translateY(-3px);
   box-shadow: var(--shadow-md);
 }
 .quick-action-icon {

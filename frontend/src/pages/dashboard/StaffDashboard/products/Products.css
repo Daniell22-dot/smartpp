@@ -85,7 +85,6 @@
   text-decoration: none;
 }
 .btn-primary:hover {
-  transform: translateY(-2px) scale(1.02);
   box-shadow: 0 4px 16px rgba(21, 128, 61, 0.35);
   color: white;
 }
@@ -177,7 +176,6 @@
 .action-btn.edit:hover {
   background: var(--brand-50);
   border-color: var(--brand-500);
-  transform: translateY(-2px) scale(1.05);
   box-shadow: 0 4px 12px rgba(21, 128, 61, 0.2);
 }
 .action-btn.delete {
@@ -187,7 +185,6 @@
 .action-btn.delete:hover {
   background: #fef2f2;
   border-color: #dc2626;
-  transform: translateY(-2px) scale(1.05);
   box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
 }
 .action-btn:disabled {

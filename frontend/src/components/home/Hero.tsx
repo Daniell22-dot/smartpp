@@ -1,4 +1,5 @@
-import { Link, Sparkles, CheckCircle, Star, ArrowRight, Home } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Sparkles, CheckCircle, Star, ArrowRight, Home } from 'lucide-react';
 import './Hero.css';
 
 export default function Hero() {

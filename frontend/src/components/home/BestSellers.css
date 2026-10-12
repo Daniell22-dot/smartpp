@@ -29,7 +29,6 @@
 }
 .bestsellers-view-all:hover {
   color: var(--brand-600);
-  transform: translateX(4px);
 }
 .bestsellers-grid {
   display: grid;
