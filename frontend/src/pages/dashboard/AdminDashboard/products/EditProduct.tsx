@@ -28,6 +28,12 @@ export default function EditProduct() {
     existingPhoto: '',
     sku: '',
     brand: '',
+    color: '',
+    operatingSystem: '',
+    screenSize: '',
+    warranty: '',
+    store: '',
+    condition: '',
     isFeatured: false,
     isBestSeller: false,
   });
@@ -56,6 +62,12 @@ export default function EditProduct() {
             existingPhoto: p.featuredPhoto || '',
             sku: p.sku || '',
             brand: p.brand || '',
+            color: p.color || '',
+            operatingSystem: p.operatingSystem || '',
+            screenSize: p.screenSize || '',
+            warranty: p.warranty || '',
+            store: p.store || '',
+            condition: p.condition || '',
             isFeatured: p.isFeatured,
             isBestSeller: p.isBestSeller,
           });
@@ -108,6 +120,12 @@ export default function EditProduct() {
       formDataToSend.append('categoryId', formData.categoryId || '');
       formDataToSend.append('sku', formData.sku || '');
       formDataToSend.append('brand', formData.brand || '');
+      formDataToSend.append('color', formData.color || '');
+      formDataToSend.append('operatingSystem', formData.operatingSystem || '');
+      formDataToSend.append('screenSize', formData.screenSize || '');
+      formDataToSend.append('warranty', formData.warranty || '');
+      formDataToSend.append('store', formData.store || '');
+      formDataToSend.append('condition', formData.condition || '');
       formDataToSend.append('isFeatured', String(formData.isFeatured));
       formDataToSend.append('isBestSeller', String(formData.isBestSeller));
       if (formData.featuredPhoto) {
@@ -194,6 +212,36 @@ export default function EditProduct() {
           <div className="form-group">
             <label className="form-label">SKU</label>
             <input type="text" name="sku" value={formData.sku} onChange={handleChange} className="form-input" />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Color</label>
+            <input type="text" name="color" value={formData.color} onChange={handleChange} className="form-input" placeholder="e.g., Midnight Black" />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Operating System</label>
+            <input type="text" name="operatingSystem" value={formData.operatingSystem} onChange={handleChange} className="form-input" placeholder="e.g., Android 14, iOS 17" />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Screen Size</label>
+            <input type="text" name="screenSize" value={formData.screenSize} onChange={handleChange} className="form-input" placeholder="e.g., 6.1 inches" />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Warranty</label>
+            <input type="text" name="warranty" value={formData.warranty} onChange={handleChange} className="form-input" placeholder="e.g., 1 year" />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Store</label>
+            <input type="text" name="store" value={formData.store} onChange={handleChange} className="form-input" placeholder="e.g., GMNEX Official" />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Condition</label>
+            <input type="text" name="condition" value={formData.condition} onChange={handleChange} className="form-input" placeholder="e.g., Brand New" />
           </div>
 
           <div className="form-group">

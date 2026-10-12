@@ -147,6 +147,10 @@ export default function Footer() {
         <div className="footer-bottom">
           <p>&copy; {new Date().getFullYear()} SMARTP KENYA. All Rights Reserved.</p>
           <div className="footer-bottom-links">
+            <Link to="/faq">FAQ</Link>
+            <Link to="/how-to-order">How to Order</Link>
+            <Link to="/corporate">Corporate</Link>
+            <Link to="/report-product">Report a Product</Link>
             <Link to="/privacy-policy">Privacy Policy</Link>
             <Link to="/terms-of-service">Terms of Service</Link>
           </div>

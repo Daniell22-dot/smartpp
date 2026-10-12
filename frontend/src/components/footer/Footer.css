@@ -247,7 +247,9 @@
 }
 .footer-bottom-links {
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px 20px;
 }
 .footer-bottom-links a {
   color: var(--gray-500);

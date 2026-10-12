@@ -15,7 +15,8 @@ interface ParsedRow {
 
 const TEMPLATE_HEADERS = [
   'name', 'slug', 'price', 'comparePrice', 'stock', 'category',
-  'brand', 'sku', 'shortDescription', 'description', 'isFeatured',
+  'brand', 'sku', 'color', 'operatingSystem', 'screenSize', 'warranty',
+  'store', 'condition', 'shortDescription', 'description', 'isFeatured',
   'isBestSeller', 'featuredPhoto'
 ];
 
@@ -68,7 +69,7 @@ export default function BulkUpload() {
   }, []);
 
   const downloadTemplate = () => {
-    const sample = 'Sample Phone,sample-phone,19999,24999,10,Smartphones,Sample Brand,SAMPLE-001,Short summary,Full description,false,true,https://example.com/image.jpg';
+    const sample = 'Sample Phone,sample-phone,19999,24999,10,Smartphones,Sample Brand,SAMPLE-001,Midnight Black,Android 14,6.1 inches,1 year,GMNEX Official,Brand New,Short summary,Full description,false,true,https://example.com/image.jpg';
     const csv = `${TEMPLATE_HEADERS.join(',')}\n${sample}\n`;
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
@@ -146,6 +147,12 @@ export default function BulkUpload() {
             categoryId,
             brand: record.brand || '',
             sku: record.sku || '',
+            color: record.color || '',
+            operatingSystem: record.operatingsystem || record['operating system'] || record.os || '',
+            screenSize: record.screensize || record['screen size'] || '',
+            warranty: record.warranty || '',
+            store: record.store || '',
+            condition: record.condition || '',
             isFeatured: bool(record.isfeatured || record.featured || ''),
             isBestSeller: bool(record.isbestseller || record['best seller'] || ''),
             featuredPhoto: record.featuredphoto || record.image || '',

@@ -14,6 +14,11 @@ import CheckoutPage from "./pages/CheckoutPage";
 import AccountPage from "./pages/AccountPage";
 import WishlistPage from "./pages/WishlistPage";
 import OrderTrackingPage from "./pages/OrderTrackingPage";
+import AboutPage from "./pages/AboutPage";
+import FAQPage from "./pages/FAQPage";
+import HowToOrderPage from "./pages/HowToOrderPage";
+import CorporatePage from "./pages/CorporatePage";
+import ReportProductPage from "./pages/ReportProductPage";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import ForgotPassword from "./pages/auth/ForgetPassword";
@@ -157,6 +162,46 @@ function App() {
       element: (
         <ErrorBoundary>
           <OrderTrackingPage />
+        </ErrorBoundary>
+      ),
+    },
+    {
+      path: "/about",
+      element: (
+        <ErrorBoundary>
+          <AboutPage />
+        </ErrorBoundary>
+      ),
+    },
+    {
+      path: "/faq",
+      element: (
+        <ErrorBoundary>
+          <FAQPage />
+        </ErrorBoundary>
+      ),
+    },
+    {
+      path: "/how-to-order",
+      element: (
+        <ErrorBoundary>
+          <HowToOrderPage />
+        </ErrorBoundary>
+      ),
+    },
+    {
+      path: "/corporate",
+      element: (
+        <ErrorBoundary>
+          <CorporatePage />
+        </ErrorBoundary>
+      ),
+    },
+    {
+      path: "/report-product",
+      element: (
+        <ErrorBoundary>
+          <ReportProductPage />
         </ErrorBoundary>
       ),
     },

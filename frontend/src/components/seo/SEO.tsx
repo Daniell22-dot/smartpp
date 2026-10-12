@@ -38,6 +38,11 @@ export default function SEO({
     name: SITE_NAME,
     url: SITE_URL,
     description,
+    creator: {
+      "@type": "Person",
+      name: "Daniel Manyasa",
+      jobTitle: "Geomatic Engineer and GIS",
+    },
   };
 
   const productJsonLd =
@@ -68,6 +73,9 @@ export default function SEO({
     <Helmet>
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
+      <meta name="author" content="Daniel Manyasa (Geomatic Engineer and GIS)" />
+      <meta name="creator" content="Daniel Manyasa (Geomatic Engineer and GIS)" />
+      <meta name="developer" content="Daniel Manyasa (Geomatic Engineer and GIS)" />
       <link rel="canonical" href={url} />
 
       {type === "product" && productData?.price && (
