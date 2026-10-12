@@ -56,22 +56,26 @@ Full-stack e-commerce platform built with **React 19**, **Express**, **TypeScrip
 ### Prerequisites
 
 - Node.js 18+
-- PostgreSQL database (Neon or local)
+- PostgreSQL database ([Neon](https://neon.tech) recommended — the backend uses the Neon serverless driver, so Docker is **not** required)
 - Gmail account for SMTP (or another provider)
 - M-Pesa developer credentials (optional, for payments)
+
+Docker is optional. If you have it you can use `docker-compose up`; if not, use a hosted Postgres (Neon) and run the apps directly with Node.
 
 ### Installation
 
 ```bash
 # Install dependencies
-pnpm install
+npm install
+npm install --prefix backend
+npm install --prefix frontend
 
 # Run database migrations
-pnpm --filter backend run generate
-pnpm --filter backend run migrate
+npm run generate --prefix backend
+npm run migrate --prefix backend
 
 # Seed the database (optional)
-pnpm --filter backend run seed
+npm run seed --prefix backend
 ```
 
 ### Environment Variables
@@ -88,10 +92,13 @@ See `backend/.env.example` for the full list of required variables.
 
 ```bash
 # Start backend (http://localhost:5000)
-pnpm --filter backend run dev
+npm run dev --prefix backend
 
-# Start frontend (http://localhost:5173)
-pnpm --filter frontend run dev
+# Start frontend (http://localhost:5173) — in a second terminal
+npm run dev --prefix frontend
+
+# Or run both at once from the repo root
+npm run dev
 ```
 
 ## Environment Variables
@@ -145,19 +152,47 @@ If omitted, random passwords are generated and printed to the console during see
 
 | Script | Description |
 |--------|-------------|
-| `pnpm --filter backend run dev` | Start dev server with tsx |
-| `pnpm --filter backend run build` | Compile TypeScript |
-| `pnpm --filter backend run seed` | Seed the database |
-| `pnpm --filter backend run generate` | Generate Drizzle migrations |
-| `pnpm --filter backend run migrate` | Apply migrations |
+| `npm run dev --prefix backend` | Start dev server with tsx |
+| `npm run build --prefix backend` | Compile TypeScript |
+| `npm run test --prefix backend` | Run Vitest tests |
+| `npm run seed --prefix backend` | Seed the database |
+| `npm run generate --prefix backend` | Generate Drizzle migrations |
+| `npm run migrate --prefix backend` | Apply migrations |
 
 ### Frontend
 
 | Script | Description |
 |--------|-------------|
-| `pnpm --filter frontend run dev` | Start Vite dev server |
-| `pnpm --filter frontend run build` | Production build |
-| `pnpm --filter frontend run lint` | Run oxlint |
+| `npm run dev --prefix frontend` | Start Vite dev server |
+| `npm run build --prefix frontend` | Production build |
+| `npm run lint --prefix frontend` | Run oxlint |
+| `npm run test --prefix frontend` | Run Vitest tests |
+
+## Deployment
+
+### Frontend (Vercel)
+
+The `frontend/` directory is a standard Vite app and deploys to Vercel out of the box:
+
+1. Import the repository in Vercel and set the **Root Directory** to `frontend`.
+2. Build command: `npm run build`, output directory: `dist`.
+3. Add the environment variable `VITE_API_URL` pointing at your deployed backend, e.g. `https://api.your-domain.com/api`. Vite inlines this at build time, so it must be set before building.
+4. `frontend/vercel.json` already rewrites all routes to `index.html` for client-side routing.
+
+### Backend
+
+Deploy the `backend/` service to any Node host (Render, Railway, Fly.io, or Vercel Functions) and set the environment variables from `backend/.env.example`. Because the app uses the Neon serverless driver, pointing `Database_URL` at a Neon Postgres instance is the simplest option.
+
+## Docker (optional)
+
+If you have Docker installed:
+
+```bash
+cp .env.example .env   # fill in secrets
+docker-compose up -d --build
+```
+
+This starts Postgres, the backend (`:5000`), and the frontend (`:80`) behind nginx, which also proxies `/api` to the backend.
 
 ## License
 

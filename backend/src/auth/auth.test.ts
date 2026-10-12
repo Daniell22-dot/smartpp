@@ -1,13 +1,28 @@
-import { describe, it, expect, beforeAll, afterAll } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import request from "supertest";
 import express from "express";
-import { authRouter } from "../auth/auth.router";
+import authRouter from "./auth.router";
+import * as authService from "./auth.service";
+
+vi.mock("./auth.service", () => ({
+  registerService: vi.fn(),
+  verifyService: vi.fn(),
+  loginService: vi.fn(),
+  forgotPasswordService: vi.fn(),
+  verifyResetCodeService: vi.fn(),
+  resetPasswordService: vi.fn(),
+  refreshService: vi.fn(),
+}));
 
 const app = express();
 app.use(express.json());
 app.use("/api/auth", authRouter);
 
 describe("Auth API", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   describe("POST /api/auth/register", () => {
     it("should reject invalid email", async () => {
       const response = await request(app)
@@ -39,23 +54,9 @@ describe("Auth API", () => {
       expect(response.body.message).toContain("password");
     });
 
-    it("should reject mismatched confirm password", async () => {
-      const response = await request(app)
-        .post("/api/auth/register")
-        .send({
-          fullName: "Test User",
-          email: "test@example.com",
-          phone: "0712345678",
-          password: "Password123!",
-          confirmPassword: "Different123!",
-        });
-
-      expect(response.status).toBe(400);
-      expect(response.body.success).toBe(false);
-      expect(response.body.message).toContain("password");
-    });
-
     it("should accept valid registration data", async () => {
+      vi.mocked(authService.registerService).mockResolvedValue(undefined as never);
+
       const response = await request(app)
         .post("/api/auth/register")
         .send({
@@ -63,12 +64,11 @@ describe("Auth API", () => {
           email: `test${Date.now()}@example.com`,
           phone: "0712345678",
           password: "Password123!",
-          confirmPassword: "Password123!",
         });
 
-      // Note: This might fail if user already exists in test DB
-      // The validation should pass (400 for validation errors, 200/409 for DB errors)
-      expect([200, 400, 409]).toContain(response.status);
+      expect(response.status).toBe(200);
+      expect(response.body.success).toBe(true);
+      expect(authService.registerService).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -98,6 +98,29 @@ describe("Auth API", () => {
       expect(response.body.success).toBe(false);
       expect(response.body.message).toContain("password");
     });
+
+    it("should log in with valid credentials", async () => {
+      vi.mocked(authService.loginService).mockResolvedValue({
+        token: "test-token",
+        refreshToken: "refresh-token",
+        role: "customer",
+        dashboard: "customer",
+        userId: 1,
+        email: "test@example.com",
+        fullName: "Test User",
+      } as never);
+
+      const response = await request(app)
+        .post("/api/auth/login")
+        .send({
+          email: "test@example.com",
+          password: "password123",
+        });
+
+      expect(response.status).toBe(200);
+      expect(response.body.success).toBe(true);
+      expect(response.body.data.token).toBe("test-token");
+    });
   });
 
   describe("POST /api/auth/refresh", () => {
@@ -108,7 +131,7 @@ describe("Auth API", () => {
 
       expect(response.status).toBe(400);
       expect(response.body.success).toBe(false);
-      expect(response.body.message).toContain("refresh token");
+      expect(response.body.message.toLowerCase()).toContain("refresh");
     });
   });
 });

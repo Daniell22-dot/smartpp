@@ -1,13 +1,15 @@
-import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
-import { AuthProvider } from "../../context/AuthContext";
-import { CartProvider } from "../../components/context/CartContext";
-import { WishlistProvider } from "../../components/context/WishlistContext";
-import Login from "../pages/auth/Login";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
+import Login from "./Login";
 import { authAPI } from "../../Features/auth/authAPI";
 
-vi.mock("../../Features/auth/authAPI");
+vi.mock("../../Features/auth/authAPI", () => ({
+  authAPI: {
+    login: vi.fn(),
+  },
+}));
+
 vi.mock("../../context/AuthContext", () => ({
   useAuth: () => ({
     login: vi.fn(),
@@ -17,19 +19,12 @@ vi.mock("../../context/AuthContext", () => ({
   }),
 }));
 
-const renderWithProviders = (component: React.ReactNode) => {
-  return render(
-    <BrowserRouter>
-      <AuthProvider>
-        <WishlistProvider>
-          <CartProvider>
-            {component}
-          </CartProvider>
-        </WishlistProvider>
-      </AuthProvider>
-    </BrowserRouter>
+const renderLogin = () =>
+  render(
+    <MemoryRouter>
+      <Login />
+    </MemoryRouter>
   );
-};
 
 describe("Login Page", () => {
   beforeEach(() => {
@@ -37,39 +32,38 @@ describe("Login Page", () => {
   });
 
   it("renders login form with email and password fields", () => {
-    renderWithProviders(<Login />);
-    
-    expect(screen.getByLabelText("Email Address")).toBeInTheDocument();
-    expect(screen.getByLabelText("Password")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /sign in/i })).toBeInTheDocument();
+    renderLogin();
+
+    expect(screen.getByPlaceholderText("you@example.com")).toBeTruthy();
+    expect(screen.getByPlaceholderText("Enter your password")).toBeTruthy();
+    expect(screen.getByRole("button", { name: /sign in/i })).toBeTruthy();
   });
 
   it("shows error when email is invalid", async () => {
-    renderWithProviders(<Login />);
-    
-    const emailInput = screen.getByLabelText("Email Address");
+    renderLogin();
+
+    const emailInput = screen.getByPlaceholderText("you@example.com");
     fireEvent.change(emailInput, { target: { value: "invalid-email" } });
     fireEvent.blur(emailInput);
-    
-    await vi.waitFor(() => {
-      expect(screen.getByText("Please enter a valid email address")).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(screen.getByText("Please enter a valid email address")).toBeTruthy();
     });
   });
 
   it("shows error when password is empty", async () => {
-    renderWithProviders(<Login />);
-    
-    const passwordInput = screen.getByLabelText("Password");
+    renderLogin();
+
+    const passwordInput = screen.getByPlaceholderText("Enter your password");
     fireEvent.change(passwordInput, { target: { value: "" } });
     fireEvent.blur(passwordInput);
-    
-    await vi.waitFor(() => {
-      expect(screen.getByText("Password is required")).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(screen.getByText("Password is required")).toBeTruthy();
     });
   });
 
   it("calls authAPI.login on valid submit", async () => {
-    const { authAPI } = await import("../../Features/auth/authAPI");
     vi.mocked(authAPI.login).mockResolvedValue({
       success: true,
       data: {
@@ -82,18 +76,19 @@ describe("Login Page", () => {
         fullName: "Test User",
       },
       redirect: "/",
-    });
+    } as never);
 
-    renderWithProviders(<Login />);
-    
-    const emailInput = screen.getByLabelText("Email Address");
-    const passwordInput = screen.getByLabelText("Password");
-    
-    fireEvent.change(emailInput, { target: { value: "test@example.com" } });
-    fireEvent.change(passwordInput, { target: { value: "password123" } });
+    renderLogin();
+
+    fireEvent.change(screen.getByPlaceholderText("you@example.com"), {
+      target: { value: "test@example.com" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Enter your password"), {
+      target: { value: "password123" },
+    });
     fireEvent.click(screen.getByRole("button", { name: /sign in/i }));
-    
-    await vi.waitFor(() => {
+
+    await waitFor(() => {
       expect(authAPI.login).toHaveBeenCalledWith({
         email: "test@example.com",
         password: "password123",

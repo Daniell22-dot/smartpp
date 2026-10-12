@@ -1,3 +1,21 @@
-/node_modules
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# TypeScript incremental build info
+*.tsbuildinfo
+
+# Environment files (keep the examples)
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+
+# Lockfiles
 /pnpm-lock.yaml
 !/package-lock.json

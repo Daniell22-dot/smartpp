@@ -8,7 +8,7 @@ import {
   resetPasswordController,
   refreshTokenController
 } from "./auth.controller";
-import { validateBody } from "../middleware/validation/validate";
+import { validate } from "../middleware/validation/validate";
 import {
   registerSchema,
   loginSchema,
@@ -21,12 +21,12 @@ import {
 
 const authRouter = Router();
 
-authRouter.post("/register", validateBody(registerSchema), registerUserController);
-authRouter.post("/verify", validateBody(verifySchema), verifyUserController);
-authRouter.post("/login", validateBody(loginSchema), loginUserController);
-authRouter.post("/refresh", validateBody(refreshTokenSchema), refreshTokenController);
-authRouter.post("/forgot-password", validateBody(forgotPasswordSchema), forgotPasswordController);
-authRouter.post("/verify-reset-code", validateBody(verifyResetCodeSchema), verifyResetCodeController);
-authRouter.post("/reset-password", validateBody(resetPasswordSchema), resetPasswordController);
+authRouter.post("/register", validate(registerSchema), registerUserController);
+authRouter.post("/verify", validate(verifySchema), verifyUserController);
+authRouter.post("/login", validate(loginSchema), loginUserController);
+authRouter.post("/refresh", validate(refreshTokenSchema), refreshTokenController);
+authRouter.post("/forgot-password", validate(forgotPasswordSchema), forgotPasswordController);
+authRouter.post("/verify-reset-code", validate(verifyResetCodeSchema), verifyResetCodeController);
+authRouter.post("/reset-password", validate(resetPasswordSchema), resetPasswordController);
 
 export default authRouter;

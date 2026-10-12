@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import "./Skeleton.css";
 
 export interface SkeletonProps {
@@ -5,6 +6,7 @@ export interface SkeletonProps {
   height?: string | number;
   className?: string;
   animation?: "pulse" | "wave" | "none";
+  style?: CSSProperties;
 }
 
 export default function Skeleton({
@@ -12,11 +14,12 @@ export default function Skeleton({
   height = "1rem",
   className = "",
   animation = "pulse",
+  style,
 }: SkeletonProps) {
   return (
     <div
       className={`skeleton ${animation !== "none" ? `skeleton--${animation}` : ""} ${className}`}
-      style={{ width, height }}
+      style={{ width, height, ...style }}
       aria-hidden="true"
     />
   );

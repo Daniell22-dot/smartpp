@@ -10,7 +10,7 @@ import './Register.css';
 const registerSchema = z.object({
   fullName: z.string().min(2, 'Full name must be at least 2 characters').max(255),
   email: z.string().email('Please enter a valid email address'),
-  phone: z.string().regex(/^[\d\s\+\-]{10,20}$/, 'Please enter a valid phone number'),
+  phone: z.string().regex(/^[\d\s+-]{10,20}$/, 'Please enter a valid phone number'),
   password: z.string().min(8, 'Password must be at least 8 characters')
     .regex(/[A-Z]/, 'Must contain at least one uppercase letter')
     .regex(/[a-z]/, 'Must contain at least one lowercase letter')
@@ -35,15 +35,11 @@ export default function Register() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-    setError,
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
     mode: 'onBlur',
   });
-
-  const password = watch('password');
 
   const onSubmit = async (data: RegisterFormData) => {
     setError('');

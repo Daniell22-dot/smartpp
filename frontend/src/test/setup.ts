@@ -36,8 +36,14 @@ Object.defineProperty(window, "localStorage", {
 // Mock window.scrollTo
 window.scrollTo = vi.fn();
 
+// Prevent jsdom "Not implemented: navigation" errors when components assign window.location.href
+Object.defineProperty(window, "location", {
+  writable: true,
+  value: { href: "http://localhost/", assign: vi.fn(), replace: vi.fn(), reload: vi.fn() },
+});
+
 // Mock IntersectionObserver
-global.IntersectionObserver = vi.fn().mockImplementation(() => ({
+window.IntersectionObserver = vi.fn().mockImplementation(() => ({
   observe: vi.fn(),
   unobserve: vi.fn(),
   disconnect: vi.fn(),

@@ -1,5 +1,5 @@
-import Layout from '../components/layout/Layout';
-import SEO from '../components/seo/SEO';
+import Layout from '../../components/layout/Layout';
+import SEO from '../../components/seo/SEO';
 
 export default function TermsOfService() {
   return (

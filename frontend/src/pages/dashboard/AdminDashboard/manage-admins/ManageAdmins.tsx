@@ -4,14 +4,11 @@ import { adminsAPI } from '../../../../Features/admins/adminsAPI';
 import { usersAPI } from '../../../../Features/users/usersAPI';
 import './ManageAdmins.css';
 
-type StatusFilter = 'all' | 'active' | 'inactive';
-
 export default function ManageAdmins() {
   const [admins, setAdmins] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [] = useState<StatusFilter>('all');
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState('');
   const [selectedEmail, setSelectedEmail] = useState('');

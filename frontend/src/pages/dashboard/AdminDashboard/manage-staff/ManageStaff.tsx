@@ -4,14 +4,11 @@ import { staffAPI, type Staff } from '../../../../Features/staff/staffAPI';
 import { usersAPI } from '../../../../Features/users/usersAPI';
 import './ManageStaff.css';
 
-type StatusFilter = 'all' | 'active' | 'inactive';
-
 export default function ManageStaff() {
   const [staff, setStaff] = useState<Staff[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [] = useState<StatusFilter>('all');
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState('');
   const [selectedEmail, setSelectedEmail] = useState('');

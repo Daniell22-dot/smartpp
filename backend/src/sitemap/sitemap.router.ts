@@ -1,5 +1,5 @@
 import express from "express";
-import { db } from "../Drizzle/db";
+import db from "../Drizzle/db";
 import { products, categories } from "../Drizzle/schema";
 import { eq } from "drizzle-orm";
 
@@ -9,7 +9,7 @@ router.get("/sitemap.xml", async (req, res) => {
   try {
     const siteUrl = process.env.SITE_URL || "https://gmnex.com";
     
-    const staticRoutes = [
+    const staticRoutes: { path: string; changefreq: string; priority: number; lastmod?: Date | null }[] = [
       { path: "/", changefreq: "daily", priority: 1.0 },
       { path: "/shop", changefreq: "daily", priority: 0.9 },
       { path: "/privacy-policy", changefreq: "monthly", priority: 0.7 },
@@ -39,14 +39,14 @@ router.get("/sitemap.xml", async (req, res) => {
       changefreq: "weekly",
       priority: 0.8,
       lastmod: c.updatedAt,
-    });
+    }));
 
     const allRoutes = [...staticRoutes, ...productRoutes, ...categoryRoutes];
 
     const urlEntries = allRoutes.map(route => {
       const lastmod = route.lastmod ? `<lastmod>${new Date(route.lastmod).toISOString().split("T")[0]}</lastmod>` : "";
       return `  <url>
-    <loc>${process.env.SITE_URL || "https://gmnex.com"}${route.path}</loc>
+    <loc>${siteUrl}${route.path}</loc>
     ${lastmod}
     <changefreq>${route.changefreq}</changefreq>
     <priority>${route.priority}</priority>
@@ -55,7 +55,7 @@ router.get("/sitemap.xml", async (req, res) => {
 
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urlEntries.join("\n")}
+${urlEntries}
 </urlset>`;
 
     res.set("Content-Type", "application/xml");

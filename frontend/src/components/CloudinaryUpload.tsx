@@ -26,7 +26,7 @@ export default function CloudinaryUpload({
     try {
       setPreview(URL.createObjectURL(file));
       onUpload(file);
-    } catch (error) {
+    } catch {
       alert('Failed to upload image. Please try again.');
     } finally {
       setUploading(false);

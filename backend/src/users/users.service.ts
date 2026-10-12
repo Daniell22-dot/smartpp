@@ -1,7 +1,7 @@
 import db from "../Drizzle/db";
 import { users } from "../Drizzle/schema";
 import { eq, desc, and, like, or } from "drizzle-orm";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 
 interface User {
   userId: number;

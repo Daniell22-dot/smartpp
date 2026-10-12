@@ -24,7 +24,6 @@ import TermsOfService from "./pages/legal/TermsOfService";
 import Error from "./components/error/Error";
 import { RequireAuth, RequireRole } from "./components/guards";
 import ErrorBoundary from "./components/error-boundary/ErrorBoundary";
-import { DashboardStatSkeleton } from "./components/skeletons";
 import "./styles/styles.css";
 
 const AdminDashboard = lazy(() => import("./pages/dashboard/AdminDashboard/AdminDashboard"));
@@ -58,8 +57,6 @@ const StaffReviews = lazy(() => import("./pages/dashboard/StaffDashboard/reviews
 const StaffCoupons = lazy(() => import("./pages/dashboard/StaffDashboard/coupons/Coupons"));
 const StaffInquiries = lazy(() => import("./pages/dashboard/StaffDashboard/inquiries/Inquiries"));
 const StaffPickupStations = lazy(() => import("./pages/dashboard/StaffDashboard/pickup-stations/PickupStations"));
-
-const DashboardLoading = () => <div>Loading...</div>;
 
 function App() {
   const router = createBrowserRouter([

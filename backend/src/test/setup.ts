@@ -1,4 +1,4 @@
-import { beforeAll, afterAll, afterEach, vi } from "vitest";
+import { afterEach, vi } from "vitest";
 
 // Mock environment variables for testing
 process.env.NODE_ENV = "test";

@@ -72,10 +72,7 @@ export default function Login() {
     }
   };
 
-  const redirectPath = new URLSearchParams(location.search).get('redirect') ||
-                       (location.state as any)?.from?.pathname || '/';
-
-  return (
+return (
     <div className="auth-page">
       <div className="container">
         <div className="auth-card">

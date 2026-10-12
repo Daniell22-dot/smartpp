@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { ZodSchema, ZodError } from "zod";
+import { ZodType, ZodError } from "zod";
 
-export const validate = (schema: ZodSchema) => {
+export const validate = (schema: ZodType) => {
   return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       await schema.parseAsync({
@@ -12,7 +12,7 @@ export const validate = (schema: ZodSchema) => {
       next();
     } catch (error) {
       if (error instanceof ZodError) {
-        const messages = error.errors.map((e) => `${e.path.join(".")}: ${e.message}`).join("; ");
+        const messages = error.issues.map((e) => `${e.path.join(".")}: ${e.message}`).join("; ");
         res.status(400).json({ success: false, message: messages });
         return;
       }
@@ -21,14 +21,14 @@ export const validate = (schema: ZodSchema) => {
   };
 };
 
-export const validateBody = (schema: ZodSchema) => {
+export const validateBody = (schema: ZodType) => {
   return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       req.body = await schema.parseAsync(req.body);
       next();
     } catch (error) {
       if (error instanceof ZodError) {
-        const messages = error.errors.map((e) => `${e.path.join(".")}: ${e.message}`).join("; ");
+        const messages = error.issues.map((e) => `${e.path.join(".")}: ${e.message}`).join("; ");
         res.status(400).json({ success: false, message: messages });
         return;
       }
@@ -37,14 +37,14 @@ export const validateBody = (schema: ZodSchema) => {
   };
 };
 
-export const validateQuery = (schema: ZodSchema) => {
+export const validateQuery = (schema: ZodType) => {
   return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      req.query = await schema.parseAsync(req.query);
+      req.query = await schema.parseAsync(req.query) as typeof req.query;
       next();
     } catch (error) {
       if (error instanceof ZodError) {
-        const messages = error.errors.map((e) => `${e.path.join(".")}: ${e.message}`).join("; ");
+        const messages = error.issues.map((e) => `${e.path.join(".")}: ${e.message}`).join("; ");
         res.status(400).json({ success: false, message: messages });
         return;
       }
@@ -53,14 +53,14 @@ export const validateQuery = (schema: ZodSchema) => {
   };
 };
 
-export const validateParams = (schema: ZodSchema) => {
+export const validateParams = (schema: ZodType) => {
   return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      req.params = await schema.parseAsync(req.params);
+      req.params = await schema.parseAsync(req.params) as typeof req.params;
       next();
     } catch (error) {
       if (error instanceof ZodError) {
-        const messages = error.errors.map((e) => `${e.path.join(".")}: ${e.message}`).join("; ");
+        const messages = error.issues.map((e) => `${e.path.join(".")}: ${e.message}`).join("; ");
         res.status(400).json({ success: false, message: messages });
         return;
       }

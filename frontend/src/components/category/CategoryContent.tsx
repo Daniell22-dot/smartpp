@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import ProductCard from '../productcard/ProductCard';
-import { ProductGridSkeleton, CategoryGridSkeleton } from '../skeletons';
+import { ProductGridSkeleton } from '../skeletons';
 import { categoriesAPI, type Category } from '../../Features/categories/categoriesAPI';
 import { productsAPI, type Product } from '../../Features/products/productsAPI';
 import './CategoryContent.css';

@@ -210,7 +210,7 @@ export const sendAbandonedCartEmailController = async (req: Request, res: Respon
     const recoverLink = `${process.env.FRONTEND_URL}/cart?recoverOrderId=${order.orderId}`;
     const sent = await sendAbandonedCartEmail(
       recipient,
-      order.user?.fullName || order.name || "Customer",
+      "Customer",
       cartItems,
       total,
       recoverLink
