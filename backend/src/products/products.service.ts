@@ -1,6 +1,6 @@
 import db from "../Drizzle/db";
 import { products, categories, productVariants, orderItems, reviews } from "../Drizzle/schema";
-import { eq, like, or, and, count, asc, desc, between, gte, lte, ilike, sql } from "drizzle-orm";
+import { eq, like, or, and, count, asc, desc, between, gte, lte, ilike, inArray, sql } from "drizzle-orm";
 
 interface Product {
   productId: number;
@@ -19,6 +19,12 @@ interface Product {
   sku: string | null;
   brand: string | null;
   brandPhoto: string | null;
+  color: string | null;
+  operatingSystem: string | null;
+  screenSize: string | null;
+  warranty: string | null;
+  store: string | null;
+  condition: string | null;
   weight: string | null;
   dimensions: any;
   isFeatured: boolean;
@@ -48,6 +54,12 @@ interface NewProduct {
   sku?: string | null;
   brand?: string | null;
   brandPhoto?: string | null;
+  color?: string | null;
+  operatingSystem?: string | null;
+  screenSize?: string | null;
+  warranty?: string | null;
+  store?: string | null;
+  condition?: string | null;
   weight?: number | null;
   dimensions?: any;
   isFeatured?: boolean;
@@ -62,6 +74,37 @@ interface ProductWithCategory extends Product {
   categorySlug?: string | null;
   variants?: any[];
 }
+
+const toArray = (value: any): string[] => {
+  if (Array.isArray(value)) {
+    return value.map((v) => String(v)).filter((v) => v !== '');
+  }
+  if (value === undefined || value === null || value === '') return [];
+  return String(value)
+    .split(',')
+    .map((v) => v.trim())
+    .filter(Boolean);
+};
+
+const num = (value: any): number | undefined => {
+  if (value === undefined || value === null || value === '') return undefined;
+  const n = Number(value);
+  return isNaN(n) ? undefined : n;
+};
+
+const attachCategoryNames = async (rows: any[]): Promise<ProductWithCategory[]> => {
+  const cats = await db.query.categories.findMany();
+  const map = new Map(cats.map((c) => [c.categoryId, c]));
+  return rows.map((product) => {
+    const category = product.categoryId ? map.get(product.categoryId) : undefined;
+    return {
+      ...product,
+      galleryPhotos: (product.galleryPhotos as string[]) || [],
+      categoryName: category?.name || null,
+      categorySlug: category?.slug || null
+    };
+  });
+};
 
 export const productsService = {
   getAll: async (): Promise<ProductWithCategory[]> => {
@@ -409,6 +452,204 @@ export const productsService = {
     return productsWithCategory;
   },
 
+  getCatalog: async (filters: any): Promise<{ products: ProductWithCategory[]; total: number; page: number; limit: number; totalPages: number }> => {
+    const conditions: any[] = [];
+    const q = (filters.q || filters.search || '').toString().trim();
+
+    if (q) {
+      conditions.push(
+        or(
+          ilike(products.name, `%${q}%`),
+          ilike(products.description, `%${q}%`),
+          ilike(products.shortDescription, `%${q}%`),
+          ilike(products.brand, `%${q}%`)
+        )
+      );
+    }
+
+    const categorySlugs = toArray(filters.category);
+    if (categorySlugs.length > 0) {
+      const matched = await db.query.categories.findMany({ where: inArray(categories.slug, categorySlugs) });
+      const ids = matched.map((c) => c.categoryId);
+      const children = ids.length
+        ? await db.query.categories.findMany({ where: inArray(categories.parentId, ids) })
+        : [];
+      const allIds = [...ids, ...children.map((c) => c.categoryId)];
+      conditions.push(allIds.length ? inArray(products.categoryId, allIds) : sql`false`);
+    } else if (filters.categoryId) {
+      conditions.push(eq(products.categoryId, parseInt(filters.categoryId, 10)));
+    }
+
+    const brands = toArray(filters.brand);
+    if (brands.length) conditions.push(inArray(products.brand, brands));
+
+    const colors = toArray(filters.color);
+    if (colors.length) conditions.push(inArray(products.color, colors));
+
+    const oses = toArray(filters.os);
+    if (oses.length) conditions.push(inArray(products.operatingSystem, oses));
+
+    const screenSizes = toArray(filters.screenSize);
+    if (screenSizes.length) conditions.push(inArray(products.screenSize, screenSizes));
+
+    const warranties = toArray(filters.warranty);
+    if (warranties.length) conditions.push(inArray(products.warranty, warranties));
+
+    const stores = toArray(filters.store);
+    if (stores.length) conditions.push(inArray(products.store, stores));
+
+    const conditionValues = toArray(filters.condition);
+    if (conditionValues.length) conditions.push(inArray(products.condition, conditionValues));
+
+    const minPrice = num(filters.minPrice);
+    const maxPrice = num(filters.maxPrice);
+    if (minPrice !== undefined && maxPrice !== undefined) {
+      conditions.push(between(products.price, String(minPrice), String(maxPrice)));
+    } else if (minPrice !== undefined) {
+      conditions.push(gte(products.price, String(minPrice)));
+    } else if (maxPrice !== undefined) {
+      conditions.push(lte(products.price, String(maxPrice)));
+    }
+
+    const minRating = num(filters.minRating);
+    if (minRating !== undefined) conditions.push(gte(products.rating, String(minRating)));
+
+    const minDiscount = num(filters.minDiscount);
+    if (minDiscount !== undefined && minDiscount > 0) {
+      conditions.push(sql`${products.comparePrice} > ${products.price}`);
+      conditions.push(sql`(${products.comparePrice} - ${products.price}) / NULLIF(${products.comparePrice}, 0) * 100 >= ${minDiscount}`);
+    }
+
+    if (filters.inStock === 'true' || filters.inStock === true) {
+      conditions.push(gte(products.stock, 1));
+    }
+
+    if (filters.status) conditions.push(eq(products.status, filters.status));
+
+    const where = conditions.length > 0 ? and(...conditions) : undefined;
+
+    const page = Math.max(1, num(filters.page) || 1);
+    const limit = Math.min(100, Math.max(1, num(filters.limit) || 24));
+    const discountExpr = sql`(${products.comparePrice} - ${products.price}) / NULLIF(${products.comparePrice}, 0)`;
+
+    let orderBy: any;
+    switch (filters.sort) {
+      case 'price_asc':
+        orderBy = asc(products.price);
+        break;
+      case 'price_desc':
+        orderBy = desc(products.price);
+        break;
+      case 'rating':
+        orderBy = desc(products.rating);
+        break;
+      case 'newest':
+        orderBy = desc(products.createdAt);
+        break;
+      case 'discount':
+        orderBy = desc(discountExpr);
+        break;
+      case 'popularity':
+      default:
+        orderBy = desc(products.views);
+        break;
+    }
+
+    const totalResult = await db.select({ count: count() }).from(products).where(where);
+    const total = Number(totalResult[0]?.count || 0);
+
+    const rows = await db.query.products.findMany({
+      where,
+      orderBy: [orderBy, desc(products.createdAt)],
+      limit,
+      offset: (page - 1) * limit
+    });
+
+    return {
+      products: await attachCategoryNames(rows),
+      total,
+      page,
+      limit,
+      totalPages: Math.max(1, Math.ceil(total / limit))
+    };
+  },
+
+  getFacets: async (filters: any): Promise<any> => {
+    const conditions: any[] = [];
+    const q = (filters.q || filters.search || '').toString().trim();
+    if (q) {
+      conditions.push(or(ilike(products.name, `%${q}%`), ilike(products.brand, `%${q}%`)));
+    }
+
+    const categorySlugs = toArray(filters.category);
+    if (categorySlugs.length > 0) {
+      const matched = await db.query.categories.findMany({ where: inArray(categories.slug, categorySlugs) });
+      const ids = matched.map((c) => c.categoryId);
+      const children = ids.length
+        ? await db.query.categories.findMany({ where: inArray(categories.parentId, ids) })
+        : [];
+      const allIds = [...ids, ...children.map((c) => c.categoryId)];
+      if (allIds.length) conditions.push(inArray(products.categoryId, allIds));
+    }
+
+    const where = conditions.length > 0 ? and(...conditions) : undefined;
+
+    const distinct = async (column: any) => {
+      const rows = await db
+        .select({ value: column, count: count() })
+        .from(products)
+        .where(where)
+        .groupBy(column)
+        .orderBy(desc(count()));
+      return rows
+        .filter((r: any) => r.value !== null && r.value !== '')
+        .map((r: any) => ({ value: r.value as string, count: Number(r.count) }));
+    };
+
+    const priceRow = await db
+      .select({ min: sql<number>`MIN(${products.price})`, max: sql<number>`MAX(${products.price})` })
+      .from(products)
+      .where(where);
+
+    return {
+      brands: await distinct(products.brand),
+      colors: await distinct(products.color),
+      operatingSystems: await distinct(products.operatingSystem),
+      screenSizes: await distinct(products.screenSize),
+      warranties: await distinct(products.warranty),
+      stores: await distinct(products.store),
+      conditions: await distinct(products.condition),
+      priceMin: Number(priceRow[0]?.min || 0),
+      priceMax: Number(priceRow[0]?.max || 0)
+    };
+  },
+
+  getBrands: async (): Promise<{ brand: string; count: number; photo: string | null }[]> => {
+    const rows = await db
+      .select({
+        brand: products.brand,
+        count: count(),
+        photo: sql<string | null>`MAX(${products.brandPhoto})`
+      })
+      .from(products)
+      .where(eq(products.status, 'in_stock'))
+      .groupBy(products.brand)
+      .orderBy(desc(count()));
+
+    return rows
+      .filter((r) => r.brand && r.brand.trim() !== '')
+      .map((r) => ({ brand: r.brand as string, count: Number(r.count), photo: r.photo }));
+  },
+
+  getTrending: async (limit = 8): Promise<ProductWithCategory[]> => {
+    const rows = await db.query.products.findMany({
+      where: eq(products.status, 'in_stock'),
+      orderBy: [desc(products.views), desc(products.reviewCount)],
+      limit
+    });
+    return attachCategoryNames(rows);
+  },
+
   create: async (data: NewProduct): Promise<Product> => {
     const existing = await db.query.products.findFirst({
       where: or(
@@ -458,6 +699,12 @@ export const productsService = {
         sku: data.sku || null,
         brand: data.brand || null,
         brandPhoto: data.brandPhoto || null,
+        color: data.color || null,
+        operatingSystem: data.operatingSystem || null,
+        screenSize: data.screenSize || null,
+        warranty: data.warranty || null,
+        store: data.store || null,
+        condition: data.condition || null,
         weight: data.weight ? data.weight.toString() : null,
         dimensions: data.dimensions || null,
         isFeatured: data.isFeatured || false,

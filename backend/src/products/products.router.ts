@@ -10,6 +10,10 @@ import {
   getProductBySlugController,
   searchProductsController,
   filterProductsController,
+  getCatalogController,
+  getFacetsController,
+  getBrandsController,
+  getTrendingController,
   createProductController,
   updateProductController,
   deleteProductController,
@@ -32,6 +36,10 @@ productsRouter.get("/category/:categoryId", getProductsByCategoryController);
 productsRouter.get("/slug/:slug", getProductBySlugController);
 productsRouter.get("/search", searchProductsController);
 productsRouter.get("/filter", filterProductsController);
+productsRouter.get("/catalog", getCatalogController);
+productsRouter.get("/facets", getFacetsController);
+productsRouter.get("/brands", getBrandsController);
+productsRouter.get("/trending", getTrendingController);
 productsRouter.get("/", getAllProductsController);
 productsRouter.get("/:id", getProductByIdController);
 productsRouter.post("/", upload.single("featuredPhoto"), createProductController);

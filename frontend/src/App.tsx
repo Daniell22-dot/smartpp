@@ -6,6 +6,8 @@ import { lazy, Suspense } from "react";
 import HomePage from "./pages/HomePage";
 import ShopPage from "./pages/ShopPage";
 import CategoryPage from "./pages/CategoryPage";
+import BrandPage from "./pages/BrandPage";
+import SearchPage from "./pages/SearchPage";
 import ProductPage from "./pages/ProductPage";
 import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
@@ -83,6 +85,22 @@ function App() {
       element: (
         <ErrorBoundary>
           <CategoryPage />
+        </ErrorBoundary>
+      ),
+    },
+    {
+      path: "/brand/:slug",
+      element: (
+        <ErrorBoundary>
+          <BrandPage />
+        </ErrorBoundary>
+      ),
+    },
+    {
+      path: "/search",
+      element: (
+        <ErrorBoundary>
+          <SearchPage />
         </ErrorBoundary>
       ),
     },

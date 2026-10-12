@@ -11,6 +11,8 @@ import { useWishlist } from "../../context/WishlistContext";
 import { productsAPI, type Product } from "../../Features/products/productsAPI";
 import "./ProductContent.css";
 import { wishlistAPI } from "../../Features/wishlist/wishlistAPI";
+import { addRecentlyViewed } from "../../Features/products/recentlyViewed";
+import RecentlyViewed from "../common/RecentlyViewed";
 import SEO from "../seo/SEO";
 
 export default function ProductContent() {
@@ -34,6 +36,7 @@ export default function ProductContent() {
         const res = await productsAPI.getBySlug(slug!);
         if (res.success) {
           setProduct(res.data);
+          addRecentlyViewed(res.data);
           const all = await productsAPI.getActive();
           if (all.success) {
             const relatedItems = all.data.filter(
@@ -182,6 +185,8 @@ export default function ProductContent() {
           )}
         </div>
       </div>
+
+      <RecentlyViewed excludeId={product.productId} />
 
       <div className="product-sticky-bar">
         <div className="product-sticky-price">

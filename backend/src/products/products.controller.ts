@@ -109,6 +109,43 @@ export const filterProductsController = async (req: Request, res: Response, next
   }
 };
 
+export const getCatalogController = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const data = await productsService.getCatalog(req.query);
+    res.json({ success: true, data });
+  } catch (e: any) {
+    next(e);
+  }
+};
+
+export const getFacetsController = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const data = await productsService.getFacets(req.query);
+    res.json({ success: true, data });
+  } catch (e: any) {
+    next(e);
+  }
+};
+
+export const getBrandsController = async (_req: Request, res: Response, next: NextFunction) => {
+  try {
+    const data = await productsService.getBrands();
+    res.json({ success: true, data });
+  } catch (e: any) {
+    next(e);
+  }
+};
+
+export const getTrendingController = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 8;
+    const data = await productsService.getTrending(Number.isNaN(limit) ? 8 : limit);
+    res.json({ success: true, data });
+  } catch (e: any) {
+    next(e);
+  }
+};
+
 export const createProductController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const body = { ...req.body };

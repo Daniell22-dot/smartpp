@@ -1,19 +1,12 @@
+import { useParams } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
-import CategoryContent from '../components/category/CategoryContent';
-import SEO from '../components/seo/SEO';
+import Catalog from '../components/catalog/Catalog';
 
 export default function CategoryPage() {
+  const { slug } = useParams<{ slug: string }>();
   return (
-    <>
-      <SEO
-        title="Shop by Category"
-        description="Browse products by category at GM Business Solutions. Find the best electronics, smartphones, laptops, and more."
-        path="/category"
-        type="website"
-      />
-      <Layout>
-        <CategoryContent />
-      </Layout>
-    </>
+    <Layout>
+      <Catalog mode="category" slug={slug} />
+    </Layout>
   );
 }

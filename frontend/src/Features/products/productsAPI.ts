@@ -18,6 +18,12 @@ export interface Product {
   sku: string | null;
   brand: string | null;
   brandPhoto: string | null;
+  color: string | null;
+  operatingSystem: string | null;
+  screenSize: string | null;
+  warranty: string | null;
+  store: string | null;
+  condition: string | null;
   weight: string | null;
   dimensions: any;
   isFeatured: boolean;
@@ -35,7 +41,52 @@ export interface Product {
   variants?: any[];
 }
 
+export interface CatalogResult {
+  products: Product[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export interface FacetValue {
+  value: string;
+  count: number;
+}
+
+export interface Facets {
+  brands: FacetValue[];
+  colors: FacetValue[];
+  operatingSystems: FacetValue[];
+  screenSizes: FacetValue[];
+  warranties: FacetValue[];
+  stores: FacetValue[];
+  conditions: FacetValue[];
+  priceMin: number;
+  priceMax: number;
+}
+
+export interface BrandInfo {
+  brand: string;
+  count: number;
+  photo: string | null;
+}
+
 const api = axios.create({ baseURL: ApiDomain });
+
+const buildQuery = (params: Record<string, any>): string => {
+  const search = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value === undefined || value === null || value === '') return;
+    if (Array.isArray(value)) {
+      if (value.length === 0) return;
+      search.append(key, value.join(','));
+    } else {
+      search.append(key, String(value));
+    }
+  });
+  return search.toString();
+};
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
@@ -62,15 +113,16 @@ export const productsAPI = {
     api.get(`/products/slug/${slug}`).then(res => res.data),
   search: (query: string): Promise<{ success: boolean; data: Product[] }> =>
     api.get(`/products/search?q=${encodeURIComponent(query)}`).then(res => res.data),
-  filter: (filters: Record<string, any>): Promise<{ success: boolean; data: Product[] }> => {
-    const params = new URLSearchParams();
-    Object.entries(filters).forEach(([key, value]) => {
-      if (value !== undefined && value !== null && value !== '') {
-        params.append(key, String(value));
-      }
-    });
-    return api.get(`/products/filter?${params}`).then(res => res.data);
-  },
+  filter: (filters: Record<string, any>): Promise<{ success: boolean; data: Product[] }> =>
+    api.get(`/products/filter?${buildQuery(filters)}`).then(res => res.data),
+  getCatalog: (params: Record<string, any>): Promise<{ success: boolean; data: CatalogResult }> =>
+    api.get(`/products/catalog?${buildQuery(params)}`).then(res => res.data),
+  getFacets: (params: Record<string, any> = {}): Promise<{ success: boolean; data: Facets }> =>
+    api.get(`/products/facets?${buildQuery(params)}`).then(res => res.data),
+  getBrands: (): Promise<{ success: boolean; data: BrandInfo[] }> =>
+    api.get('/products/brands').then(res => res.data),
+  getTrending: (limit = 8): Promise<{ success: boolean; data: Product[] }> =>
+    api.get(`/products/trending?limit=${limit}`).then(res => res.data),
   create: (data: FormData): Promise<{ success: boolean; data: Product }> =>
     api.post('/products', data, { headers: { 'Content-Type': 'multipart/form-data' } }).then(res => res.data),
   update: (id: number, data: FormData): Promise<{ success: boolean; data: Product }> =>

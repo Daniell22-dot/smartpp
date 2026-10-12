@@ -159,6 +159,12 @@ export const products = pgTable("products", {
   sku: varchar("sku", { length: 100 }).unique(),
   brand: varchar("brand", { length: 100 }),
   brandPhoto: text("brand_photo"),
+  color: varchar("color", { length: 50 }),
+  operatingSystem: varchar("operating_system", { length: 50 }),
+  screenSize: varchar("screen_size", { length: 20 }),
+  warranty: varchar("warranty", { length: 100 }),
+  store: varchar("store", { length: 150 }),
+  condition: varchar("condition", { length: 50 }),
   weight: decimal("weight", { precision: 8, scale: 2 }),
   dimensions: jsonb("dimensions"),
   isFeatured: boolean("is_featured").default(false).notNull(),
@@ -174,7 +180,8 @@ export const products = pgTable("products", {
 }, (table) => ({
   categoryIdx: index("category_idx").on(table.categoryId),
   statusIdx: index("status_idx").on(table.status),
-  skuIdx: index("sku_idx").on(table.sku)
+  skuIdx: index("sku_idx").on(table.sku),
+  brandIdx: index("brand_idx").on(table.brand)
 }));
 
 export const productVariants = pgTable("product_variants", {

@@ -5,6 +5,7 @@ import Categories from '../components/home/Categories';
 import Products from '../components/home/Products';
 import Deals from '../components/home/Deals';
 import BestSellers from '../components/home/BestSellers';
+import RecentlyViewed from '../components/common/RecentlyViewed';
 import SEO from '../components/seo/SEO';
 
 export default function HomePage() {
@@ -23,6 +24,7 @@ export default function HomePage() {
         <Categories />
         <Products />
         <BestSellers />
+        <RecentlyViewed />
       </Layout>
     </>
   );

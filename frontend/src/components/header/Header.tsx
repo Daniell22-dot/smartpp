@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ShoppingCart, User, Heart, Menu, X, LogOut, Search } from "lucide-react";
+import { ShoppingCart, User, Heart, Menu, X, LogOut, Search, TrendingUp } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
 import { useWishlist } from "../../context/WishlistContext";
 import { categoriesAPI, type Category } from "../../Features/categories/categoriesAPI";
 import { productsAPI, type Product } from "../../Features/products/productsAPI";
+import { BRANDS } from "../../config/brands";
 import AnnouncementBar from "../announcement/AnnouncementBar";
 import "./Header.css";
 
@@ -16,11 +17,14 @@ export default function Header() {
   const { isAuthenticated, user, loading, logout } = useAuth();
   const { wishlistCount } = useWishlist();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [megaMenuOpen, setMegaMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<Product[]>([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+  const [trending, setTrending] = useState<Product[]>([]);
+  const [showTrending, setShowTrending] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
 
   if (location.pathname.startsWith('/admin') || location.pathname.startsWith('/staff')) {
@@ -31,12 +35,16 @@ export default function Header() {
     categoriesAPI.getActive().then((res) => {
       if (res.success) setCategories(res.data);
     }).catch(console.error);
+    productsAPI.getTrending(8).then((res) => {
+      if (res.success) setTrending(res.data);
+    }).catch(() => {});
   }, []);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
         setShowSearchResults(false);
+        setShowTrending(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -48,6 +56,7 @@ export default function Header() {
     setSearchQuery(query);
     
     if (query.trim().length > 0) {
+      setShowTrending(false);
       setIsSearching(true);
       productsAPI.search(query.trim())
         .then((res) => {
@@ -66,12 +75,18 @@ export default function Header() {
     }
   };
 
+  const goToSearch = (term: string) => {
+    const q = term.trim();
+    if (!q) return;
+    navigate(`/search?q=${encodeURIComponent(q)}`);
+    setShowSearchResults(false);
+    setShowTrending(false);
+    setSearchQuery("");
+  };
+
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement> | React.MouseEvent) => {
     if ((e as React.KeyboardEvent).key === "Enter" || (e as React.MouseEvent).type === "click") {
-      if (searchQuery.trim()) {
-        navigate(`/?search=${encodeURIComponent(searchQuery.trim())}`);
-        setShowSearchResults(false);
-      }
+      goToSearch(searchQuery);
     }
   };
 
@@ -124,6 +139,15 @@ export default function Header() {
         <div className="container">
           <div className="header-content">
             <div className="left-section">
+              <button
+                className="menu-btn"
+                onClick={() => setMegaMenuOpen((o) => !o)}
+                aria-label="Open menu"
+                aria-expanded={megaMenuOpen}
+              >
+                {megaMenuOpen ? <X size={22} /> : <Menu size={22} />}
+                <span className="menu-btn-label">Menu</span>
+              </button>
               <Link to="/" className="logo"><img src="/2.png" alt="SMARTP" className="logo-image" /></Link>
             </div>
 
@@ -140,6 +164,9 @@ export default function Header() {
                   onFocus={() => {
                     if (searchQuery.trim().length > 0 && searchResults.length > 0) {
                       setShowSearchResults(true);
+                      setShowTrending(false);
+                    } else if (searchQuery.trim().length === 0 && trending.length > 0) {
+                      setShowTrending(true);
                     }
                   }}
                 />
@@ -172,10 +199,7 @@ export default function Header() {
                         </div>
                       ))}
                       <div className="search-result-view-all">
-                        <button onClick={() => {
-                          navigate(`/?search=${encodeURIComponent(searchQuery)}`);
-                          setShowSearchResults(false);
-                        }}>
+                        <button onClick={() => goToSearch(searchQuery)}>
                           View all results →
                         </button>
                       </div>
@@ -183,6 +207,31 @@ export default function Header() {
                   ) : (
                     <div className="search-no-results">No products found</div>
                   )}
+                </div>
+              )}
+
+              {showTrending && !showSearchResults && trending.length > 0 && (
+                <div className="search-results-dropdown">
+                  <div className="search-trending-title"><TrendingUp size={14} /> Trending searches</div>
+                  {trending.map((product) => (
+                    <div
+                      key={product.productId}
+                      className="search-result-item"
+                      onClick={() => goToSearch(product.name)}
+                    >
+                      <div className="search-result-image">
+                        {product.featuredPhoto ? (
+                          <img src={product.featuredPhoto} alt={product.name} />
+                        ) : (
+                          <span>📦</span>
+                        )}
+                      </div>
+                      <div className="search-result-info">
+                        <span className="search-result-name">{product.name}</span>
+                        <span className="search-result-price">KSh {parseFloat(product.price).toLocaleString()}</span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
@@ -221,8 +270,42 @@ export default function Header() {
             </div>
           </div>
         </div>
+
+        {megaMenuOpen && (
+          <div className="mega-menu">
+            <div className="container mega-menu-inner">
+              <div className="mega-col">
+                <h4 className="mega-col-title">Shop by Category</h4>
+                {categories.map((cat) => (
+                  <Link key={cat.categoryId} to={`/category/${cat.slug}`} className="mega-link" onClick={() => setMegaMenuOpen(false)}>
+                    {cat.icon || '📁'} {cat.name}
+                  </Link>
+                ))}
+              </div>
+              <div className="mega-col">
+                <h4 className="mega-col-title">Top Brands</h4>
+                {BRANDS.slice(0, 12).map((brand) => (
+                  <Link key={brand.slug} to={`/brand/${brand.slug}`} className="mega-link" onClick={() => setMegaMenuOpen(false)}>
+                    {brand.name}
+                  </Link>
+                ))}
+              </div>
+              <div className="mega-col">
+                <h4 className="mega-col-title">Help &amp; Info</h4>
+                <Link to="/how-to-order" className="mega-link" onClick={() => setMegaMenuOpen(false)}>How to Order</Link>
+                <Link to="/faq" className="mega-link" onClick={() => setMegaMenuOpen(false)}>Help Center / FAQ</Link>
+                <Link to="/corporate" className="mega-link" onClick={() => setMegaMenuOpen(false)}>Corporate &amp; Bulk Orders</Link>
+                <Link to="/report-product" className="mega-link" onClick={() => setMegaMenuOpen(false)}>Report a Product</Link>
+                <Link to="/about" className="mega-link" onClick={() => setMegaMenuOpen(false)}>About Us</Link>
+                <Link to="/account?tab=support" className="mega-link" onClick={() => setMegaMenuOpen(false)}>Contact Us</Link>
+              </div>
+            </div>
+          </div>
+        )}
       </header>
-      
+
+      {megaMenuOpen && <div className="mega-menu-overlay" onClick={() => setMegaMenuOpen(false)} />}
+
       <div className="category-bar">
         <div className="container">
           <nav className="category-bar-nav">
