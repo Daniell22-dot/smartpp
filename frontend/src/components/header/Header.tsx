@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ShoppingCart, User, Heart, Menu, X, LogOut, ChevronDown, Search, Phone, MapPin } from "lucide-react";
+import { ShoppingCart, User, Heart, Menu, X, LogOut, ChevronDown, Search } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
 import { useWishlist } from "../../context/WishlistContext";
 import { categoriesAPI, type Category } from "../../Features/categories/categoriesAPI";
 import { productsAPI, type Product } from "../../Features/products/productsAPI";
+import AnnouncementBar from "../announcement/AnnouncementBar";
 import "./Header.css";
 
 export default function Header() {
@@ -103,13 +104,8 @@ export default function Header() {
 
   if (loading) {
     return (
-      <div className="announcement-bar">
-        <div className="container">
-          <div className="announcement-content">
-            <span><Phone size={14} /> Need Help? Call / WhatsApp: <strong>0712 345 678</strong></span>
-            <span className="announcement-end"><MapPin size={14} /> Pickup from 50+ stations</span>
-          </div>
-        </div>
+      <div>
+        <AnnouncementBar />
         <header className="header">
           <div className="container">
             <div className="header-content">
@@ -128,14 +124,7 @@ export default function Header() {
 
   return (
     <>
-      <div className="announcement-bar">
-        <div className="container">
-          <div className="announcement-content">
-            <span><Phone size={14} /> Need Help? Call / WhatsApp: <strong>0712 345 678</strong></span>
-            <span className="announcement-end"><MapPin size={14} /> Pickup from 50+ stations</span>
-          </div>
-        </div>
-      </div>
+      <AnnouncementBar />
       <header className="header">
         <div className="container">
           <div className="header-content">

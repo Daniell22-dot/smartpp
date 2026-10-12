@@ -74,5 +74,5 @@
 .mark-read-btn:hover {
   background: var(--brand-600);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(11, 107, 58, 0.3);
+  box-shadow: 0 4px 12px rgba(21, 128, 61, 0.3);
 }

@@ -48,7 +48,7 @@ input:focus,
 textarea:focus,
 select:focus {
   border-color: var(--brand-500);
-  box-shadow: 0 0 0 3px rgba(11, 107, 58, 0.1);
+  box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.15);
 }
 img {
   display: block;
@@ -62,28 +62,31 @@ img {
   overflow: hidden;
 }
 :root {
-  --brand-50: #e8f5ee;
-  --brand-100: #d1ebdd;
-  --brand-200: #bfe8d3;
-  --brand-300: #8dd5b5;
-  --brand-400: #5bc297;
-  --brand-500: #0b6b3a;
-  --brand-600: #0a5d33;
-  --brand-700: #08512c;
-  --brand-800: #063e22;
-  --brand-900: #042b18;
+  --brand-50: #dcfce7;
+  --brand-100: #bbf7d0;
+  --brand-200: #86efac;
+  --brand-300: #4ade80;
+  --brand-400: #22c55e;
+  --brand-500: #15803d;
+  --brand-600: #166534;
+  --brand-700: #14532d;
+  --brand-800: #0b3d20;
+  --brand-900: #052e16;
+  --brand-orange: #f97316;
+  --brand-orange-hover: #ea580c;
+  --accent-yellow: #facc15;
   --surface: #f6f8f7;
   --surface-card: #ffffff;
-  --gray-50: #f9fafb;
-  --gray-100: #f3f4f6;
-  --gray-200: #e5e7eb;
-  --gray-300: #d1d5db;
-  --gray-400: #9ca3af;
-  --gray-500: #6b7280;
-  --gray-600: #4b5563;
-  --gray-700: #374151;
-  --gray-800: #1f2937;
-  --gray-900: #111827;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-400: #94a3b8;
+  --gray-500: #64748b;
+  --gray-600: #475569;
+  --gray-700: #334155;
+  --gray-800: #1e293b;
+  --gray-900: #0f172a;
   --radius-card: 12px;
   --radius-control: 10px;
   --shadow-hover: 0 8px 30px rgba(16, 24, 40, 0.12);
@@ -91,7 +94,11 @@ img {
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.12);
   --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
-  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-title: 'Outfit', 'Inter', system-ui, sans-serif;
+  --font-serif: 'Outfit', 'Inter', system-ui, sans-serif;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
 }
 .text-brand {
   color: var(--brand-500);
@@ -105,7 +112,7 @@ img {
 .btn-primary {
   height: 44px;
   padding: 0 24px;
-  background: linear-gradient(135deg, var(--brand-500), var(--brand-600));
+  background: linear-gradient(135deg, #16a34a, var(--brand-500));
   color: #fff;
   font-weight: 600;
   border-radius: var(--radius-control);
@@ -114,11 +121,11 @@ img {
   justify-content: center;
   gap: 10px;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(11, 107, 58, 0.25);
+  box-shadow: 0 2px 8px rgba(21, 128, 61, 0.25);
 }
 .btn-primary:hover {
-  background: var(--brand-600);
-  box-shadow: 0 4px 16px rgba(11, 107, 58, 0.35);
+  background: var(--brand-500);
+  box-shadow: 0 4px 16px rgba(21, 128, 61, 0.35);
   transform: translateY(-2px);
 }
 .btn-primary:disabled {
@@ -131,9 +138,9 @@ img {
 .btn-secondary {
   height: 44px;
   padding: 0 24px;
-  background: #fff;
-  border: 2px solid var(--brand-500);
-  color: var(--brand-500);
+  background: var(--brand-orange);
+  border: 2px solid var(--brand-orange);
+  color: #fff;
   font-weight: 600;
   border-radius: var(--radius-control);
   display: inline-flex;
@@ -141,11 +148,13 @@ img {
   justify-content: center;
   gap: 10px;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.25);
 }
 .btn-secondary:hover {
-  background: var(--brand-50);
+  background: var(--brand-orange-hover);
+  border-color: var(--brand-orange-hover);
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(11, 107, 58, 0.15);
+  box-shadow: 0 4px 16px rgba(249, 115, 22, 0.35);
 }
 .btn-whatsapp {
   height: 44px;
