@@ -22,6 +22,10 @@ export default function Footer() {
     { name: 'Smart Devices', path: '/category/smart-devices' },
     { name: 'Services', path: '/category/services' },
     { name: 'About Us', path: '/about' },
+    { name: 'FAQ', path: '/faq' },
+    { name: 'How to Order', path: '/how-to-order' },
+    { name: 'Corporate', path: '/corporate' },
+    { name: 'Report a Product', path: '/report-product' },
     { name: 'Contact Us', path: '/account?tab=support' },
   ];
 
