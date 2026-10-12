@@ -17,7 +17,8 @@ import {
   toggleBestSellerController,
   updateStockController,
   getLowStockProductsController,
-  bulkDeleteProductsController
+  bulkDeleteProductsController,
+  bulkCreateProductController
 } from "./products.controller";
 
 const productsRouter = Router();
@@ -39,6 +40,7 @@ productsRouter.delete("/:id", deleteProductController);
 productsRouter.patch("/:id/toggle-featured", toggleFeaturedController);
 productsRouter.patch("/:id/toggle-bestseller", toggleBestSellerController);
 productsRouter.patch("/:id/update-stock", updateStockController);
+productsRouter.post("/bulk", bulkCreateProductController);
 productsRouter.post("/bulk-delete", bulkDeleteProductsController);
 
 export default productsRouter;

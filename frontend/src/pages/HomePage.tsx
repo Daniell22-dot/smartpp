@@ -3,6 +3,7 @@ import Hero from '../components/home/Hero';
 import Highlights from '../components/home/Highlights';
 import Categories from '../components/home/Categories';
 import Products from '../components/home/Products';
+import Deals from '../components/home/Deals';
 import BestSellers from '../components/home/BestSellers';
 import SEO from '../components/seo/SEO';
 
@@ -19,6 +20,7 @@ export default function HomePage() {
         <Hero />
         <Categories />
         <Products />
+        <Deals />
         <Highlights />
         <BestSellers />
       </Layout>

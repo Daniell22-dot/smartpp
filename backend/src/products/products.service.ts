@@ -765,5 +765,28 @@ export const productsService = {
     }
 
     return results;
+  },
+
+  bulkCreate: async (items: NewProduct[]): Promise<{ success: number; failed: { row: number; name: string; reason: string }[] }> => {
+    const results = {
+      success: 0,
+      failed: [] as { row: number; name: string; reason: string }[]
+    };
+
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      try {
+        await productsService.create(item);
+        results.success += 1;
+      } catch (error: any) {
+        results.failed.push({
+          row: i + 1,
+          name: item?.name || "",
+          reason: error?.message || "Failed to create product"
+        });
+      }
+    }
+
+    return results;
   }
 };

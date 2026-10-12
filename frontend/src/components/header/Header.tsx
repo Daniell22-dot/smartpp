@@ -160,17 +160,65 @@ export default function Header() {
               </div>
             </div>
 
-            <nav className="nav-links">
-              {navLinks.map((link) => (
-                <Link 
-                  key={link.path} 
-                  to={link.path} 
-                  className={location.pathname === link.path ? 'active' : ''}
-                >
-                  {link.name}
-                </Link>
-              ))}
-            </nav>
+            <div className="header-search" ref={searchRef}>
+              <div className="search-bar-wrapper">
+                <Search size={18} className="search-bar-icon" />
+                <input
+                  type="text"
+                  placeholder="Search for phones, laptops, accessories..."
+                  value={searchQuery}
+                  onChange={handleSearchInputChange}
+                  onKeyDown={handleSearch}
+                  className="search-bar-input"
+                  onFocus={() => {
+                    if (searchQuery.trim().length > 0 && searchResults.length > 0) {
+                      setShowSearchResults(true);
+                    }
+                  }}
+                />
+                <button className="search-bar-btn" onClick={handleSearch}>Search</button>
+              </div>
+
+              {showSearchResults && (
+                <div className="search-results-dropdown">
+                  {isSearching ? (
+                    <div className="search-loading">Searching...</div>
+                  ) : searchResults.length > 0 ? (
+                    <>
+                      {searchResults.map((product) => (
+                        <div
+                          key={product.productId}
+                          className="search-result-item"
+                          onClick={() => handleSearchResultClick(product.slug)}
+                        >
+                          <div className="search-result-image">
+                            {product.featuredPhoto ? (
+                              <img src={product.featuredPhoto} alt={product.name} />
+                            ) : (
+                              <span>📦</span>
+                            )}
+                          </div>
+                          <div className="search-result-info">
+                            <span className="search-result-name">{product.name}</span>
+                            <span className="search-result-price">KSh {parseFloat(product.price).toLocaleString()}</span>
+                          </div>
+                        </div>
+                      ))}
+                      <div className="search-result-view-all">
+                        <button onClick={() => {
+                          navigate(`/?search=${encodeURIComponent(searchQuery)}`);
+                          setShowSearchResults(false);
+                        }}>
+                          View all results →
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="search-no-results">No products found</div>
+                  )}
+                </div>
+              )}
+            </div>
 
             <div className="right-section">
               {isAuthenticated ? (
@@ -208,68 +256,29 @@ export default function Header() {
         </div>
       </header>
       
-      <div className="search-bar-container" ref={searchRef}>
+      <div className="category-bar">
         <div className="container">
-          <div className="search-bar-wrapper">
-            <Search size={20} className="search-bar-icon" />
-            <input 
-              type="text" 
-              placeholder="Search products..." 
-              value={searchQuery} 
-              onChange={handleSearchInputChange}
-              onKeyDown={handleSearch} 
-              className="search-bar-input" 
-              onFocus={() => {
-                if (searchQuery.trim().length > 0 && searchResults.length > 0) {
-                  setShowSearchResults(true);
-                }
-              }}
-            />
-            <button className="search-bar-btn" onClick={handleSearch}>Search</button>
-          </div>
-          
-          {showSearchResults && (
-            <div className="search-results-dropdown">
-              {isSearching ? (
-                <div className="search-loading">Searching...</div>
-              ) : searchResults.length > 0 ? (
-                <>
-                  {searchResults.map((product) => (
-                    <div 
-                      key={product.productId} 
-                      className="search-result-item"
-                      onClick={() => handleSearchResultClick(product.slug)}
-                    >
-                      <div className="search-result-image">
-                        {product.featuredPhoto ? (
-                          <img src={product.featuredPhoto} alt={product.name} />
-                        ) : (
-                          <span>📦</span>
-                        )}
-                      </div>
-                      <div className="search-result-info">
-                        <span className="search-result-name">{product.name}</span>
-                        <span className="search-result-price">KSh {parseFloat(product.price).toLocaleString()}</span>
-                      </div>
-                    </div>
-                  ))}
-                  <div className="search-result-view-all">
-                    <button onClick={() => {
-                      navigate(`/?search=${encodeURIComponent(searchQuery)}`);
-                      setShowSearchResults(false);
-                    }}>
-                      View all results →
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <div className="search-no-results">No products found</div>
-              )}
-            </div>
-          )}
+          <nav className="category-bar-nav">
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`category-bar-link ${location.pathname === link.path ? 'active' : ''}`}
+              >
+                {link.name}
+              </Link>
+            ))}
+            <span className="category-bar-divider" />
+            {categories.map((cat) => (
+              <Link key={cat.categoryId} to={`/category/${cat.slug}`} className="category-bar-link">
+                {cat.name}
+              </Link>
+            ))}
+          </nav>
+          <Link to="/shop" className="category-bar-deals">Deals</Link>
         </div>
       </div>
-      
+
       {mobileMenuOpen && (
         <div className="mobile-menu">
           <div className="mobile-menu-header">

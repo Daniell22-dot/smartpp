@@ -232,6 +232,32 @@ export const getLowStockProductsController = async (_req: Request, res: Response
   }
 };
 
+export const bulkCreateProductController = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { products } = req.body;
+    if (!products || !Array.isArray(products) || products.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide a non-empty array of products"
+      });
+    }
+    if (products.length > 500) {
+      return res.status(400).json({
+        success: false,
+        message: "You can upload a maximum of 500 products at a time"
+      });
+    }
+    const data = await productsService.bulkCreate(products);
+    res.status(201).json({
+      success: true,
+      message: `Imported ${data.success} of ${products.length} products`,
+      data
+    });
+  } catch (e: any) {
+    next(e);
+  }
+};
+
 export const bulkDeleteProductsController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { ids } = req.body;

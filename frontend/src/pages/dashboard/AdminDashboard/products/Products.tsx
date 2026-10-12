@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Plus, Search, Edit, Trash2 } from 'lucide-react';
+import { Plus, Search, Edit, Trash2, Upload } from 'lucide-react';
 import { productsAPI, type Product } from '../../../../Features/products/productsAPI';
 import './Products.css';
 
@@ -67,6 +67,9 @@ export default function Products() {
               className="search-input"
             />
           </div>
+          <Link to="/admin/products/bulk" className="btn-secondary">
+            <Upload size={18} /> Bulk Upload
+          </Link>
           <Link to="/admin/products/create" className="btn-primary">
             <Plus size={18} /> Add Product
           </Link>

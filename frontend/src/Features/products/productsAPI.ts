@@ -87,4 +87,6 @@ export const productsAPI = {
     api.get('/products/low-stock').then(res => res.data),
   bulkDelete: (ids: number[]): Promise<{ success: boolean; message: string; data: { success: number[]; failed: { id: number; reason: string }[] } }> =>
     api.post('/products/bulk-delete', { ids }).then(res => res.data),
+  bulkCreate: (products: any[]): Promise<{ success: boolean; message: string; data: { success: number; failed: { row: number; name: string; reason: string }[] } }> =>
+    api.post('/products/bulk', { products }).then(res => res.data),
 };

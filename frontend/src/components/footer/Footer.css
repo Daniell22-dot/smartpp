@@ -4,6 +4,117 @@
   padding: 48px 0 24px;
   margin-top: 32px;
 }
+.footer-newsletter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: var(--brand-50);
+  border: 1px solid var(--brand-100);
+  border-radius: var(--radius-card);
+  padding: 20px 24px;
+  margin-bottom: 40px;
+}
+.footer-newsletter-text h4 {
+  margin-bottom: 4px;
+}
+.footer-newsletter-text h4::after {
+  display: none;
+}
+.footer-newsletter-text p {
+  font-size: 14px;
+  color: var(--gray-600);
+}
+.footer-newsletter-form {
+  display: flex;
+  flex: 1;
+  min-width: 280px;
+  max-width: 480px;
+  gap: 8px;
+}
+.footer-newsletter-input {
+  flex: 1;
+  height: 42px;
+  padding: 0 14px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-control);
+  font-size: 14px;
+  background: #fff;
+}
+.footer-newsletter-input:focus {
+  outline: none;
+  border-color: var(--brand-500);
+  box-shadow: 0 0 0 3px rgba(var(--brand-glow), 0.15);
+}
+.footer-newsletter-btn {
+  height: 42px;
+  padding: 0 22px;
+  background: var(--brand-gradient);
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  border-radius: var(--radius-control);
+  cursor: pointer;
+  transition: background 0.3s ease;
+  white-space: nowrap;
+}
+.footer-newsletter-btn:hover {
+  background: var(--brand-600);
+}
+.footer-newsletter-success {
+  width: 100%;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--brand-600);
+}
+.footer-apps {
+  margin-top: 18px;
+}
+.footer-apps-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gray-400);
+  margin-bottom: 8px;
+}
+.footer-app-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.app-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--gray-900);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+.app-badge:hover {
+  background: #000;
+  color: #fff;
+}
+.app-badge-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+.app-badge-text small {
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.8;
+}
+.app-badge-text strong {
+  font-size: 12px;
+  font-weight: 700;
+}
 .footer-grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;

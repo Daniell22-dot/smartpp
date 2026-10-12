@@ -30,6 +30,7 @@ const AdminDashboard = lazy(() => import("./pages/dashboard/AdminDashboard/Admin
 const AdminDashboardOverview = lazy(() => import("./pages/dashboard/AdminDashboard/admindashboard/AdminDashboardOverview"));
 const Products = lazy(() => import("./pages/dashboard/AdminDashboard/products/Products"));
 const CreateProduct = lazy(() => import("./pages/dashboard/AdminDashboard/products/CreateProduct"));
+const BulkUpload = lazy(() => import("./pages/dashboard/AdminDashboard/products/BulkUpload"));
 const EditProduct = lazy(() => import("./pages/dashboard/AdminDashboard/products/EditProduct"));
 const Categories = lazy(() => import("./pages/dashboard/AdminDashboard/categories/Categories"));
 const CreateCategory = lazy(() => import("./pages/dashboard/AdminDashboard/categories/CreateCategory"));
@@ -195,6 +196,7 @@ function App() {
         { path: "admindashboard", element: <Suspense fallback={<div>Loading...</div>}><AdminDashboardOverview /></Suspense> },
         { path: "products", element: <Suspense fallback={<div>Loading...</div>}><Products /></Suspense> },
         { path: "products/create", element: <Suspense fallback={<div>Loading...</div>}><CreateProduct /></Suspense> },
+        { path: "products/bulk", element: <Suspense fallback={<div>Loading...</div>}><BulkUpload /></Suspense> },
         { path: "products/edit/:id", element: <Suspense fallback={<div>Loading...</div>}><EditProduct /></Suspense> },
         { path: "categories", element: <Suspense fallback={<div>Loading...</div>}><Categories /></Suspense> },
         { path: "categories/create", element: <Suspense fallback={<div>Loading...</div>}><CreateCategory /></Suspense> },

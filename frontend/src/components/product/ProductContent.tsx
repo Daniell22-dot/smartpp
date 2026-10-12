@@ -100,6 +100,7 @@ export default function ProductContent() {
   if (!product) return <div className="product-notfound">Product not found</div>;
 
   const price = parseFloat(product.price);
+  const comparePrice = product.comparePrice ? parseFloat(product.comparePrice) : 0;
   const isOut = product.status === "out_of_stock" || product.stock <= 0;
 
   return (
@@ -121,7 +122,14 @@ export default function ProductContent() {
         <div className="container">
           <div className="product-top">
             <div className="product-breadcrumb">
-              <Link to="/">Home</Link> <span>/</span> <span className="current">{product.name}</span>
+              <Link to="/">Home</Link>
+              {product.categoryName && product.categorySlug && (
+                <>
+                  <span>/</span>
+                  <Link to={`/category/${product.categorySlug}`}>{product.categoryName}</Link>
+                </>
+              )}
+              <span>/</span> <span className="current">{product.name}</span>
             </div>
             <button className="product-back" onClick={() => navigate(-1)}>← Back</button>
           </div>
@@ -173,6 +181,16 @@ export default function ProductContent() {
             </div>
           )}
         </div>
+      </div>
+
+      <div className="product-sticky-bar">
+        <div className="product-sticky-price">
+          <span className="product-sticky-amount">KSh {price.toLocaleString()}</span>
+          {comparePrice > price && <span className="product-sticky-old">KSh {comparePrice.toLocaleString()}</span>}
+        </div>
+        <button className="product-sticky-add" onClick={handleAdd} disabled={added || isOut}>
+          {added ? "Added!" : "Add to Cart"}
+        </button>
       </div>
     </>
   );
