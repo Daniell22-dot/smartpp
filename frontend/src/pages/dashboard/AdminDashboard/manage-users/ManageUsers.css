@@ -137,7 +137,7 @@
 }
 .manage-search input:focus {
   border-color: var(--brand-500);
-  box-shadow: 0 0 0 4px rgba(21, 128, 61, 0.08);
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.08);
 }
 .manage-filter-group {
   display: flex;
@@ -161,7 +161,7 @@
 }
 .filter-select:focus {
   border-color: var(--brand-500);
-  box-shadow: 0 0 0 4px rgba(21, 128, 61, 0.08);
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.08);
 }
 .manage-table-container {
   overflow-x: auto;
@@ -340,11 +340,11 @@
   justify-content: center;
   gap: 8px;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(21, 128, 61, 0.25);
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.25);
   cursor: pointer;
 }
 .btn-primary:hover:not(:disabled) {
-  box-shadow: 0 4px 16px rgba(21, 128, 61, 0.35);
+  box-shadow: 0 4px 16px rgba(22, 163, 74, 0.35);
 }
 .btn-primary:disabled {
   opacity: 0.6;
@@ -455,7 +455,7 @@
 }
 .form-input:focus {
   border-color: var(--brand-500);
-  box-shadow: 0 0 0 4px rgba(21, 128, 61, 0.08);
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.08);
 }
 .form-input:disabled {
   background: var(--gray-50);

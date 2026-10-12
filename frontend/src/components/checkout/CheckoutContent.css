@@ -161,7 +161,7 @@
 }
 .checkout-select:focus {
   border-color: var(--brand-500);
-  box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.12);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
 }
 .checkout-select.error {
   border-color: #dc2626;
@@ -197,7 +197,7 @@
 }
 .checkout-input:focus {
   border-color: var(--brand-500);
-  box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.12);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
 }
 .checkout-input.error {
   border-color: #dc2626;

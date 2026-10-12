@@ -58,7 +58,7 @@
 }
 .search-input:focus {
   border-color: var(--brand-500);
-  box-shadow: 0 0 0 4px rgba(21, 128, 61, 0.1);
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.1);
   transform: scale(1.01);
 }
 .search-input:hover {
@@ -79,12 +79,12 @@
   justify-content: center;
   gap: 8px;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(21, 128, 61, 0.25);
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.25);
   cursor: pointer;
   text-decoration: none;
 }
 .btn-primary:hover {
-  box-shadow: 0 4px 16px rgba(21, 128, 61, 0.35);
+  box-shadow: 0 4px 16px rgba(22, 163, 74, 0.35);
   color: white;
 }
 
@@ -206,7 +206,7 @@ tr:hover .product-stock {
 .action-btn.edit:hover {
   background: var(--brand-50);
   border-color: var(--brand-500);
-  box-shadow: 0 4px 12px rgba(21, 128, 61, 0.2);
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
   color: var(--brand-600);
 }
 .action-btn.delete {

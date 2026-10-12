@@ -164,7 +164,7 @@
 .form-select:focus,
 .form-textarea:focus {
   border-color: var(--brand-500);
-  box-shadow: 0 0 0 4px rgba(21, 128, 61, 0.08);
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.08);
 }
 .form-input:hover,
 .form-select:hover,
@@ -272,10 +272,10 @@
   background: linear-gradient(135deg, var(--brand-500), var(--brand-600));
   color: white;
   border: none;
-  box-shadow: 0 2px 8px rgba(21, 128, 61, 0.25);
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.25);
 }
 .form-actions .btn-primary:hover:not(:disabled) {
-  box-shadow: 0 4px 16px rgba(21, 128, 61, 0.35);
+  box-shadow: 0 4px 16px rgba(22, 163, 74, 0.35);
 }
 .form-actions .btn-primary:disabled {
   opacity: 0.6;

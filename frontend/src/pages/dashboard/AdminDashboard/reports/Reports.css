@@ -228,7 +228,7 @@
 }
 .date-input:focus {
   border-color: var(--brand-500);
-  box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.08);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.08);
 }
 
 .btn-primary {
@@ -248,7 +248,7 @@
   cursor: pointer;
 }
 .btn-primary:hover:not(:disabled) {
-  box-shadow: 0 4px 16px rgba(21, 128, 61, 0.3);
+  box-shadow: 0 4px 16px rgba(22, 163, 74, 0.3);
 }
 .btn-primary:disabled {
   opacity: 0.6;

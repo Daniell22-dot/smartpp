@@ -101,7 +101,7 @@
 }
 .reviews-search input:focus {
   border-color: var(--brand-500);
-  box-shadow: 0 0 0 4px rgba(21, 128, 61, 0.08);
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.08);
 }
 .reviews-filter {
   position: relative;
@@ -129,7 +129,7 @@
 }
 .reviews-filter select:focus {
   border-color: var(--brand-500);
-  box-shadow: 0 0 0 4px rgba(21, 128, 61, 0.08);
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.08);
 }
 
 /* Grid */
@@ -281,11 +281,11 @@
 .btn-approve {
   background: var(--brand-500);
   color: white;
-  box-shadow: 0 2px 8px rgba(21, 128, 61, 0.2);
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.2);
 }
 .btn-approve:hover:not(:disabled) {
   background: var(--brand-600);
-  box-shadow: 0 4px 16px rgba(21, 128, 61, 0.3);
+  box-shadow: 0 4px 16px rgba(22, 163, 74, 0.3);
 }
 .btn-reject {
   background: #dc2626;

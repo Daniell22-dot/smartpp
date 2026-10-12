@@ -1,5 +1,5 @@
 .top-marquee {
-  background: linear-gradient(90deg, #16a34a 0%, #22c55e 100%);
+  background: var(--brand-gradient, linear-gradient(90deg, #16a34a 0%, #22c55e 100%));
   color: #fff;
   padding: 10px 0;
   overflow: hidden;

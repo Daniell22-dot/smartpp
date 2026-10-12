@@ -99,7 +99,7 @@
 }
 .coupons-search input:focus {
   border-color: var(--brand-500);
-  box-shadow: 0 0 0 4px rgba(21, 128, 61, 0.08);
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.08);
 }
 .coupons-filter {
   position: relative;
@@ -127,7 +127,7 @@
 }
 .coupons-filter select:focus {
   border-color: var(--brand-500);
-  box-shadow: 0 0 0 4px rgba(21, 128, 61, 0.08);
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.08);
 }
 .coupons-table-container {
   overflow-x: auto;
@@ -358,7 +358,7 @@
 .form-group input:focus,
 .form-group select:focus {
   border-color: var(--brand-500);
-  box-shadow: 0 0 0 4px rgba(21, 128, 61, 0.08);
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.08);
 }
 .form-checkbox {
   display: flex;

@@ -112,7 +112,7 @@
 }
 .inquiries-search input:focus {
   border-color: var(--brand-500);
-  box-shadow: 0 0 0 4px rgba(21, 128, 61, 0.08);
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.08);
 }
 .inquiries-filter {
   position: relative;
@@ -140,7 +140,7 @@
 }
 .inquiries-filter select:focus {
   border-color: var(--brand-500);
-  box-shadow: 0 0 0 4px rgba(21, 128, 61, 0.08);
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.08);
 }
 
 .inquiries-list {
@@ -381,7 +381,7 @@
 }
 .btn-reply:hover {
   background: var(--brand-600);
-  box-shadow: 0 4px 12px rgba(21, 128, 61, 0.3);
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
 }
 .btn-resolve {
   background: #dcfce7;
@@ -529,7 +529,7 @@
 }
 .reply-textarea:focus {
   border-color: var(--brand-500);
-  box-shadow: 0 0 0 4px rgba(21, 128, 61, 0.08);
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.08);
 }
 .modal-footer {
   display: flex;

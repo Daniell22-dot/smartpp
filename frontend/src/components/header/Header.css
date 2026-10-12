@@ -238,11 +238,11 @@
   font-weight: 600;
   font-size: 12px;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(21, 128, 61, 0.2);
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.2);
 }
 .login-button:hover {
   background: var(--brand-600);
-  box-shadow: 0 4px 16px rgba(21, 128, 61, 0.3);
+  box-shadow: 0 4px 16px rgba(22, 163, 74, 0.3);
   color: #fff;
 }
 @media (max-width: 1024px) {
@@ -298,7 +298,7 @@
 }
 .search-bar-wrapper:focus-within {
   border-color: var(--brand-500);
-  box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.1);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
 }
 .search-bar-icon {
   color: var(--gray-400);

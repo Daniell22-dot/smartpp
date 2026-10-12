@@ -114,11 +114,11 @@
   font-weight: 600;
   font-size: 12px;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(21, 128, 61, 0.2);
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.2);
 }
 .approve-btn:hover {
   background: var(--brand-600);
-  box-shadow: 0 4px 12px rgba(21, 128, 61, 0.3);
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
 }
 .reject-btn {
   padding: 4px 16px;

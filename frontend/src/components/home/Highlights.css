@@ -20,7 +20,7 @@
 .highlights-item:hover {
   background: var(--brand-50);
   border-color: var(--brand-200);
-  box-shadow: 0 8px 24px rgba(21, 128, 61, 0.08);
+  box-shadow: 0 8px 24px rgba(22, 163, 74, 0.08);
 }
 .highlights-icon {
   padding: 12px;

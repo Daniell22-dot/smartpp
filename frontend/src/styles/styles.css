@@ -42,7 +42,7 @@ input:focus,
 textarea:focus,
 select:focus {
   border-color: var(--brand-500);
-  box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.15);
+  box-shadow: 0 0 0 3px rgba(var(--brand-glow), 0.2);
 }
 img {
   display: block;
@@ -61,11 +61,13 @@ img {
   --brand-200: #86efac;
   --brand-300: #4ade80;
   --brand-400: #22c55e;
-  --brand-500: #15803d;
-  --brand-600: #166534;
-  --brand-700: #14532d;
-  --brand-800: #0b3d20;
+  --brand-500: #16a34a;
+  --brand-600: #15803d;
+  --brand-700: #166534;
+  --brand-800: #14532d;
   --brand-900: #052e16;
+  --brand-gradient: linear-gradient(90deg, #16a34a 0%, #22c55e 100%);
+  --brand-glow: 22, 163, 74;
   --brand-orange: #f97316;
   --brand-orange-hover: #ea580c;
   --accent-yellow: #facc15;
@@ -106,7 +108,7 @@ h1, h2, h3, h4, h5, h6 {
 .btn-primary {
   height: 44px;
   padding: 0 24px;
-  background: linear-gradient(135deg, #16a34a, var(--brand-500));
+  background: var(--brand-gradient);
   color: #fff;
   font-weight: 600;
   border-radius: var(--radius-control);
@@ -115,11 +117,11 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   gap: 10px;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(21, 128, 61, 0.25);
+  box-shadow: 0 2px 8px rgba(var(--brand-glow), 0.25);
 }
 .btn-primary:hover {
-  background: var(--brand-500);
-  box-shadow: 0 4px 16px rgba(21, 128, 61, 0.35);
+  background: var(--brand-600);
+  box-shadow: 0 4px 16px rgba(var(--brand-glow), 0.35);
 }
 .btn-primary:disabled {
   background: var(--gray-200);

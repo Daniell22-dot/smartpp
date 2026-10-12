@@ -97,9 +97,19 @@ export default function Footer() {
         <div className="footer-payments">
           <span>We accept:</span>
           <div className="payment-icons">
-            <span className="payment-icon">M-Pesa</span>
-            <span className="payment-icon">Visa</span>
-            <span className="payment-icon">Airtel Money</span>
+            <svg className="payment-logo" viewBox="0 0 140 44" role="img" aria-label="M-PESA">
+              <rect width="140" height="44" rx="7" fill="#00A651" />
+              <text x="70" y="30" textAnchor="middle" fontFamily="Arial, Helvetica, sans-serif" fontSize="20" fontWeight="800" fill="#ffffff" letterSpacing="1.5">M-PESA</text>
+            </svg>
+            <svg className="payment-logo" viewBox="0 0 140 44" role="img" aria-label="Visa">
+              <rect width="140" height="44" rx="7" fill="#ffffff" stroke="#dbe2ea" />
+              <text x="70" y="31" textAnchor="middle" fontFamily="Arial, Helvetica, sans-serif" fontSize="25" fontWeight="800" fontStyle="italic" fill="#1A1F71" letterSpacing="3">VISA</text>
+              <path d="M46 35 Q70 40 94 35" stroke="#F7B600" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+            </svg>
+            <svg className="payment-logo" viewBox="0 0 140 44" role="img" aria-label="Airtel Money">
+              <rect width="140" height="44" rx="7" fill="#ED1C24" />
+              <text x="70" y="30" textAnchor="middle" fontFamily="Arial, Helvetica, sans-serif" fontSize="21" fontWeight="800" fill="#ffffff" letterSpacing="0.5">airtel</text>
+            </svg>
           </div>
         </div>
 

@@ -90,7 +90,7 @@
   cursor: pointer;
 }
 .hero-actions .btn-primary {
-  background: var(--brand-500);
+  background: var(--brand-gradient);
   color: white;
   border: none;
 }
