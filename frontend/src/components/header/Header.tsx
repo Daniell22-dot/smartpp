@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ShoppingCart, User, Heart, Menu, X, LogOut, ChevronDown, Search } from "lucide-react";
+import { ShoppingCart, User, Heart, Menu, X, LogOut, Search } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
 import { useWishlist } from "../../context/WishlistContext";
@@ -16,13 +16,11 @@ export default function Header() {
   const { isAuthenticated, user, loading, logout } = useAuth();
   const { wishlistCount } = useWishlist();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [categoriesMenuOpen, setCategoriesMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<Product[]>([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isSearching, setIsSearching] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
 
   if (location.pathname.startsWith('/admin') || location.pathname.startsWith('/staff')) {
@@ -37,9 +35,6 @@ export default function Header() {
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setCategoriesMenuOpen(false);
-      }
       if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
         setShowSearchResults(false);
       }
@@ -130,34 +125,6 @@ export default function Header() {
           <div className="header-content">
             <div className="left-section">
               <Link to="/" className="logo"><img src="/2.png" alt="SMARTP" className="logo-image" /></Link>
-              
-              <div className="categories-wrapper" ref={dropdownRef}>
-                <button className="categories-trigger" onClick={() => setCategoriesMenuOpen(!categoriesMenuOpen)}>
-                  <span>Categories</span>
-                  <ChevronDown size={16} className={`chevron ${categoriesMenuOpen ? "chevron-open" : ""}`} />
-                </button>
-                {categoriesMenuOpen && (
-                  <div className="categories-dropdown">
-                    <div className="categories-list">
-                      {categories.map((cat) => (
-                        <Link 
-                          key={cat.categoryId} 
-                          to={`/category/${cat.slug}`} 
-                          className="category-item" 
-                          onClick={() => setCategoriesMenuOpen(false)}
-                        >
-                          {cat.photo ? (
-                            <img src={cat.photo} alt={cat.name} className="category-item-image" />
-                          ) : (
-                            <span className="category-item-icon">{cat.icon || '📁'}</span>
-                          )}
-                          <span className="category-item-name">{cat.name}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
             </div>
 
             <div className="header-search" ref={searchRef}>

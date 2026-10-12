@@ -69,52 +69,6 @@
   font-weight: 600;
   color: var(--brand-600);
 }
-.footer-apps {
-  margin-top: 18px;
-}
-.footer-apps-label {
-  display: block;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--gray-400);
-  margin-bottom: 8px;
-}
-.footer-app-badges {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-.app-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--gray-900);
-  color: #fff;
-  padding: 6px 12px;
-  border-radius: 8px;
-  transition: background 0.3s ease;
-}
-.app-badge:hover {
-  background: #000;
-  color: #fff;
-}
-.app-badge-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.1;
-}
-.app-badge-text small {
-  font-size: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  opacity: 0.8;
-}
-.app-badge-text strong {
-  font-size: 12px;
-  font-weight: 700;
-}
 .footer-grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
