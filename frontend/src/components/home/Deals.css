@@ -8,6 +8,30 @@
   justify-content: space-between;
   gap: 16px;
   margin-bottom: 24px;
+  position: relative;
+}
+.deals-header .deals-timer {
+  font-size: 12px;
+  color: var(--gray-500);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.deals-progress-bar {
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gray-200);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+.deals-progress-fill {
+  height: 100%;
+  background: var(--brand-600);
+  width: 0%;
+  transition: width 1s ease-out;
 }
 .deals-heading {
   display: flex;
@@ -20,7 +44,7 @@
   gap: 6px;
   align-self: flex-start;
   background: #fff7ed;
-  color: var(--brand-orange-hover);
+  color: var(--brand-600);
   border: 1px solid #fed7aa;
   font-size: 12px;
   font-weight: 700;
@@ -37,11 +61,11 @@
 .deals-view-all {
   font-size: 14px;
   font-weight: 600;
-  color: var(--brand-orange);
+  color: var(--brand-600);
   white-space: nowrap;
 }
 .deals-view-all:hover {
-  color: var(--brand-orange-hover);
+  color: var(--brand-700);
 }
 .deals-grid {
   display: grid;
